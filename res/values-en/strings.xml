@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">OCSNGAgent</string>
+    <string name="menu_settings">Configuration</string>
+    <string name="menu_import">Import</string>
+	<string name="menu_export">Export</string>
+    <string name="menu_about">About</string>
+	
+	
+	
+    <string name="status_init">Ready</string>
+    <string name="title_bt_launch">Send inventory</string>
+    <string name="title_bt_show">Show inventory</string>
+    <string name="title_bt_save">Store inventory</string>
+    <string name="hint_status_bar">Status</string>
+    <string name="title_bt_settings">Configuration</string>
+    <string name="title_activity_ocsconfig">OCSConfigActivity</string>
+    <string name="err_save_settings">Erreur saving configuration file</string>
+    <string name="title_bt_validate">Submit</string>
+    <string name="title_bt_default">Default value</string>
+    <string name="ocs_ng">OCSInventory\nNG</string>
+    <string name="title_activity_show_inventory">ShowInventoryActivity</string>
+    <string name="state_saved">Inventory recorded on sdcard</string>
+    <string name="state_send_prolog">Sending prolog to server</string>
+    <string name="state_send_inventory">Sending inventory to server</string>
+    <string name="state_sent_inventory">Inventory sent</string>
+	<string name="state_send_error">Transmission Error</string>
+	<string name="state_send_start">Transmission</string>
+	<string name="state_build_inventory">Inventory in progress</string>         
+</resources>

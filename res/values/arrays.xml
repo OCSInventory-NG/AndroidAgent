@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="cacheInterval">
+        <item name="i300">@string/pref_list_freq_5mn</item>
+        <item name="i900">@string/pref_list_freq_15mn</item>
+        <item name="i1800">@string/pref_list_freq_30mn</item>
+        <item name="i3600">@string/pref_list_freq_1h</item>
+    </string-array>
+    
+    <string-array name="cacheIntervalValues">
+        <item name="i300">300000</item>
+        <item name="i900">900000</item>
+        <item name="i1800">1800000</item>
+        <item name="i3600">3600000</item>
+    </string-array>
+</resources>
