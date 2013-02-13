@@ -1,55 +1,85 @@
 package org.ocsinventory.android.agent;
 
-import java.nio.channels.GatheringByteChannel;
 import java.util.Date;
 
 import org.ocsinventory.android.actions.Inventory;
-import org.ocsinventory.android.actions.OCSFiles;
 import org.ocsinventory.android.actions.OCSLog;
 import org.ocsinventory.android.actions.OCSProtocol;
 import org.ocsinventory.android.actions.OCSProtocolException;
 import org.ocsinventory.android.actions.OCSSettings;
 
+import android.annotation.TargetApi;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
-import android.util.Log;
+import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
  
+@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class OCSAgentService extends Service {
-	private static final String LOGTAG = "SchedulerEventService";
- 
+	
+	private NotificationManager mNM;
+
+	/*
+	 * Binder juste pour verifier que le service tourne
+	 */
+    public class LocalBinder extends Binder {
+    	OCSAgentService getService() {
+            return OCSAgentService.this;
+        }
+    }
+    
+    private final IBinder mBinder = new LocalBinder();
+	
 	@Override
 	public IBinder onBind(final Intent intent) {
-		return null;		
+		return mBinder;		
 	}
  
 	@Override
 	public int onStartCommand(final Intent intent, final int flags,
 			final int startId) {
 	
+		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);		
+
 		OCSSettings ocssetting = OCSSettings.getInstance(getApplicationContext());
 		OCSLog ocslog = OCSLog.getInstance();
-		ocslog.append("ocsservice wake : " + new Date().toString());
-		
+		ocslog.append("ocsservice wake : " + new Date().toString());		
 		
 		// Au cas ou l'option a changé depuis le lancement du service
-		if ( ! ocssetting.isAutoMode() ) 
+		if ( ! sp.getBoolean("k_automode", false) ) 
 			return Service.START_NOT_STICKY;
 		
-		int  freq = ocssetting.getFreqMaj();
-		long lastUpdt = ocssetting.getLastUpdt();
+		notify(R.string.not_start_service);
+		
+		int  freq = Integer.parseInt(sp.getString("k_freqmaj" , ""));
+		long lastUpdt = sp.getLong("k_lastupdt" , 0L);
 		long delta = System.currentTimeMillis() -  lastUpdt;
 		ocslog.append("now         : "+System.currentTimeMillis());
 		ocslog.append("last update : "+lastUpdt);
 		ocslog.append("delta 		: "+delta);
-		ocslog.append("freqamj 		: "+freq * 86400000L);
+		ocslog.append("freqmaj 		: "+freq * 86400000L);
+		
+			
+			
 		if ( delta > freq * 86400000L) {
 			if ( isOnline() ) {
-				if ( SendInventory() == 0 ) {
-					ocssetting.setLastUpdt(System.currentTimeMillis());
+				if ( sendInventory() == 0 ) {
+					notify(R.string.not_inventory_sent);
+					Editor edt = sp.edit();
+					edt.putLong("k_lastupdt", System.currentTimeMillis());
+					edt.commit();
 				}
 			}
 		}
@@ -57,15 +87,14 @@ public class OCSAgentService extends Service {
 		return Service.START_NOT_STICKY;
 	}
 	
-	private int SendInventory() {
+	private int sendInventory() {
 
 		Inventory inventory  = Inventory.getInstance(getApplicationContext());
 		// OCSFiles.getInstance().getInventoryFileXML(inventory);				
 		OCSProtocol ocsproto = new OCSProtocol();
-		String rep;
 		try {
-			rep=ocsproto.sendPrologueMessage(inventory);
-			rep=ocsproto.sendInventoryMessage(inventory);
+			ocsproto.sendPrologueMessage(inventory);
+			ocsproto.sendInventoryMessage(inventory);
 		} catch (OCSProtocolException e) {
 			return(1);
 		}
@@ -73,6 +102,38 @@ public class OCSAgentService extends Service {
 		return 0;
 	}
 	
+	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	private void notify(int id) {
+
+		Notification notif;
+		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+        .setSmallIcon(R.drawable.ic_notification)
+        .setContentTitle("OCS notification")
+        .setContentText(getText(id));
+
+		
+		Intent rIntent = new Intent(this, OCSAgentActivity.class);
+		
+		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+		stackBuilder.addParentStack(OCSAgentActivity.class);
+		stackBuilder.addNextIntent(rIntent);
+		PendingIntent intent = PendingIntent.getActivity(this, 0, rIntent, PendingIntent.FLAG_ONE_SHOT);
+		PendingIntent rpIntent =
+		        stackBuilder.getPendingIntent(
+		            0,
+		            PendingIntent.FLAG_UPDATE_CURRENT
+		        );
+		mBuilder.setContentIntent(rpIntent);
+		
+		mNM.notify(id, mBuilder.build());
+	}
+	
+    public void onDestroy() {
+    	mNM.cancelAll();
+    }
+ 
 	private  boolean isOnline() {
 	    ConnectivityManager cm =
 	        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);

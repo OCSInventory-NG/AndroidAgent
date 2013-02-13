@@ -13,6 +13,8 @@ public class OCSEventReceiver extends BroadcastReceiver {
 		Log.d(LOGTAG, "Called");
 		Intent eventService = new Intent(ctx, OCSAgentService.class);
 		ctx.startService(eventService);
+		Log.d(LOGTAG, "After start service");
+
 	}
  
 }

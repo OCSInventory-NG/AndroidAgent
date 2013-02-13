@@ -41,7 +41,7 @@ public class OCSNetwork
 		strOut.append("    <NETWORKS>\n");
 		Utils.xmlLine(strOut,"DESCRIPTION", description);
 		Utils.xmlLine(strOut,"DRIVER", driver);
-		Utils.xmlLine(strOut,"IPADRESS", ipAdress);
+		Utils.xmlLine(strOut,"IPADDRESS", ipAdress);
 		//Utils.xmlLine(strOut,"IPDHCP", ipdhcp);
 		Utils.xmlLine(strOut,"IPGATEWAY", ipGateway);
 		Utils.xmlLine(strOut,"IPMASK", ipMask);

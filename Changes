@@ -2,3 +2,9 @@ Revision history for Ocsinventory NG Android Agent
 
 0.9
        * Initial version 
+
+0.9.1  	* Add service mode (automatic)
+	* Many corrections
+	* Add notifications
+	* Use standard android settings menus
+	* Lot of corrections 

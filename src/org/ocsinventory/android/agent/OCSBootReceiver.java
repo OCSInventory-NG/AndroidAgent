@@ -18,9 +18,10 @@ public class OCSBootReceiver extends BroadcastReceiver {
  
 	@Override
 	public void onReceive(final Context ctx, final Intent intent) {
+		android.util.Log.d("OCSBOOT","on Receive called");
 		OCSSettings ocssetting = OCSSettings.getInstance(ctx);
 		OCSLog ocslog = OCSLog.getInstance();
-		ocslog.append("SchedulerSetupReceiver : "+intent.getAction());
+		ocslog.append("OCSBootReceiver : "+intent.getAction());
 		if  ( ocssetting == null  ) {
 			ocslog.append("NULL OSSETTING");
 			return;
@@ -29,7 +30,7 @@ public class OCSBootReceiver extends BroadcastReceiver {
 		if  ( ! ocssetting.isAutoMode() ) 
 			return;
 		int interval = ocssetting.getFreqWake();
-		ocslog.append("SchedulerSetupReceiver interval : "+interval);
+		ocslog.append("OCSBootReceiver interval : "+interval);
 		
 		AlarmManager alarmManager = (AlarmManager) ctx
 				.getSystemService(Context.ALARM_SERVICE);
@@ -37,10 +38,10 @@ public class OCSBootReceiver extends BroadcastReceiver {
 																	
 		PendingIntent intentExecuted = PendingIntent.getBroadcast(ctx, 0, i,
 				PendingIntent.FLAG_CANCEL_CURRENT);
-		Calendar now = Calendar.getInstance();
-		now.add(Calendar.MINUTE, interval);
+		Calendar start = Calendar.getInstance();
+		start.add(Calendar.SECOND, 5 );
 		alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
-				now.getTimeInMillis(), interval*60000L, intentExecuted);
+				start.getTimeInMillis(), interval*60000L, intentExecuted);
 	}
  
 }

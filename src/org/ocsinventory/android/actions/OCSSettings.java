@@ -3,6 +3,8 @@ package org.ocsinventory.android.actions;
 import java.io.File;
 import java.io.IOException;
 
+import org.ocsinventory.android.agent.R;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -10,13 +12,18 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.Contacts.ContactMethods;
 import android.util.Log;
+import android.webkit.WebView.FindListener;
 
 @SuppressLint("NewApi")
 public class OCSSettings
 {	
 	private static OCSSettings instance = null;	
-	SharedPreferences prefs;
+
+	private Context ctx;
+	private SharedPreferences prefs;
+	
 	final String KLASTUPDT = "k_lastupdt";
 	final String KDEVICEUID = "k_deviceUid";
 	
@@ -42,7 +49,7 @@ public class OCSSettings
 	{
 		//prefs = act.getSharedPreferences(LOGTAG, Context.MODE_PRIVATE);
 		prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-		
+		this.ctx = ctx;
 	}
 	public void setDefault() {
 	}
@@ -98,13 +105,15 @@ public class OCSSettings
 	}
 
 	public String getServerUrl() {
-		return prefs.getString(KSERVERURL,"");
+		return prefs.getString(KSERVERURL, 
+				ctx.getString(R.string.pref_default_serverurl));
 	}
 	public boolean getGzip() {
 		return prefs.getBoolean(KGZIP, false);
 	}
 	public String getDeviceTag() {
-		return prefs.getString(KDEVICETAG,"Mobile");
+		
+		return prefs.getString(KDEVICETAG, ctx.getString(R.string.pref_default_devicetag));
 	}
 	public boolean isSSLStrict() {
 		return prefs.getBoolean(KSTRICTSSL, true);
@@ -141,10 +150,10 @@ public class OCSSettings
 	public int getFreqWake() {
 		int r = 60 ;
 		if ( prefs.getBoolean(KAUTOMODE, true))
-			r= Integer.parseInt(prefs.getString(KFREQWAKE, "60"));
+			r= Integer.parseInt(prefs.getString(KFREQWAKE,  ctx.getString(R.string.pref_default_freqwake)));
 		return r;
 	}
 	public int getFreqMaj() {
-		return Integer.parseInt(prefs.getString(KFREQMAJ, "10"));
+		return Integer.parseInt(prefs.getString(KFREQMAJ,  ctx.getString(R.string.pref_default_freqmaj)));
 	}
 }

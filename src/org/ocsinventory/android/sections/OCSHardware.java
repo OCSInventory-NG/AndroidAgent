@@ -62,7 +62,7 @@ public class OCSHardware {
 		name = Build.MODEL;
 		this.checksum = "1234567892"; 			// TODO
 		this.systemVersion = Build.VERSION.RELEASE;
-		this.systemName = "android";
+		this.systemName = "android "+this.systemVersion;
 		this.ipAddress = "";
 		this.processorSpeed = String.valueOf(SystemInfos.getProcessorSpeed()/1000);
 		this.memory=String.valueOf(SystemInfos.getMemtotal()/1024);

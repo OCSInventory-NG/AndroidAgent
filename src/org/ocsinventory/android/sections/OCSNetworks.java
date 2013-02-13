@@ -43,7 +43,12 @@ public class OCSNetworks
 				DhcpInfo d=wifii.getDhcpInfo();
 			
 				OCSNetwork netw = new OCSNetwork(wifii.toString());
-				netw.setStatus(String.valueOf( wifii.getWifiState()) );
+				
+				if  ( wifii.getWifiState()== wifii.WIFI_STATE_ENABLED )
+					netw.setStatus("up");
+				else 
+					netw.setStatus("down");
+				
 				netw.setIpAdress(Utils.intToIp(d.ipAddress));
 				netw.setIpGatewey(Utils.intToIp(d.gateway));
 				netw.setIpMask(Utils.intToIp(d.netmask));
@@ -52,7 +57,7 @@ public class OCSNetworks
 				WifiInfo wInfos = wifii.getConnectionInfo();
 				netw.setMacaddr(wInfos.getMacAddress());
 				netw.setDriver("wifii");
-				 
+				netw.setType("wifii"); 
 				//String s_dns1="DNS 1: "+String.valueOf(d.dns1);
 			    //String s_dns2="DNS 2: "+String.valueOf(d.dns2);
 	

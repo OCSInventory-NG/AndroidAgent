@@ -39,7 +39,7 @@ public class OCSBios {
 	
 	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 	public OCSBios() {
-		type = Build.TYPE;
+		type = "Mobile";
 		ocslog = OCSLog.getInstance();
 		assettag = Build.ID+"-0123456789";
 		date = (String) DateFormat.format("MM/dd/yy", Build.TIME);

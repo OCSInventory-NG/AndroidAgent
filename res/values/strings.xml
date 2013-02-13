@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">OCSNGAgent</string>
+    <string name="app_name">OCS-NG\nAgent</string>
     <string name="menu_settings">Configuration</string>
     <string name="menu_import">Import</string>
 	<string name="menu_export">Export</string>
@@ -27,5 +27,8 @@
     <string name="state_sent_inventory">Inventaire transmis</string>
 	<string name="state_send_error">Erreur de transmission</string>
 	<string name="state_send_start">Transmission</string>
-	<string name="state_build_inventory">Inventaire en cours</string>         
+	<string name="state_build_inventory">Inventaire en cours</string>   
+	
+	<string name="not_start_service">Service demarré</string>
+	<string name="not_inventory_sent">Inventaire transmis au serveur OCS</string>    
 </resources>

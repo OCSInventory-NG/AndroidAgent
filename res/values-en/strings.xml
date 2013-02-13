@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">OCSNGAgent</string>
+    <string name="app_name">OCSNG Agent</string>
     <string name="menu_settings">Configuration</string>
     <string name="menu_import">Import</string>
 	<string name="menu_export">Export</string>
@@ -27,5 +27,9 @@
     <string name="state_sent_inventory">Inventory sent</string>
 	<string name="state_send_error">Transmission Error</string>
 	<string name="state_send_start">Transmission</string>
-	<string name="state_build_inventory">Inventory in progress</string>         
+	<string name="state_build_inventory">Inventory in progress</string> 
+	
+	<string name="not_start_service">Service started</string>
+	<string name="not_inventory_sent">Inventory sent to OCS server</string>    
+	
 </resources>
