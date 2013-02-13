@@ -95,8 +95,8 @@ public class Inventory {
 			instance = new Inventory(ctx);
 		else {
 			Date now = new Date();
-			long d = (now.getTime() - lastDate.getTime())/1000;
-			android.util.Log.d("OCS","Deltatime = "+d );
+			long d = (now.getTime() - lastDate.getTime())/60000L;
+			android.util.Log.d("OCS","Age du cache (mn) = "+d );
 			if (  d  > dureeCache ) {
 				android.util.Log.d("OCS","REFRESH" );
 				instance = new Inventory(ctx);

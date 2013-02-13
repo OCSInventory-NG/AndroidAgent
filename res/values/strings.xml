@@ -3,9 +3,9 @@
 
     <string name="app_name">OCS-NG\nAgent</string>
     <string name="menu_settings">Configuration</string>
-    <string name="menu_import">Import</string>
-	<string name="menu_export">Export</string>
-    <string name="menu_about">A propos</string>
+    <string name="menu_import">Import configuration</string>
+	<string name="menu_export">Export configuration</string>
+    <string name="menu_about">Infos</string>
 	
 	
 	
@@ -29,6 +29,8 @@
 	<string name="state_send_start">Transmission</string>
 	<string name="state_build_inventory">Inventaire en cours</string>   
 	
-	<string name="not_start_service">Service demarré</string>
-	<string name="not_inventory_sent">Inventaire transmis au serveur OCS</string>    
+	<string name="nty_start_service">Service demarré</string>
+	<string name="nty_inventory_sent">Inventaire transmis au serveur OCS</string>  
+	<string name="nty_title">OCS-NG notification</string> 
+		
 </resources>

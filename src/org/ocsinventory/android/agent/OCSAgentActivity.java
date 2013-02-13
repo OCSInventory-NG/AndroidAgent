@@ -2,6 +2,8 @@ package org.ocsinventory.android.agent;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.ocsinventory.android.actions.OCSSettings;
 import org.ocsinventory.android.actions.PrefsParser;
@@ -15,6 +17,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,22 +51,22 @@ public class OCSAgentActivity extends Activity {
 			version = "";
 		}
 		setTitle(getTitle()+" v."+version);
-		
 		/*
-		if ( settings.getAutoStart() ) {
-			this.sendInventory();
+		if ( settings.getLastUpdt() > 0 ) {
+			SimpleDateFormat sdf = new SimpleDateFormat();
+			// (String)DateFormat.format("MM/dd/yyyy hh:mm:ss", settings.getLastUpdt());
+			StringBuffer sb = new StringBuffer("Last upload ");
+			sb.append(sdf.format(new Date(settings.getLastUpdt())));
+			setStatus(sb.toString());;
 		}
-		 */
-			
-		/*
-		Inventory inventory = Inventory.getInstance();
-		OCSLog.getInstance().appendLog("Complement inventaire");
-		logText.append("Complement inventaire\n");
-		inventory.completeActivityInfo(this);
-		logText.append("Inventaire OK\n");
-		inventory.logInventory();
 		*/
  }
+	@Override
+	protected void onStart() {
+		// TODO Auto-generated method stub
+		super.onStart();
+		android.util.Log.d("OCSAgentActivity", "onStart()");
+	}
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -84,6 +87,11 @@ public class OCSAgentActivity extends Activity {
 		case R.id.menu_import:
 			importConfig();
 			return true;
+		case R.id.menu_about:
+			AboutDialog about = new AboutDialog(this);
+			// about.setTitle("about this app");
+			about.show();
+			
 		}
 		return false;
 	}
@@ -151,5 +159,4 @@ public class OCSAgentActivity extends Activity {
 		TextView status = (TextView) findViewById(R.id.statusBar);
 		status.setText(msg);	
 	}
-
 }

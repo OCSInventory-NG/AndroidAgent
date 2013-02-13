@@ -20,7 +20,7 @@
 	<string name="pref_dialog_freqmaj">Fréquence en heures</string>
  	<string name="pref_description_freqmaj">Fréquence d\'envoi de l\'inventaire</string>
     <string name="pref_default_freqmaj">10</string> 
-  	<string name="pref_title_freqwake">Fréquence de réveil</string>
+  	<string name="pref_title_freqwake">Interval de réveil</string>
  	<string name="pref_description_freqwake">Interval de vérification</string>
     <string name="pref_default_freqwake">10</string>
 	<string name="pref_dialog_freqwake">Fréquence en minutes</string>
@@ -46,7 +46,7 @@
  	<string name="pref_title_cache">Cache</string>
  	<string name="pref_description_cache">Cache de l\'inventaire sur le mobile</string>
  	
-	<string name="pref_title_cachelen">Interval</string>
+	<string name="pref_title_cachelen">Durée</string>
   	<string name="pref_description_cachelen">Durée de vie du cache </string>
  	
 	<string name="pref_list_freq_zero">0</string>

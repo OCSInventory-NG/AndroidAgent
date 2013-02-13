@@ -69,7 +69,7 @@ public class OCSHardware {
 		this.swap=String.valueOf(SystemInfos.getSwaptotal()/1024);
 		this.userid = Build.USER;
 		this.lastUser = Build.USER;
-		this.dateLastLog = (String) DateFormat.format("MM/dd/yy mm:ss", System.currentTimeMillis());
+		this.dateLastLog = (String) DateFormat.format("MM/dd/yy hh:mm:ss", System.currentTimeMillis());
 	}
 	public String getProcessorName() {
 		return SystemInfos.getProcessorName();

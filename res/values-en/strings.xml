@@ -3,8 +3,8 @@
 
     <string name="app_name">OCSNG Agent</string>
     <string name="menu_settings">Configuration</string>
-    <string name="menu_import">Import</string>
-	<string name="menu_export">Export</string>
+    <string name="menu_import">Import settings</string>
+	<string name="menu_export">Export settings</string>
     <string name="menu_about">About</string>
 	
 	
@@ -29,7 +29,9 @@
 	<string name="state_send_start">Transmission</string>
 	<string name="state_build_inventory">Inventory in progress</string> 
 	
-	<string name="not_start_service">Service started</string>
-	<string name="not_inventory_sent">Inventory sent to OCS server</string>    
-	
+	<string name="nty_start_service">Service started</string>
+
+	<string name="nty_inventory_sent">Inventory sent to OCS server</string>  
+	<string name="nty_title">OCS-NG notification</string> 
+		
 </resources>

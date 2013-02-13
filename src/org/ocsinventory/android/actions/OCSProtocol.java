@@ -15,18 +15,15 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ClientConnectionManager;
-import org.apache.http.conn.params.ConnManagerParams;
 import org.apache.http.conn.params.ConnRoutePNames;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.FileEntity;
-import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
@@ -35,8 +32,6 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
-
-import android.net.Credentials;
 
 public class OCSProtocol {
 	private OCSLog ocslog = OCSLog.getInstance();
@@ -113,8 +108,18 @@ public class OCSProtocol {
 		OCSLog ocslog = OCSLog.getInstance();
 		OCSSettings ocssettings = OCSSettings.getInstance();
 		ocslog.append("Start send method");
-		HttpPost httppost = new HttpPost(server);
 		String retour;
+
+		HttpPost httppost = null;
+				
+		try {
+			httppost = new HttpPost(server);
+		} catch ( IllegalArgumentException e ) {
+			ocslog.append(e.getMessage());
+			throw new OCSProtocolException("Incorect serveur URL");
+		}
+		
+
 		
 		// FileEntity localFileEntity = new FileEntity(paramFile, "application/x-compress; charset=\"UTF-8\"");
  
