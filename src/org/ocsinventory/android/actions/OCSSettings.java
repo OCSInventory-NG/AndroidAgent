@@ -44,6 +44,7 @@ public class OCSSettings
 	final String KAUTH = "k_auth";
 	final String KLOGIN = "k_login";	
 	final String KPASSWD = "k_passwd";
+	final String KSYSHIDE = "k_syshide";
 	
 	public OCSSettings(Context ctx)
 	{
@@ -155,5 +156,8 @@ public class OCSSettings
 	}
 	public int getFreqMaj() {
 		return Integer.parseInt(prefs.getString(KFREQMAJ,  ctx.getString(R.string.pref_default_freqmaj)));
+	}
+	public boolean isSysHide() {
+		return prefs.getBoolean(KSYSHIDE, true);
 	}
 }

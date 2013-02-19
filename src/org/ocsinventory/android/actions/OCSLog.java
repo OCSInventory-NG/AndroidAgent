@@ -34,7 +34,8 @@ public class OCSLog
 				android.util.Log.d(TAG,  rep.getPath()+ " created");
 		}
 		logFile = new File(rep, "ocslog.txt");
-		logFile.delete();
+		if ( logFile.length() > 100000L )
+			logFile.delete();
 	}
 	
 	public static OCSLog getInstance()

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ocsinventory.android.actions.OCSLog;
+import org.ocsinventory.android.actions.OCSSettings;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -29,7 +30,8 @@ public class OCSSoftwares
 		List<PackageInfo> pis  = ctx.getPackageManager().getInstalledPackages(PackageManager.GET_ACTIVITIES |
 				PackageManager.GET_PROVIDERS);
 		for (PackageInfo pi : pis) { 
-			// Exclude systeme softwares
+			// Exclude systeme softwares i required
+			if ( OCSSettings.getInstance(ctx).isSysHide() )
 			if ( (pi.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1 )
 				continue;
        		OCSSoftware oSoft = new OCSSoftware();

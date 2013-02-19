@@ -17,8 +17,6 @@ Revision history for Ocsinventory NG Android Agent
 	in service mode. Work in 2.x & 3.0 but exception in 4.1
 	=> send inventory executed in an Async Task
 0.9.4
-	* Device uid exclude of import settings
+	* Import de configuration : exclusion du device uid
 	* Translations corrections
-	* English strings becomes default
-	* Change icons
 	
