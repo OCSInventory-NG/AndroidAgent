@@ -67,8 +67,10 @@ public class PrefsParser extends DefaultHandler {
 			edit.commit();
 		} 
 		else if  ( qName.equals("string") ) {
-			android.util.Log.d("PARSE", keyName+"/"+keyValue);
-			edit.putString(keyName, keyValue);
+			if ( ! keyName.equals("k_deviceUid")) {
+				android.util.Log.d("PARSE", keyName+"/"+keyValue);
+				edit.putString(keyName, keyValue);
+			}
 		} 
 	}
 

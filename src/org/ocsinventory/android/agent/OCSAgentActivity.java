@@ -2,8 +2,6 @@ package org.ocsinventory.android.agent;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import org.ocsinventory.android.actions.OCSSettings;
 import org.ocsinventory.android.actions.PrefsParser;
@@ -17,7 +15,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -96,7 +93,7 @@ public class OCSAgentActivity extends Activity {
 		return false;
 	}
 	public void showInventoryClicked(View view) {
-	    Intent localIntent = new Intent(this, OCSShowActivity.class);
+	    Intent localIntent = new Intent(this, OCSListActivity.class);
 	    startActivity(localIntent);
 	}
 	public void sendInventoryClicked(View view) {
@@ -118,6 +115,8 @@ public class OCSAgentActivity extends Activity {
 
 		PrefsParser pp = new PrefsParser();
 		pp.parseDocument(ficOut, prefs);
+		Toast.makeText(this, getText(R.string.msg_conf_imported),Toast.LENGTH_SHORT ).show();
+		setStatus(R.string.msg_conf_imported);
 	}
 	private void exportConfig() {
 		String myPackName = getApplicationContext().getPackageName();
@@ -133,7 +132,8 @@ public class OCSAgentActivity extends Activity {
 		} catch (IOException e) {
 			setStatus(e.getMessage());
 		}
-		Toast.makeText(this, "Saved",Toast.LENGTH_SHORT ).show();
+		Toast.makeText(this, getText(R.string.msg_conf_exported),Toast.LENGTH_SHORT ).show();
+		setStatus(R.string.msg_conf_exported);
 	}
 	
 	private void spawnTask(boolean send ) {

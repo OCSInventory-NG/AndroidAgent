@@ -43,9 +43,9 @@ public class OCSProtocol {
 		String reponse;
 		File localFile = OCSFiles.getInstance().getPrologFileXML();
 		String sURL = OCSSettings.getInstance().getServerUrl();
-		boolean gz = OCSSettings.getInstance().getGzip();
+		// boolean gz = OCSSettings.getInstance().getGzip();
 		
-		repMsg = sendmethod(localFile, sURL, gz);
+		repMsg = sendmethod(localFile, sURL, true);
 		ocslog.append("Finnish Sending Prolog...");
 		String freq=extractFreq(repMsg);
 		if  ( freq.length() > 0 )
@@ -58,12 +58,12 @@ public class OCSProtocol {
 	public String sendInventoryMessage(Inventory inventory) throws OCSProtocolException {
 		ocslog.append("Start Sending Inventory...");
 		String retour = null;		
-		boolean gz = OCSSettings.getInstance().getGzip();
+		// boolean gz = OCSSettings.getInstance().getGzip();
 		
 		File invFile = OCSFiles.getInstance().getInventoryFileXML(inventory);
 		String sURL = OCSSettings.getInstance().getServerUrl();
 
-		String repMsg  = sendmethod(invFile, sURL, gz);
+		String repMsg  = sendmethod(invFile, sURL, true);
 		
 		retour = extractResponse(repMsg);
 		ocslog.append("Finnish Sending Inventory...");

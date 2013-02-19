@@ -45,9 +45,9 @@ public class OCSNetworks
 				OCSNetwork netw = new OCSNetwork(wifii.toString());
 				
 				if  ( wifii.getWifiState()== wifii.WIFI_STATE_ENABLED )
-					netw.setStatus("up");
+					netw.setStatus("Up");
 				else 
-					netw.setStatus("down");
+					netw.setStatus("Down");
 				
 				netw.setIpAdress(Utils.intToIp(d.ipAddress));
 				netw.setIpGatewey(Utils.intToIp(d.gateway));
@@ -56,8 +56,8 @@ public class OCSNetworks
 	
 				WifiInfo wInfos = wifii.getConnectionInfo();
 				netw.setMacaddr(wInfos.getMacAddress());
-				netw.setDriver("wifii");
-				netw.setType("wifii"); 
+				netw.setDriver("Wifi");
+				netw.setType("Wifi"); 
 				//String s_dns1="DNS 1: "+String.valueOf(d.dns1);
 			    //String s_dns2="DNS 2: "+String.valueOf(d.dns2);
 	
@@ -139,5 +139,11 @@ public class OCSNetworks
 	public ArrayList<OCSNetwork> getNetworks() {
 		return networks;
 	}
-
+	public ArrayList<OCSSection> getSections() {
+		ArrayList<OCSSection> lst = new ArrayList<OCSSection>();
+		for ( OCSNetwork o : networks ) {
+			lst.add(o.getSection());
+		}
+		return lst;
+	}
 }

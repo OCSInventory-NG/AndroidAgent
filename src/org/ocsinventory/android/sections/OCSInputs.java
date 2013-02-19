@@ -87,4 +87,11 @@ public class OCSInputs
 		}
 		return strOut.toString();
 	}
+	public ArrayList<OCSSection> getSections() {
+		ArrayList<OCSSection> lst = new ArrayList<OCSSection>();
+		for ( OCSInput o : inputs ) {
+			lst.add(o.getSection());
+		}
+		return lst;
+	}
 }

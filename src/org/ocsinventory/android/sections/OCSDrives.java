@@ -120,6 +120,14 @@ public class OCSDrives
 		}
 		return strOut.toString();
 	}
+	public ArrayList<OCSSection> getSections() {
+		ArrayList<OCSSection> lst = new ArrayList<OCSSection>();
+		for ( OCSDrive o : drives ) {
+			lst.add(o.getSection());
+		}
+		return lst;
+	}
+	
 	private int parseInt(String s ) {
 		int i;
 		try {

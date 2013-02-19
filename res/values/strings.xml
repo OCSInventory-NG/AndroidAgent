@@ -1,36 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">OCS-NG\nAgent</string>
+    <string name="app_name">OCSNGAgent</string>
     <string name="menu_settings">Configuration</string>
-    <string name="menu_import">Import configuration</string>
-	<string name="menu_export">Export configuration</string>
-    <string name="menu_about">Infos</string>
+    <string name="menu_import">Import</string>
+	<string name="menu_export">Export</string>
+    <string name="menu_about">About</string>
 	
 	
 	
-    <string name="status_init">Prêt</string>
-    <string name="title_bt_launch">Envoyer inventaire</string>
-    <string name="title_bt_show">Afficher inventaire</string>
-    <string name="title_bt_save">Enregistrer inventaire</string>
-    <string name="hint_status_bar">Barre d\'etat</string>
+    <string name="status_init">Ready</string>
+    <string name="title_bt_launch">Send inventory</string>
+    <string name="title_bt_show">Show inventory</string>
+    <string name="title_bt_save">Store inventory</string>
+    <string name="hint_status_bar">Status</string>
     <string name="title_bt_settings">Configuration</string>
-    <string name="title_activity_ocsconfig">OCSConfigActivity</string>
-    <string name="err_save_settings">Erreur de sauvegarde du fichier de configuration</string>
-    <string name="title_bt_validate">Valider</string>
-    <string name="title_bt_default">Valeurs par defaut</string>
+    <string name="err_save_settings">Erreur saving configuration file</string>
+    <string name="title_bt_validate">Submit</string>
+    <string name="title_bt_default">Default value</string>
     <string name="ocs_ng">OCSInventory\nNG</string>
-    <string name="title_activity_show_inventory">ShowInventoryActivity</string>
-    <string name="state_saved">Inventaire enregistré sur la sdcard</string>
-    <string name="state_send_prolog">Envoi du prolog au serveur</string>
-    <string name="state_send_inventory">Envoi de l\'inventaire au serveur</string>
-    <string name="state_sent_inventory">Inventaire transmis</string>
-	<string name="state_send_error">Erreur de transmission</string>
+    <string name="title_activity_show_inventory">Inventory</string>
+    <string name="state_saved">Inventory recorded on sdcard</string>
+    <string name="state_send_prolog">Sending prolog to server</string>
+    <string name="state_send_inventory">Sending inventory to server</string>
+    <string name="state_sent_inventory">Inventory sent</string>
+	<string name="state_send_error">Transmission Error</string>
 	<string name="state_send_start">Transmission</string>
-	<string name="state_build_inventory">Inventaire en cours</string>   
+	<string name="state_build_inventory">Inventory in progress</string> 
 	
-	<string name="nty_start_service">Service demarré</string>
-	<string name="nty_inventory_sent">Inventaire transmis au serveur OCS</string>  
+	<string name="nty_start_service">Service started</string>
+	<string name="nty_inventory_sent">Inventory sent to OCS server</string>  
 	<string name="nty_title">OCS-NG notification</string> 
-		
+
+	<string name="msg_conf_exported">Settings exported</string> 
+	<string name="msg_conf_imported">Settings imported</string> 
+	
+	<string name="unit_hour">hours</string> 	
+	<string name="unit_minutes">minutes</string> 				
 </resources>

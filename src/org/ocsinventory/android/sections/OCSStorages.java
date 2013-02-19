@@ -33,4 +33,11 @@ public class OCSStorages
 		}
 		return strOut.toString();
 	}
+	public ArrayList<OCSSection> getSections() {
+		ArrayList<OCSSection> lst = new ArrayList<OCSSection>();
+		for ( OCSStorage o : storages ) {
+			lst.add(o.getSection());
+		}
+		return lst;
+	}
 }

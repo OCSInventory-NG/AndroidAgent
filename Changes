@@ -8,3 +8,17 @@ Revision history for Ocsinventory NG Android Agent
 	* Add notifications
 	* Use standard android settings menus
 	* Lot of corrections 
+0.9.2
+	* Replace OCSShowActivity by a structured Listview activity
+	* Add OCS section object to contain a section usable by a ListView adapter 
+	* Each section implement a getSection() meth. returning a such as object
+0.9.3 
+	* Bug deteted in android 4.x : network operation cant be executed in the main thread as do
+	in service mode. Work in 2.x & 3.0 but exception in 4.1
+	=> send inventory executed in an Async Task
+0.9.4
+	* Device uid exclude of import settings
+	* Translations corrections
+	* English strings becomes default
+	* Change icons
+	

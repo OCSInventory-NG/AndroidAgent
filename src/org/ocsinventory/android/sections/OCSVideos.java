@@ -1,5 +1,7 @@
 package org.ocsinventory.android.sections;
 
+import java.util.ArrayList;
+
 import org.ocsinventory.android.actions.Utils;
 
 import android.content.Context;
@@ -25,20 +27,24 @@ public class OCSVideos {
 				+String.valueOf(localDisplayMetrics.heightPixels);
 
 	}
-	public String toXML () {
-		StringBuffer strOut = new StringBuffer();
-		strOut.append("    <VIDEOS>\n");
-		Utils.xmlLine(strOut,"NAME",this.name);
-		Utils.xmlLine(strOut,"RESOLUTION",this.resolution);
-		strOut.append("    </VIDEOS>\n");	
-		return strOut.toString();
+	public OCSSection getSection() {
+		  	OCSSection s = new OCSSection("VIDEOS");
+			s.setAttr("NAME", this.name);
+			s.setAttr("RESOLUTION",this.resolution);
+			s.setTitle(this.name);
+			return s;
+	}		
+	
+	public String toXML() {
+		return getSection().toXML();
 	}
 	
-	public String toString () {
-		StringBuffer strOut = new StringBuffer();
-		strOut.append("***VIDEO***\n");
-		Utils.strLine(strOut,"RESOLUTION", resolution);
-		return strOut.toString();
+	public String toString() {
+		return getSection().toString();
 	}
-	
+	public ArrayList<OCSSection> getSections() {
+		ArrayList<OCSSection> lst = new ArrayList<OCSSection>();
+		lst.add(getSection());
+		return lst;
+	}	
 }

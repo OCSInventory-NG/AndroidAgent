@@ -1,5 +1,7 @@
 package org.ocsinventory.android.sections;
 
+import java.util.ArrayList;
+
 import org.ocsinventory.android.actions.OCSLog;
 import org.ocsinventory.android.actions.Utils;
 
@@ -59,35 +61,30 @@ public class OCSBios {
 	<!ELEMENT BIOS (BDATE | BMANUFACTURER | BVERSION | SMANUFACTURER | SMODEL | SSN | TYPE | ASSETTAG)*>
 	*/
 
-	public String toXML () {
-		StringBuffer strOut = new StringBuffer();
-		strOut.append("    <BIOS>\n");
-		Utils.xmlLine(strOut,"ASSETTAG", assettag);
-		Utils.xmlLine(strOut,"BDATE", date);
-		Utils.xmlLine(strOut,"BMANUFACTURER", manufacturer);
-		Utils.xmlLine(strOut,"BVERSION", version);		
-		Utils.xmlLine(strOut,"MMANUFACTURER", manufacturer);
-		Utils.xmlLine(strOut,"MSN", serial);
-		Utils.xmlLine(strOut,"SMANUFACTURER", manufacturer);
-		Utils.xmlLine(strOut,"SMODEL", smodel);
-		Utils.xmlLine(strOut,"SSN", serial);
-		Utils.xmlLine(strOut,"TYPE", type);
-		strOut.append("    </BIOS>\n");	
-		return strOut.toString();
+	public OCSSection getSection() {
+		OCSSection s = new OCSSection("BIOS");
+		s.setAttr("ASSETTAG", assettag);
+		s.setAttr("BDATE", date);
+		s.setAttr("BMANUFACTURER", manufacturer);
+		s.setAttr("BVERSION", version);		
+		s.setAttr("MMANUFACTURER", manufacturer);
+		s.setAttr("MSN", serial);
+		s.setAttr("SMANUFACTURER", manufacturer);
+		s.setAttr("SMODEL", smodel);
+		s.setAttr("SSN", serial);
+		s.setTitle(assettag);
+		return s;
+	}
+	public ArrayList<OCSSection> getSections() {
+		ArrayList<OCSSection> lst = new ArrayList<OCSSection>();
+		lst.add(getSection());
+		return lst;
 	}
 	
-	public String toString () {
-		StringBuffer strOut = new StringBuffer("***BIOS***\n");
-		Utils.strLine(strOut,"ASSETTAG", assettag);
-		Utils.strLine(strOut,"BDATE", date);
-		Utils.strLine(strOut,"BMANUFACTURER", manufacturer);
-		Utils.strLine(strOut,"BVERSION", version);		
-		Utils.strLine(strOut,"MMANUFACTURER", manufacturer);
-		Utils.strLine(strOut,"MSN", serial);
-		Utils.strLine(strOut,"SMANUFACTURER", manufacturer);
-		Utils.strLine(strOut,"SMODEL", smodel);
-		Utils.strLine(strOut,"SSN", serial);			
-		return strOut.toString();
+	public String toString() {
+		return getSection().toString();
 	}
-	
+	public String toXML() {
+		return getSection().toXML();
+	}
 }

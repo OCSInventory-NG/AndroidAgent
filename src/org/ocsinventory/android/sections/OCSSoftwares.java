@@ -7,6 +7,7 @@ import org.ocsinventory.android.actions.OCSLog;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -27,7 +28,10 @@ public class OCSSoftwares
 		PackageManager pm = ctx.getPackageManager () ;
 		List<PackageInfo> pis  = ctx.getPackageManager().getInstalledPackages(PackageManager.GET_ACTIVITIES |
 				PackageManager.GET_PROVIDERS);
-		for (PackageInfo pi : pis) {
+		for (PackageInfo pi : pis) { 
+			// Exclude systeme softwares
+			if ( (pi.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1 )
+				continue;
        		OCSSoftware oSoft = new OCSSoftware();
 	        try {
 	            PackageInfo lpInfo = pm.getPackageInfo (pi.packageName, PackageManager.GET_ACTIVITIES|
@@ -95,5 +99,12 @@ public class OCSSoftwares
 			strOut.append(o.toString());
 		}
 		return strOut.toString();
+	}
+	public ArrayList<OCSSection> getSections() {
+		ArrayList<OCSSection> lst = new ArrayList<OCSSection>();
+		for ( OCSSoftware o : softs ) {
+			lst.add(o.getSection());
+		}
+		return lst;
 	}
 }

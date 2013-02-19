@@ -12,12 +12,12 @@
             android:defaultValue="@string/pref_default_freqwake" android:dependency="k_automode" android:summary="@string/pref_description_freqwake"/>
         <CheckBoxPreference android:key="k_cache" 
             android:title="@string/pref_title_cache" 
-            android:summary="@string/pref_description_cache"/>
+            android:summary="@string/pref_description_cache" android:defaultValue="true"/>
         <ListPreference 
             android:key="k_cachelen"
             android:title="Interval de cache"
             android:summary="@string/pref_description_cachelen"
-            android:defaultValue="9000" 
+            android:defaultValue="@string/pref_default_cachelen" 
             android:entries="@array/cacheInterval"
             android:entryValues="@array/cacheIntervalValues"
             android:dependency="k_cache"

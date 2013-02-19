@@ -18,6 +18,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
@@ -72,12 +73,9 @@ public class OCSAgentService extends Service {
 			
 		if ( delta > freq * 3600000L) {
 			if ( isOnline() ) {
-				if ( sendInventory() == 0 ) {
-					notify(R.string.nty_inventory_sent);
-					Editor edt = sp.edit();
-					edt.putLong("k_lastupdt", System.currentTimeMillis());
-					edt.commit();
-				}
+				
+					AsyncCall task = new AsyncCall(this.getApplicationContext());
+					task.execute(); 
 			}
 		}
 		
@@ -98,6 +96,67 @@ public class OCSAgentService extends Service {
 		
 		return 0;
 	}
+	
+	   private class AsyncCall extends AsyncTask<Void, Void, Void> {
+		   int status;
+		   Context mContext;
+		   SharedPreferences mSP ;
+		   
+		   AsyncCall(Context ctx) {
+			   mContext = ctx;
+			   mSP= PreferenceManager.getDefaultSharedPreferences(ctx);
+		   }
+		   
+	        @Override
+	        protected Void doInBackground(Void... params) {
+	        	status = sendInventory();
+
+	            return null;
+	        }
+
+	        @Override
+	        protected void onPostExecute(Void result) {
+	            if ( status == 0) 
+	            {					
+	 					notify(R.string.nty_inventory_sent);
+	 					Editor edt = mSP.edit();
+	 					edt.putLong("k_lastupdt", System.currentTimeMillis());
+	 					edt.commit();
+	 			}
+	        }
+
+	        @Override
+	        protected void onPreExecute() {
+	        }
+
+	        @Override
+	        protected void onProgressUpdate(Void... values) {
+	        }
+	    	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	    	private void notify(int id) {
+
+	    		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+	    	
+	    		
+	    		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
+	            	.setSmallIcon(R.drawable.ic_notification)
+	            	.setContentTitle(getText(R.string.nty_title))
+	            	.setContentText(getText(id)) 	
+	            	;
+
+	    		Intent rIntent = new Intent(mContext, OCSAgentActivity.class);
+	    		/*
+	    		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+	    		stackBuilder.addParentStack(OCSAgentActivity.class);
+	    		stackBuilder.addNextIntent(rIntent);
+	    		*/
+	    		PendingIntent rpIntent = PendingIntent.getActivity(mContext, 0, rIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+	    		mBuilder.setContentIntent(rpIntent);
+	    		
+	    		mNM.notify(id, mBuilder.build());
+	    	}	
+	    }
+	
 /*	
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	private void notify(int id) {
@@ -127,31 +186,10 @@ public class OCSAgentService extends Service {
 		mNM.notify(id, mBuilder.build());
 	}
 	*/
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-	private void notify(int id) {
 
-		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-	
-		
-		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-        	.setSmallIcon(R.drawable.ic_notification)
-        	.setContentTitle(getText(R.string.nty_title))
-        	.setContentText(getText(id)) 	
-        	;
-
-		Intent rIntent = new Intent(this, OCSAgentActivity.class);
-		/*
-		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-		stackBuilder.addParentStack(OCSAgentActivity.class);
-		stackBuilder.addNextIntent(rIntent);
-		*/
-		PendingIntent rpIntent = PendingIntent.getActivity(this, 0, rIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-		mBuilder.setContentIntent(rpIntent);
-		
-		mNM.notify(id, mBuilder.build());
-	}	
 	
     public void onDestroy() {
+    	NotificationManager mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     	mNM.cancelAll();
     }
  

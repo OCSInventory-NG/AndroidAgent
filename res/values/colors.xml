@@ -5,6 +5,7 @@
    <!-- A light Holo shade of orange -->
     <color name="orange_light">#ffffbb33</color>
     <!-- A dark Holo shade of orange -->
-    <color name="orange_dark">#ffff8800</color> 
-
+    <color name="orange_dark">#ffff8800</color>
+    <color name="violet_fonce">#ff673391</color> 
+    <color name="violet_clair">#ff9e1d89</color> 
 </resources>

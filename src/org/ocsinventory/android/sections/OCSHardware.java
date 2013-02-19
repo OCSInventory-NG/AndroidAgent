@@ -1,5 +1,7 @@
 package org.ocsinventory.android.sections;
 
+import java.util.ArrayList;
+
 import org.ocsinventory.android.actions.OCSLog;
 import org.ocsinventory.android.actions.Utils;
 
@@ -62,7 +64,7 @@ public class OCSHardware {
 		name = Build.MODEL;
 		this.checksum = "1234567892"; 			// TODO
 		this.systemVersion = Build.VERSION.RELEASE;
-		this.systemName = "android "+this.systemVersion;
+		this.systemName = "Android "+this.systemVersion;
 		this.ipAddress = "";
 		this.processorSpeed = String.valueOf(SystemInfos.getProcessorSpeed()/1000);
 		this.memory=String.valueOf(SystemInfos.getMemtotal()/1024);
@@ -135,49 +137,42 @@ public class OCSHardware {
 		this.name = name;
 	}
 
+	public OCSSection getSection() {
+		OCSSection s = new OCSSection("HARDWARE");
+		s.setAttr("NAME", name);
+		s.setAttr("WORKGROUP", "WORKGROUP");
+		s.setAttr("USERDOMAIN", "");
+		s.setAttr("OSNAME",this.getSystemName());
+		s.setAttr("OSVERSION",this.getSystemVersion());
+		s.setAttr("OSCOMMENT",this.getOsComment());
+		s.setAttr("PROCESSORT",this.getProcessorType());
+		s.setAttr("PROCESSORN",this.getProcessorNumber());
+		s.setAttr("PROCESSORS",this.getProcessorSpeed());
+		s.setAttr("MEMORY",this.getMemory());
+		s.setAttr("SWAP",this.getSwap());
+		s.setAttr("USERID",this.getUserid());
+		s.setAttr("CHECKSUM",this.getChecksum());
+		s.setAttr("IPADDR",this.getIpAddress());
+		s.setAttr("DEFAULTGATEWAY",this.getGateway());		
+		s.setAttr("DNS",this.getDns());
+		s.setAttr("LASTLOGGEDUSER",this.getLastUser());
+		s.setAttr("DATELASTLOGGEDUSER",this.getDateLastLog());
+		s.setTitle(name);
+		return s;
+	}
+	public ArrayList<OCSSection> getSections() {
+		ArrayList<OCSSection> lst = new ArrayList<OCSSection>();
+		lst.add(getSection());
+		return lst;
+	}
 	public String toXML() {
-		StringBuffer strOut = new StringBuffer("    <HARDWARE>\n");
-		Utils.xmlLine(strOut,"NAME",this.getName());
-		strOut.append("      <WORKGROUP>WORKGROUP</WORKGROUP>\n");
-		strOut.append("      <USERDOMAIN />\n");
-		Utils.xmlLine(strOut,"OSNAME",this.getSystemName());
-		Utils.xmlLine(strOut,"OSVERSION",this.getSystemVersion());
-		Utils.xmlLine(strOut,"OSCOMMENT",this.getOsComment());
-		Utils.xmlLine(strOut,"PROCESSORT",this.getProcessorType());
-		Utils.xmlLine(strOut,"PROCESSORN",this.getProcessorNumber());
-		Utils.xmlLine(strOut,"PROCESSORS",this.getProcessorSpeed());
-		Utils.xmlLine(strOut,"MEMORY",this.getMemory());
-		Utils.xmlLine(strOut,"SWAP",this.getSwap());
-		Utils.xmlLine(strOut,"USERID",this.getUserid());
-		Utils.xmlLine(strOut,"CHECKSUM",this.getChecksum());
-		Utils.xmlLine(strOut,"IPADDR",this.getIpAddress());
-		Utils.xmlLine(strOut,"DEFAULTGATEWAY",this.getGateway());		
-		Utils.xmlLine(strOut,"DNS",this.getDns());
-		Utils.xmlLine(strOut,"LASTLOGGEDUSER",this.getLastUser());
-		Utils.xmlLine(strOut,"DATELASTLOGGEDUSER",this.getDateLastLog());
-		strOut.append("    </HARDWARE>\n");	
-		return strOut.toString();	
+		return getSection().toXML();
 	}
+
 	public String toString() {
-		StringBuffer strOut = new StringBuffer("***HARDWARE***\n");
-		Utils.strLine(strOut,"NAME",this.getName());
-		Utils.strLine(strOut,"OSNAME",this.getSystemName());
-		Utils.strLine(strOut,"OSVERSION",this.getSystemVersion());
-		Utils.strLine(strOut,"OSCOMMENT",this.getOsComment());
-		Utils.strLine(strOut,"PROCESSORT",this.getProcessorType());
-		Utils.strLine(strOut,"PROCESSORN",this.getProcessorNumber());
-		Utils.strLine(strOut,"PROCESSORS",this.getProcessorSpeed());
-		Utils.strLine(strOut,"MEMORY",this.getMemory());
-		Utils.strLine(strOut,"SWAP",this.getSwap());
-		Utils.strLine(strOut,"USERID",this.getUserid());
-		Utils.strLine(strOut,"CHECKSUM",this.getChecksum());
-		Utils.strLine(strOut,"IPADDR",this.getIpAddress());
-		Utils.strLine(strOut,"DEFAULTGATEWAY",this.getGateway());		
-		Utils.strLine(strOut,"DNS",this.getDns());
-		Utils.strLine(strOut,"LASTLOGGEDUSER",this.getLastUser());
-		Utils.strLine(strOut,"DATELASTLOGGEDUSER",this.getDateLastLog());
-		return strOut.toString();	
-	}
+		return getSection().toString();
+	}	
+
 	@SuppressLint("NewApi")
 	void logBuild() {
 		OCSLog ocslog = OCSLog.getInstance();

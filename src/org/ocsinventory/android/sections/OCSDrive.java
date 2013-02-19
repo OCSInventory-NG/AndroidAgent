@@ -60,18 +60,24 @@ public class OCSDrive {
 		strOut.append("    </DRIVES>\n");
 		return strOut.toString();
 	}
-	public String toString() {
-		StringBuffer strOut = new StringBuffer();
-		strOut.append("*DRIVE*\n");
-		Utils.strLine(strOut, "CREATEDATE", createdate);
-		Utils.strLine(strOut, "TYPE", type);
-		Utils.strLine(strOut, "FREE", String.valueOf(free));
-		Utils.strLine(strOut, "LABEL", label);
-		Utils.strLine(strOut, "SERIAL", null);
-		Utils.strLine(strOut, "TOTAL", String.valueOf(total));
-		Utils.strLine(strOut, "VOLUMN", volumName);
 
-		return strOut.toString();
+	public OCSSection getSection() {
+		OCSSection s = new OCSSection("DRIVE");
+		s.setAttr("CREATEDATE", createdate);
+		s.setAttr("TYPE", type);
+		s.setAttr("FREE", String.valueOf(free));
+		s.setAttr("LABEL", label);
+		s.setAttr("SERIAL", null);
+		s.setAttr("TOTAL", String.valueOf(total));
+		s.setAttr("VOLUMN", volumName);
+		s.setTitle(volumName);
+		return s;
+	}
+	public String toString() {
+		return getSection().toString();
+	}
+	public String toXML() {
+		return getSection().toXML();
 	}
 	public String getCreatedate() {
 		return createdate;

@@ -30,30 +30,24 @@ public class OCSInput {
 	<!ELEMENT INPUTS (TYPE | MANUFACTURER | CAPTION | DESCRIPTION | INTERFACE | INTERFACE)*>
 */
 
-	public String toXml() {
-		StringBuffer strOut = new StringBuffer();
-		strOut.append("    <INPUTS>\n");
-		Utils.xmlLine(strOut, "TYPE", type);
-		Utils.xmlLine(strOut, "MANUFACTURER", manufacturer);
-		Utils.xmlLine(strOut, "CAPTION", caption);
-		Utils.xmlLine(strOut, "DESCRIPTION", description);
-		Utils.xmlLine(strOut, "INTERFACE",interf);
-		Utils.xmlLine(strOut, "POINTERTYPE", pointtype);
-		strOut.append("    </INPUTS>\n");
-		return strOut.toString();
+	public OCSSection getSection() {
+		OCSSection s = new OCSSection("INPUTS");
+		s.setAttr("TYPE", type);
+		s.setAttr("MANUFACTURER", manufacturer);
+		s.setAttr("CAPTION", caption);
+		s.setAttr("DESCRIPTION", description);
+		s.setAttr("INTERFACE", interf);
+		s.setAttr("POINTERTYPE", pointtype);
+		s.setTitle(type);
+		return s;
 	}
 	public String toString() {
-		StringBuffer strOut = new StringBuffer();
-		strOut.append("*INPUTS*\n");
-		Utils.strLine(strOut, "TYPE", type);
-		Utils.strLine(strOut, "MANUFACTURER", manufacturer);
-		Utils.strLine(strOut, "CAPTION", caption);
-		Utils.strLine(strOut, "DESCRIPTION", description);
-		Utils.strLine(strOut, "INTERFACE", interf);
-		Utils.strLine(strOut, "POINTERTYPE", pointtype);
-		return strOut.toString();
+		return getSection().toString();
+	}	
+	public String toXml() {
+		return getSection().toXML();
 	}
-
+	
 	public String getType() {
 		return type;
 	}

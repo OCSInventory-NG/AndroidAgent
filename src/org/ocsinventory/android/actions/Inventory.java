@@ -2,6 +2,7 @@ package org.ocsinventory.android.actions;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.ocsinventory.android.sections.OCSBios;
 import org.ocsinventory.android.sections.OCSDrives;
@@ -9,6 +10,7 @@ import org.ocsinventory.android.sections.OCSHardware;
 import org.ocsinventory.android.sections.OCSInputs;
 import org.ocsinventory.android.sections.OCSNetwork;
 import org.ocsinventory.android.sections.OCSNetworks;
+import org.ocsinventory.android.sections.OCSSection;
 import org.ocsinventory.android.sections.OCSSoftwares;
 import org.ocsinventory.android.sections.OCSStorages;
 import org.ocsinventory.android.sections.OCSVideos;
@@ -167,5 +169,27 @@ public class Inventory {
 		strOut.append(this.softwares);
 
 		return strOut.toString();
+	}
+	public List<OCSSection> getSections( String sName ) {
+		if ( sName.equals("BIOS") )
+			return bios.getSections();
+		if ( sName.equals("DRIVES") )
+			return drives.getSections();
+		if ( sName.equals("HARDWARE") )
+			return hardware.getSections();
+		if ( sName.equals("INPUTS") )
+			return inputs.getSections();
+		if ( sName.equals("NETWORKS") )
+			return networks.getSections();
+		if ( sName.equals("DRIVES") )
+			return drives.getSections();
+		if ( sName.equals("SOFTWARES") )
+			return softwares.getSections();
+		if ( sName.equals("STORAGES") )
+			return storages.getSections();
+		if ( sName.equals("VIDEOS") )
+			return videos.getSections();
+
+		return null;
 	}
 }

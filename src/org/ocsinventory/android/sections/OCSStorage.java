@@ -9,14 +9,14 @@ import android.text.format.DateFormat;
 
 public class OCSStorage {
 
-	private String  description;
-	private long  disksize;
-	private String  firmware;
-	private String  manufacturer;
-	private String  model;
-	private String  name;
-	private String  serialnumber;
-	private String  type;
+	private String description;
+	private long disksize;
+	private String firmware;
+	private String manufacturer;
+	private String model;
+	private String name;
+	private String serialnumber;
+	private String type;
 
 	public OCSStorage(File d, String description) {
 		String pathESD = d.getPath();
@@ -26,67 +26,47 @@ public class OCSStorage {
 
 		this.description = description;
 		this.disksize = bs * bc / 1048576L;
-		
-		this.firmware=null;
-		this.manufacturer="NA";
-		this.model="NA";
-		this.name="NA";
-		this.serialnumber=null;
-		this.type="ROM";
-		
+
+		this.firmware = null;
+		this.manufacturer = "NA";
+		this.model = "NA";
+		this.name = "NA";
+		this.serialnumber = null;
+		this.type = "ROM";
+
 	}
 
-	/* Exemple Linux
-<STORAGES>
-      <DESCRIPTION>IDE</DESCRIPTION>
-      <DISKSIZE></DISKSIZE>
-      <FIRMWARE>801</FIRMWARE>
-      <MANUFACTURER>PNY</MANUFACTURER>
-      <MODEL>USB2.0 FD      </MODEL>
-      <NAME></NAME>
-      <SCSI_CHID></SCSI_CHID>
-      <SCSI_COID></SCSI_COID>
-      <SCSI_LUN></SCSI_LUN>
-      <SCSI_UNID></SCSI_UNID>
-      <SERIALNUMBER></SERIALNUMBER>
-      <TYPE>disk</TYPE>
-    </STORAGES>
-	<!ELEMENT STORAGES (MANUFACTURER | NAME | MODEL | DESCRIPTION | TYPE | DISKSIZE | FIRMWARE | SERIALNUMBER)*>
+	/*
+	 * Exemple Linux <STORAGES> <DESCRIPTION>IDE</DESCRIPTION>
+	 * <DISKSIZE></DISKSIZE> <FIRMWARE>801</FIRMWARE>
+	 * <MANUFACTURER>PNY</MANUFACTURER> <MODEL>USB2.0 FD </MODEL> <NAME></NAME>
+	 * <SCSI_CHID></SCSI_CHID> <SCSI_COID></SCSI_COID> <SCSI_LUN></SCSI_LUN>
+	 * <SCSI_UNID></SCSI_UNID> <SERIALNUMBER></SERIALNUMBER> <TYPE>disk</TYPE>
+	 * </STORAGES> <!ELEMENT STORAGES (MANUFACTURER | NAME | MODEL | DESCRIPTION
+	 * | TYPE | DISKSIZE | FIRMWARE | SERIALNUMBER)*>
 	 */
+	public OCSSection getSection() {
+		OCSSection s = new OCSSection("STORAGES");
+		s.setAttr("DESCRIPTION", description);
+		s.setAttr("DISKSIZE", String.valueOf(disksize));
+		s.setAttr("FIRMWARE", firmware);
+		s.setAttr("MANUFACTURER", manufacturer);
+		s.setAttr("MODEL", model);
+		s.setAttr("NAME", name);
+		s.setAttr("SERIALNUMBER", serialnumber);
+		s.setAttr("TYPE", type);
+		s.setTitle(description);
+		return s;
+	}
 
 	public String toXml() {
-		StringBuffer strOut = new StringBuffer();
-		strOut.append("    <STORAGES>\n");
-		Utils.xmlLine(strOut, "DESCRIPTION", description);
-		Utils.xmlLine(strOut, "DISKSIZE", String.valueOf(disksize));
-		Utils.xmlLine(strOut, "FIRMWARE", firmware);
-		Utils.xmlLine(strOut, "MANUFACTURER", manufacturer);
-		Utils.xmlLine(strOut, "MODEL", model);
-		Utils.xmlLine(strOut, "NAME", name);
-		Utils.xmlLine(strOut, "SERIALNUMBER",serialnumber);
-		Utils.xmlLine(strOut, "TYPE", type);
-		/*
-		Utils.xmlLine(strOut, "SCSI_CHID",null);
-		Utils.xmlLine(strOut, "SCSI_COID",null);
-		Utils.xmlLine(strOut, "SCSI_LUN",null);
-		Utils.xmlLine(strOut, "SCSI_UNID",null);
-		*/
-		strOut.append("    </STORAGES>\n");
-		return strOut.toString();
+		return getSection().toXML();
 	}
+
 	public String toString() {
-		StringBuffer strOut = new StringBuffer();
-		strOut.append("*STORAGE*\n");
-		Utils.strLine(strOut, "DESCRIPTION", description);
-		Utils.strLine(strOut, "DISKSIZE", String.valueOf(disksize));
-		Utils.strLine(strOut, "FIRMWARE", firmware);
-		Utils.strLine(strOut, "MANUFACTURER", manufacturer);
-		Utils.strLine(strOut, "MODEL", model);
-		Utils.strLine(strOut, "NAME", name);
-		Utils.strLine(strOut, "SERIALNUMBER",serialnumber);
-		Utils.strLine(strOut, "TYPE", type);
-		return strOut.toString();
+		return getSection().toString();
 	}
+
 	public String getDescription() {
 		return description;
 	}

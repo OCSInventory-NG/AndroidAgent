@@ -30,11 +30,15 @@ public class OCSPrefsActivity extends PreferenceActivity {
 	private boolean mfreqwake_chg = false;
 	private boolean mAutoMode_chg = false;
 	private SharedPreferences mPrefs;	
+	private static String uHour;
+	private static String uMn;
 	
 	@Override
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
-
+		
+		uHour = getString(R.string.unit_hour);
+		uMn = getString(R.string.unit_minutes);		
 		// Add 'general' preferences.
 		addPreferencesFromResource(R.xml.preferences);
 		MyPreferenceChangeListener mPreferenceListener = new MyPreferenceChangeListener();
@@ -161,9 +165,9 @@ public class OCSPrefsActivity extends PreferenceActivity {
 
 			}  else if ( preference instanceof EditTextPreference )	{
 				if ( preference.getKey().equals("k_freqmaj") )
-					stringValue=stringValue+" h";
+					stringValue=stringValue+" " + uHour;
 				if ( preference.getKey().equals("k_freqwake") )
-					stringValue=stringValue+" mn";
+					stringValue=stringValue+" " + uMn;
 					
 				preference.setSummary(stringValue);			}
 			return true;

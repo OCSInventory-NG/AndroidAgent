@@ -142,9 +142,9 @@ public class OCSSettings
 		return prefs.getLong(KLASTUPDT,0L);
 	}
 	public int getCacheLen() {
-		int c = 0 ;
+		int c = 0 ; // Return 0 if cache not enabled
 		if ( prefs.getBoolean(KCACHE, true))
-			c= Integer.parseInt(prefs.getString(KCACHELEN, "0"));
+			c= Integer.parseInt(prefs.getString(KCACHELEN, ctx.getString(R.string.pref_default_cachelen)));
 		return c;
 	}
 	public int getFreqWake() {
