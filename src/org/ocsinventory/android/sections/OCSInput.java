@@ -21,13 +21,14 @@ public class OCSInput {
 		this.manufacturer="NA";
 		this.caption="NA";
 		this.description="NA";
-		this.interf=null;
-		this.pointtype=null;;
+		this.interf="";
+		this.pointtype="";;
 		
 	}
 
 /*
-	<!ELEMENT INPUTS (TYPE | MANUFACTURER | CAPTION | DESCRIPTION | INTERFACE | INTERFACE)*>
+	<!ELEMENT INPUTS (TYPE | MANUFACTURER | CAPTION | DESCRIPTION | INTERFACE | POINTTYPE)*>
+	INPUTS (TYPE | MANUFACTURER | CAPTION | DESCRIPTION | INTERFACE | POINTTYPE
 */
 
 	public OCSSection getSection() {
@@ -37,7 +38,7 @@ public class OCSInput {
 		s.setAttr("CAPTION", caption);
 		s.setAttr("DESCRIPTION", description);
 		s.setAttr("INTERFACE", interf);
-		s.setAttr("POINTERTYPE", pointtype);
+		s.setAttr("POINTTYPE", pointtype);
 		s.setTitle(type);
 		return s;
 	}

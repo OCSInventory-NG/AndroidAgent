@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 import org.ocsinventory.android.actions.OCSLog;
 
-import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.hardware.input.InputManager;
+import android.hardware.Camera;
+import android.hardware.Camera.Area;
+import android.hardware.Camera.CameraInfo;
+import android.hardware.Camera.Size;
 import android.os.Build;
-import android.view.InputDevice;
 
 
 public class OCSInputs
@@ -31,46 +32,81 @@ public class OCSInputs
 			Configuration config = ctx.getResources().getConfiguration();
 			ocslog.append("config.keyboard"+ config.keyboard);
 			ocslog.append("config.touchscreen"+ config.keyboard);
-			 
+			
+			OCSInput inkb = new   OCSInput ();
+			inkb.setType("keybord");
 			switch (config.keyboard) {
 				case Configuration.KEYBOARD_QWERTY:
+					inkb.setCaption("Keyboard querty");
+					break;
 				case Configuration.KEYBOARD_12KEY:
-					OCSInput ocsin = new   OCSInput ();
-					ocsin.setType("keybord");
+					inkb.setCaption("Keyboard 12 keys");
 					break;
 				case Configuration.KEYBOARD_NOKEYS:
+					inkb.setCaption("No hardware keys");
 				default:
 					break;
 			}
-
+			inputs.add(inkb);
+			
 			OCSInput ocsin = new   OCSInput ();
+			ocsin.setType("Touchscreeen");
 			switch (config.touchscreen) {
 				case Configuration.TOUCHSCREEN_STYLUS:
-					ocsin.setType("STYLUS");
+					ocsin.setCaption("Stylus touchscreen");
 					break;
 				case Configuration.TOUCHSCREEN_FINGER:
-					ocsin.setType("OUCHSCREEN_FINGER");
+					ocsin.setCaption("Finger touchscreen");
 					break;
 				case  Configuration.TOUCHSCREEN_NOTOUCH:
+					ocsin.setCaption("NO touchscreen");
+					break;
 				default:
 					break;
 			}
+			inputs.add(ocsin);
 		}
-			
-		else {	
-			
-			InputManager inManager = (InputManager) ctx.getSystemService(Context.INPUT_SERVICE);
-		
-		
-			int inDevices[] = inManager.getInputDeviceIds ();
-			
-			for ( int i=0; i< inDevices.length; i++) {
-				InputDevice device = inManager.getInputDevice(inDevices[i]);
-				ocslog.append("INPUT DESC : "+device.getDescriptor());
-				ocslog.append(device.getName());
-				
-			}
-		}
+
+		// Infos sur les apareils photo
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+	    	OCSInput ocsci = new  OCSInput ();
+	    	ocsci.setType("Camera");
+	    	ocsci.setCaption("facing unknown");
+	    	String sSz = getCameraMaxImgSize();
+	    	ocsci.setDescription("Image size "+sSz);
+	    	inputs.add(ocsci);
+		} else {
+		    int numberOfCameras = Camera.getNumberOfCameras();
+		    CameraInfo cameraInfo = new CameraInfo();
+		    String sSz = getCameraMaxImgSize();
+		    
+		    for (int i = 0; i < numberOfCameras; i++) {
+		    	OCSInput ocsci = new  OCSInput ();
+		    	ocsci.setType("Camera");
+		        Camera.getCameraInfo(i, cameraInfo);
+		        if (cameraInfo.facing == CameraInfo.CAMERA_FACING_BACK)
+		        	ocsci.setCaption("facing back");
+		        else 
+		        	ocsci.setCaption("facing front");
+			    ocsci.setDescription("Image size "+sSz);
+		    	inputs.add(ocsci);
+		    }
+	    }
+	}
+	private String getCameraMaxImgSize() {
+	    Camera cam = Camera.open();
+	    Camera.Parameters params = cam.getParameters();
+	    long max_v=0;
+	    Size max_sz=null;
+	    for ( Size sz : params.getSupportedPictureSizes() ) {
+		    long v = sz.height * sz.width;
+		    android.util.Log.d("OCSINPUT", String.valueOf(v) );
+		    if ( v > max_v ){
+		    	max_v =v;
+		    	max_sz=sz;
+		    }
+	    }
+	    return String.valueOf(max_sz.width)+"x"+String.valueOf(max_sz.height);
 	}
 
 	public String toXML() {

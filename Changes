@@ -23,4 +23,6 @@ Revision history for Ocsinventory NG Android Agent
 	* Translations corrections
  	* On opening, Log file deleted if size > 100000 bytes
 	* Add option hide system software ( true by default)
-	
+0.9.5   
+	* Correction on Inputs sections (not exported)
+	* Add camera in inputs

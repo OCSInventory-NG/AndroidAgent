@@ -139,6 +139,7 @@ public class Inventory {
 		strOut.append(this.bios.toXML());
 		strOut.append(this.drives.toXML());
 		strOut.append(this.hardware.toXML());
+		strOut.append(this.inputs.toXML());
 		strOut.append(this.networks.toXML());
 		// strOut.append("    <CONTROLLERS></CONTROLLERS>");
 		// strOut.append("    <SLOTS></SLOTS>");
