@@ -26,3 +26,7 @@ Revision history for Ocsinventory NG Android Agent
 0.9.5   
 	* Correction on Inputs sections (not exported)
 	* Add camera in inputs
+0.9.6
+	* Messages corrections
+	* device uid not exported with settings
+
