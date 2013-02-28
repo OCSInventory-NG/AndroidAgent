@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+ 	<!-- Hors scope traduction - NO transtation needed -->
+	<string-array name="array_sections" >
+	    <item>BIOS</item>
+	    <item>DRIVES</item>
+	    <item>HARDWARE</item>
+		<item>NETWORKS</item>
+	    <item>INPUTS</item>
+	    <item>STORAGES</item>
+	    <item>SOFTWARES</item>
+	    <item>VIDEOS</item>	    
+	</string-array>   
+</resources>

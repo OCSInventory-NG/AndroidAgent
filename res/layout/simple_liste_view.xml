@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tv_simple_liste"
+    android:textColor="@color/violet_fonce"
+    android:padding="10sp"
+    android:layout_width="fill_parent"
+    android:singleLine="true"
+    android:textStyle="bold"
+    android:layout_height="fill_parent"/>
