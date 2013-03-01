@@ -94,7 +94,13 @@ public class OCSInputs
 	    }
 	}
 	private String getCameraMaxImgSize() {
-	    Camera cam = Camera.open();
+		
+	    Camera cam;
+	    try {
+	    	cam = Camera.open();
+	    } catch ( RuntimeException e ) {
+	    	return "busy";
+	    }
 	    Camera.Parameters params = cam.getParameters();
 	    long max_v=0;
 	    Size max_sz=null;
@@ -106,6 +112,7 @@ public class OCSInputs
 		    	max_sz=sz;
 		    }
 	    }
+	    cam.release();
 	    return String.valueOf(max_sz.width)+"x"+String.valueOf(max_sz.height);
 	}
 

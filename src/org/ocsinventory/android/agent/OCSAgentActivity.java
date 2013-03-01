@@ -123,6 +123,10 @@ public class OCSAgentActivity extends Activity {
 		String filePrefs=myPackName+"_preferences.xml";
 		String pathPrefs = getApplicationInfo().dataDir+"/shared_prefs/"+filePrefs;
 		
+		// 0.9.6 : suppress device id
+		String savedUid = settings.getDeviceUid();
+		settings.setDeviceUid("");
+		
 		File repOut=Environment.getExternalStoragePublicDirectory("ocs");
 		File ficOut= new File(repOut, filePrefs);
 		File ficIn = new File(pathPrefs);
@@ -134,6 +138,8 @@ public class OCSAgentActivity extends Activity {
 		}
 		Toast.makeText(this, getText(R.string.msg_conf_exported),Toast.LENGTH_SHORT ).show();
 		setStatus(R.string.msg_conf_exported);
+		
+		settings.setDeviceUid(savedUid);
 	}
 	
 	private void spawnTask(boolean send ) {

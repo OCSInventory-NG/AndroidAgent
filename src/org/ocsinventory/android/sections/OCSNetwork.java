@@ -14,7 +14,8 @@ public class OCSNetwork {
 	public String macaddr;
 	public String status;
 	public String type;
-
+	public String speed; // 0.9.7
+	
 	public String dns1;
 	public String dns2;
 
@@ -42,6 +43,7 @@ public class OCSNetwork {
 		s.setAttr("MACADDR", macaddr);
 		s.setAttr("STATUS", status);
 		s.setAttr("TYPE", type);
+		s.setAttr("SPEED", speed); // 0.9.7
 		s.setTitle(type);
 		return s;
 	}
@@ -148,5 +150,9 @@ public class OCSNetwork {
 
 	public void setDns2(String dns2) {
 		this.dns2 = dns2;
+	}
+	
+	public void setSpeed(String speed) {
+		this.speed = speed;
 	}
 }

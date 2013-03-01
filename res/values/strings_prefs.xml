@@ -46,7 +46,7 @@
  	<string name="pref_title_cache">Cache</string>
  	<string name="pref_description_cache">Inventory cache on device</string>
  	
-	<string name="pref_title_cachelen">Interval</string>
+	<string name="pref_title_cachelen">Cache lifetime</string>
   	<string name="pref_description_cachelen">Cache live time</string>
   	<string name="pref_default_cachelen">900000</string>
  	
@@ -56,10 +56,10 @@
 	<string name="pref_list_freq_30mn">30 minutes</string>
 	<string name="pref_list_freq_1h">one hour</string>		
 	
-	<string name="pref_title_syshide">Hide sytemes softwares</string>
+	<string name="pref_title_syshide">System software</string>
  	<string name="pref_description_syshide">Exclude system softwares of inventory</string>
-    <string name="pref_summaryOn_syshide">Excludes</string>
-    <string name="pref_summaryOff_syshide">Includes</string>
+    <string name="pref_summaryOn_syshide">Excluded of inventory</string>
+    <string name="pref_summaryOff_syshide">Included in inventory</string>
  					
 	
 </resources>

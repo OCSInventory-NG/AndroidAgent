@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">OCS-NG\nAgent</string>
     <string name="menu_settings">Configuration</string>
     <string name="menu_import">Import configuration</string>
 	<string name="menu_export">Export configuration</string>
-    <string name="menu_about">Infos</string>
+    <string name="menu_about">A propos</string>
 	
 	
 	
@@ -15,7 +14,8 @@
     <string name="title_bt_save">Enregistrer inventaire</string>
     <string name="hint_status_bar">Barre d\'etat</string>
     <string name="title_bt_settings">Configuration</string>
-    <string name="err_save_settings">Erreur de sauvegarde du fichier de configuration</string>
+ 	<string name="title_activity_ocsconfig">Configuration</string>
+	<string name="err_save_settings">Erreur de sauvegarde du fichier de configuration</string>
     <string name="title_bt_validate">Valider</string>
     <string name="title_bt_default">Valeurs par defaut</string>
     <string name="ocs_ng">OCSInventory\nNG</string>
@@ -35,7 +35,7 @@
 	<string name="msg_conf_exported">Configuration exportée</string> 
 	<string name="msg_conf_imported">Configuration importée</string> 
 
-	<string name="unit_hour">heurs</string> 	
+	<string name="unit_hour">heures</string> 	
 	<string name="unit_minutes">minutes</string> 
 	
 </resources>

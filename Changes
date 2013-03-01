@@ -29,4 +29,7 @@ Revision history for Ocsinventory NG Android Agent
 0.9.6
 	* Messages corrections
 	* device uid not exported with settings
-
+0.9.7
+	* Messages corrections in settings
+	* Wifi speed information added
+	* Correction : crash when camera already open

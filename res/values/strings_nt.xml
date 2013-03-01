@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    
+	<string name="app_name">OCS-NG\nAgent</string>
+    
  	<!-- Hors scope traduction - NO transtation needed -->
 	<string-array name="array_sections" >
 	    <item>BIOS</item>

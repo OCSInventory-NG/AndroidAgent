@@ -5,17 +5,21 @@
         <CheckBoxPreference android:enabled="true" android:title="@string/pref_title_debug" android:summary="@string/pref_description_debug" android:key="k_debug"/>
         <CheckBoxPreference android:key="k_automode" android:title="@string/pref_title_automode" android:summary="@string/pref_description_automode"/>
         <EditTextPreference android:key="k_freqmaj" android:title="@string/pref_title_freqmaj" 
-            android:dialogTitle="@string/pref_dialog_freqmaj" android:defaultValue="@string/pref_default_freqmaj" 
+            android:dialogTitle="@string/pref_dialog_freqmaj"
+            android:defaultValue="@string/pref_default_freqmaj" 
             android:summary="@string/pref_description_freqmaj" 
             android:dependency="k_automode"/>
         <EditTextPreference android:key="k_freqwake" android:title="@string/pref_title_freqwake"
-            android:defaultValue="@string/pref_default_freqwake" android:dependency="k_automode" android:summary="@string/pref_description_freqwake"/>
+            android:dialogTitle="@string/pref_dialog_freqwake" 
+            android:defaultValue="@string/pref_default_freqwake" 
+            android:summary="@string/pref_description_freqwake"
+            android:dependency="k_automode"/>
         <CheckBoxPreference android:key="k_cache" 
             android:title="@string/pref_title_cache" 
             android:summary="@string/pref_description_cache" android:defaultValue="true"/>
         <ListPreference 
             android:key="k_cachelen"
-            android:title="Interval de cache"
+            android:title="@string/pref_title_cachelen"
             android:summary="@string/pref_description_cachelen"
             android:defaultValue="@string/pref_default_cachelen" 
             android:entries="@array/cacheInterval"

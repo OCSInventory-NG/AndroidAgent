@@ -65,7 +65,7 @@ public class Utils {
 		for (int i=0;i<array.length;i++) {
 			if ( i > 0 )
 				sb.append(':');
-			sb.append(Integer.toHexString((int) array[i]));
+			sb.append(String.format("%02x",array[i]));
 		}
 		return sb.toString();
 	}

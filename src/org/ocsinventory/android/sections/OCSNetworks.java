@@ -36,13 +36,12 @@ public class OCSNetworks
 				return;
 			prevWifiState = wifii.isWifiEnabled(); 
 			if ( ! wifii.isWifiEnabled() ) {
-				
 				wifii.setWifiEnabled(true);
 			}
 			if ( wifii.isWifiEnabled() ) {
 				DhcpInfo d=wifii.getDhcpInfo();
 			
-				OCSNetwork netw = new OCSNetwork(wifii.toString());
+				OCSNetwork netw = new OCSNetwork("Wifi/3G interface");
 				
 				if  ( wifii.getWifiState()== wifii.WIFI_STATE_ENABLED )
 					netw.setStatus("Up");
@@ -57,7 +56,11 @@ public class OCSNetworks
 				WifiInfo wInfos = wifii.getConnectionInfo();
 				netw.setMacaddr(wInfos.getMacAddress());
 				netw.setDriver("Wifi");
-				netw.setType("Wifi"); 
+				netw.setType("Wifi");
+
+				String speed = String.valueOf(wInfos. getLinkSpeed());
+				netw.setSpeed(speed+" Mb/s");
+			
 				//String s_dns1="DNS 1: "+String.valueOf(d.dns1);
 			    //String s_dns2="DNS 2: "+String.valueOf(d.dns2);
 	
