@@ -10,12 +10,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.zip.GZIPOutputStream;
 
+import android.content.Context;
 import android.os.Environment;
+import android.provider.OpenableColumns;
 
 public class OCSFiles {
 	private static OCSFiles instance = null;
 	// public String BASE_FILE_NAME = "termadmin";
 	// public String XML_DIR = "/XML/";
+	private static Context appCtx;
+	
 	private String inventoryFileName 	= "inventory.xml";
 	private String gzipedFileName		= "tmp.gz";
 	private String prologFileName 		= "prolog.xml";
@@ -25,17 +29,19 @@ public class OCSFiles {
 			instance = new OCSFiles();
 		return instance;
 	}
-	
+	public static void initInstance(Context ctx) {
+		if (instance == null) {
+			appCtx = ctx;
+			instance = new OCSFiles();
+		}
+	}
+
 	public File getGzipedFile(File inFile) {
 		OCSLog ocslog = OCSLog.getInstance();
-		File wd = getSDWorkDirectory();
-		if ( wd == null )
-			 return null;
-		String gzipedFilePath = wd.getPath()+"/"+gzipedFileName;
 		FileInputStream fis;
 		try {
 			fis = new FileInputStream(inFile);
-			GZIPOutputStream gzos = new GZIPOutputStream(new FileOutputStream( gzipedFilePath));
+			GZIPOutputStream gzos = new GZIPOutputStream(appCtx.openFileOutput(gzipedFileName, 0));
 			byte[] buff = new byte[1024];
 			int n;
 			while ((n = fis.read(buff)) != -1)
@@ -43,36 +49,20 @@ public class OCSFiles {
 			fis.close();
 			gzos.close();
 		} catch (Exception e) {
-			ocslog.append("Erreur creating "+gzipedFilePath);
+			ocslog.append("Erreur creating "+gzipedFileName);
 		}
-		return new File(gzipedFilePath);
+		return appCtx.getFileStreamPath (gzipedFileName);
 	}
 	
 	public File getInventoryFileXML(Inventory pInventory) {
-		File inventoryFile	= null;
 		OCSLog ocslog = OCSLog.getInstance();
 
-		File wd = getSDWorkDirectory();
-		if ( wd == null )
-			 return null;
-		 
-		inventoryFile = new File(wd, this.inventoryFileName);
-		if (!inventoryFile.exists()) {
-			try {
-				inventoryFile.createNewFile();
-			} catch (IOException e) {
-				android.util.Log.e("OCS", "Erreur de creation du fichier XML inventaire");
-				ocslog.append("Erreur de creation du fichier xml inventaire");
-				ocslog.append(e.getMessage());
-			}
-		}
-		android.util.Log.i("OCS", "Fichier "+inventoryFile.getPath()+" created");
 		StringBuffer strOut = new StringBuffer("<?xml version =\"1.0\" encoding=\"UTF-8\"?>\n");
 		strOut.append(pInventory.toXML());
 		
 		FileOutputStream fOutputStream;
 		try {
-			fOutputStream = new FileOutputStream(inventoryFile);
+			fOutputStream = appCtx.openFileOutput(inventoryFileName,0);
 			BufferedOutputStream bos = new BufferedOutputStream(fOutputStream, 8192);
 			byte[] arrayOfByte = strOut.toString().getBytes();
 			bos.write(arrayOfByte);
@@ -91,25 +81,12 @@ public class OCSFiles {
 		 * File(this.inventoryFilePath); }
 		 */
 		android.util.Log.i("OCS", "Fichier pret");
-		
-		return inventoryFile;
+		return appCtx.getFileStreamPath (inventoryFileName);
 	}
 	
 	public File getPrologFileXML() {
 		OCSLog ocslog = OCSLog.getInstance();		
-		File prologFile		= null;
-
 		String deviceId = OCSSettings.getInstance().getDeviceUid();
-
-		File wd = getSDWorkDirectory();
-		if ( wd == null )
-			 return null;
-		
-		prologFile = new File(wd, this.prologFileName);
-		if (!prologFile.exists()) {
-			prologFile.delete();
-			prologFile = new File(wd, this.prologFileName);
-		}
 		
 		StringBuffer strBuf = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
 		// strBuf.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<!DOCTYPE REQUEST>\r\n");
@@ -122,7 +99,7 @@ public class OCSFiles {
 
 		FileOutputStream prologFileOStream;
 		try {
-			prologFileOStream = new FileOutputStream(prologFile);
+			prologFileOStream = appCtx.openFileOutput(this.prologFileName,0);
 			BufferedOutputStream prologFileBOS = new BufferedOutputStream(
 					prologFileOStream);
 			byte[] arrayOfByte = strBuf.toString().getBytes();
@@ -132,9 +109,24 @@ public class OCSFiles {
 		} catch (Exception e) {
 			ocslog.append("Erreur during prolog file creation");
 		}
-		return prologFile;
+		return appCtx.getFileStreamPath(prologFileName);
 	}
 	
+	public String copyToExternal(Inventory inventory) {
+		String res="OK";
+		File wd = getSDWorkDirectory();
+		if ( wd != null ) {
+			File ficIn = getInventoryFileXML(inventory);
+			File ficOut= new File(wd, inventoryFileName);
+				try {
+					Utils.copyFile(ficIn, ficOut);
+				} catch (IOException e) {
+					res=e.getMessage();
+					OCSLog.getInstance().append(e.getMessage());
+				}
+		}
+		return res;
+	}
 	/*
 	 * Retourne le repertoire de l'appli sur la sdcard
 	 * 

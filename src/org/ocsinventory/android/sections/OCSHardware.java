@@ -37,9 +37,10 @@ import android.text.format.DateFormat;
     </HARDWARE>
  */
 
-public class OCSHardware {
-	private String checksum;
+public class OCSHardware implements OCSSectionInterface  {
+	final private String sectionTag = "HARDWARE";
 
+	private long checksum;
 	private String processorType;
 	private String processorNumber;
 	private String processorSpeed;
@@ -62,7 +63,7 @@ public class OCSHardware {
 	public OCSHardware() {
 		logBuild();
 		name = Build.MODEL;
-		this.checksum = "1234567892"; 			// TODO
+		this.checksum = 262143; 			// TODO 262143
 		this.systemVersion = Build.VERSION.RELEASE;
 		this.systemName = "Android "+this.systemVersion;
 		this.ipAddress = "";
@@ -85,7 +86,7 @@ public class OCSHardware {
 	public String getName() {
 		return name;
 	}
-	public String getChecksum() {
+	public long getChecksum() {
 		return checksum;
 	}
 	public String getProcessorSpeed() {
@@ -136,9 +137,13 @@ public class OCSHardware {
 	public void setName(String name) {
 		this.name = name;
 	}
+	public void setChecksum(long checksum) {
+		this.checksum = checksum;
+	}
 
 	public OCSSection getSection() {
-		OCSSection s = new OCSSection("HARDWARE");
+		OCSSection s = new OCSSection(sectionTag);
+		s.setTitle(name);
 		s.setAttr("NAME", name);
 		s.setAttr("WORKGROUP", "WORKGROUP");
 		s.setAttr("USERDOMAIN", "");
@@ -151,13 +156,12 @@ public class OCSHardware {
 		s.setAttr("MEMORY",this.getMemory());
 		s.setAttr("SWAP",this.getSwap());
 		s.setAttr("USERID",this.getUserid());
-		s.setAttr("CHECKSUM",this.getChecksum());
+		s.setAttr("CHECKSUM",String.valueOf(this.getChecksum()));
 		s.setAttr("IPADDR",this.getIpAddress());
 		s.setAttr("DEFAULTGATEWAY",this.getGateway());		
 		s.setAttr("DNS",this.getDns());
 		s.setAttr("LASTLOGGEDUSER",this.getLastUser());
 		s.setAttr("DATELASTLOGGEDUSER",this.getDateLastLog());
-		s.setTitle(name);
 		return s;
 	}
 	public ArrayList<OCSSection> getSections() {
@@ -172,6 +176,9 @@ public class OCSHardware {
 	public String toString() {
 		return getSection().toString();
 	}	
+	public String  getSectionTag() {
+		return sectionTag;
+	}
 
 	@SuppressLint("NewApi")
 	void logBuild() {

@@ -14,9 +14,9 @@ import android.hardware.Camera.Size;
 import android.os.Build;
 
 
-public class OCSInputs
+public class OCSInputs implements OCSSectionInterface
 {
-
+	final private String sectionTag = "INPUTS";
 	public ArrayList<OCSInput> inputs;
 	  
 
@@ -137,4 +137,8 @@ public class OCSInputs
 		}
 		return lst;
 	}
+	public String  getSectionTag() {
+		return sectionTag;
+	}
+
 }

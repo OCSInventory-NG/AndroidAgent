@@ -10,8 +10,10 @@
 	    <item>HARDWARE</item>
 		<item>NETWORKS</item>
 	    <item>INPUTS</item>
+	   	<item>JAVAINFOS</item>
 	    <item>STORAGES</item>
 	    <item>SOFTWARES</item>
-	    <item>VIDEOS</item>	    
+	    <item>VIDEOS</item>
+		<item>SIMS</item>	  	    
 	</string-array>   
 </resources>

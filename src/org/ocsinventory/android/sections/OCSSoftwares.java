@@ -18,8 +18,10 @@ import android.os.Build;
 import android.text.format.DateFormat;
 
 @SuppressLint("NewApi")
-public class OCSSoftwares
+public class OCSSoftwares implements OCSSectionInterface
 {
+	final private String sectionTag = "SOFTWARES";
+	
 	public ArrayList<OCSSoftware> softs;
 	private OCSLog ocslog;	  
 	public OCSSoftwares(Context ctx) {
@@ -108,5 +110,8 @@ public class OCSSoftwares
 			lst.add(o.getSection());
 		}
 		return lst;
+	}
+	public String  getSectionTag() {
+		return sectionTag;
 	}
 }

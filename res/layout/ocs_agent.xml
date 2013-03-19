@@ -14,6 +14,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:text="@string/status_init"
+		android:fontFamily="fonts/trebuchet"
         android:textSize="@dimen/status_text" />
 
     <Button
@@ -24,6 +25,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="14dp"
         android:onClick="sendInventoryClicked"
+        android:fontFamily="fonts/trebuchet"
         android:text="@string/title_bt_launch" />
 
     <Button
@@ -32,6 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/bt_launch"
+        android:fontFamily="fonts/trebuchet"
         android:onClick="showInventoryClicked"
         android:text="@string/title_bt_show" />
 
@@ -42,14 +45,17 @@
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/bt_show"
         android:onClick="saveInventoryClicked"
+        android:fontFamily="fonts/trebuchet"
         android:text="@string/title_bt_save" />
 
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/statusBar"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/bt_save"
-        android:src="@drawable/ocs_splash_horizontal" />
+        android:src="@drawable/ocs_landscape" />
 
 </RelativeLayout>

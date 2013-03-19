@@ -14,7 +14,6 @@ import android.os.Environment;
 public class OCSLog
 {
 	private static String TAG = "OCSLOG";
-	private static String FICHIERLOG = "/mnt/sdcard/ocs/ocslog.txt";
 	private static OCSLog instance = null;
 	private File logFile = null;
 	
@@ -53,7 +52,6 @@ public class OCSLog
 			return;
 		// android.util.Log.d("OCSLOG", paramString);
 		if ( logFile == null ) {
-			android.util.Log.d("OCSLOG", "logfile null");
 			return;
 		}
 		Date localDate = new Date();

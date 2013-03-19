@@ -13,10 +13,10 @@ import java.util.regex.Pattern;
 
 import org.ocsinventory.android.actions.OCSLog;
 
-import android.os.Build;
-
-public class OCSDrives
+public class OCSDrives implements OCSSectionInterface
 {
+	final private String sectionTag = "DRIVES";
+	
 	private final String DFPATH = "/system/bin/df";
 	private final String MOUNTSPATH = "/proc/mounts";
 	
@@ -134,5 +134,8 @@ public class OCSDrives
 			i=Integer.parseInt(s);
 		} catch ( NumberFormatException e ) { i=0; }
 		return i;
+	}
+	public String  getSectionTag() {
+		return sectionTag;
 	}
 }

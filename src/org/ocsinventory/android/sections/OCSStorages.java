@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 import android.os.Environment;
 
-public class OCSStorages
+public class OCSStorages implements OCSSectionInterface
 {
-
+	final private String sectionTag = "STORAGES";
+	
 	public ArrayList<OCSStorage> storages;
 	  
 	public OCSStorages() {
@@ -39,5 +40,8 @@ public class OCSStorages
 			lst.add(o.getSection());
 		}
 		return lst;
+	}
+	public String  getSectionTag() {
+		return sectionTag;
 	}
 }

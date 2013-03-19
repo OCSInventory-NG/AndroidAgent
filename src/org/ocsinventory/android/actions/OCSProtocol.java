@@ -15,7 +15,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.params.ConnRoutePNames;
@@ -67,13 +66,13 @@ public class OCSProtocol {
 		
 		retour = extractResponse(repMsg);
 		ocslog.append("Finnish Sending Inventory...");
+		// upload ok. Save current sections fingerprints values
+		inventory.saveSectionsFP();
 		return retour;
 	}
 	
 	public DefaultHttpClient getNewHttpClient(boolean strict ) {
 	    try {
-	    	HttpClient httpClient = null;
-
 	        SSLSocketFactory sf;
 	    	if ( strict ) {
 	    		sf = SSLSocketFactory.getSocketFactory();

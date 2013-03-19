@@ -14,8 +14,10 @@ public class OCSListActivity extends ListActivity {
   public void onCreate(Bundle bundle) {
     super.onCreate(bundle);
     sections = getResources().getStringArray(R.array.array_sections);
+ 
     ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
         R.layout.simple_liste_view, sections);
+
     setListAdapter(adapter);
   }
 

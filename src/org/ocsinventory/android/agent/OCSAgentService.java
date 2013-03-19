@@ -3,6 +3,7 @@ package org.ocsinventory.android.agent;
 import java.util.Date;
 
 import org.ocsinventory.android.actions.Inventory;
+import org.ocsinventory.android.actions.OCSFiles;
 import org.ocsinventory.android.actions.OCSLog;
 import org.ocsinventory.android.actions.OCSProtocol;
 import org.ocsinventory.android.actions.OCSProtocolException;
@@ -85,7 +86,8 @@ public class OCSAgentService extends Service {
 	private int sendInventory() {
 
 		Inventory inventory  = Inventory.getInstance(getApplicationContext());
-		// OCSFiles.getInstance().getInventoryFileXML(inventory);				
+		// OCSFiles.getInstance().getInventoryFileXML(inventory);
+		OCSFiles.initInstance(getApplicationContext());
 		OCSProtocol ocsproto = new OCSProtocol();
 		try {
 			ocsproto.sendPrologueMessage(inventory);

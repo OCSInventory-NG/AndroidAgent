@@ -33,3 +33,14 @@ Revision history for Ocsinventory NG Android Agent
 	* Messages corrections in settings
 	* Wifi speed information added
 	* Correction : crash when camera already open
+0.9.8
+	* In harware section : the field checksum is correctly calculated from sections changes 
+	since last successful upload.
+	* New logo
+	* Logo centred on main activity background.
+	* Different layout in lanscape disposition.
+0.9.9
+	* Change launch and notification icon
+	* Add SIMS section with check mask 0x80000	
+	
+	- 

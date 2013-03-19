@@ -26,7 +26,10 @@ import android.text.format.DateFormat;
  
 BIOS (BDATE | BMANUFACTURER | BVERSION | SMANUFACTURER | SMODEL | SSN | TYPE | ASSETTAG)
 */
-public class OCSBios {
+public class OCSBios  implements OCSSectionInterface {
+	
+	final private String sectionTag = "BIOS";
+	
 	private String assettag;
 	private String date;
 	private String manufacturer;
@@ -62,7 +65,8 @@ public class OCSBios {
 	*/
 
 	public OCSSection getSection() {
-		OCSSection s = new OCSSection("BIOS");
+		OCSSection s = new OCSSection(sectionTag);
+		s.setAttr("TYPE", type);
 		s.setAttr("ASSETTAG", assettag);
 		s.setAttr("BDATE", date);
 		s.setAttr("BMANUFACTURER", manufacturer);
@@ -80,11 +84,13 @@ public class OCSBios {
 		lst.add(getSection());
 		return lst;
 	}
-	
 	public String toString() {
 		return getSection().toString();
 	}
 	public String toXML() {
 		return getSection().toXML();
+	}
+	public String  getSectionTag() {
+		return sectionTag;
 	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.ocsinventory.android.sections.OCSSection;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,7 @@ public class SectionAdapter extends BaseAdapter  {
     private List<OCSSection> mListe;
     private LayoutInflater mInflater;
     private Context mContext;
-
+	
     public SectionAdapter(Context context, List<OCSSection> aListP){
         mContext = context;
         mListe = aListP;
@@ -41,8 +42,8 @@ public class SectionAdapter extends BaseAdapter  {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		 LinearLayout layoutItem;
-	        
+		LinearLayout layoutItem;
+
 		if(convertView == null){
 			// Initialisation avec le layout personnalisé
 			layoutItem = (LinearLayout) mInflater.inflate(R.layout.section_item,
@@ -54,6 +55,7 @@ public class SectionAdapter extends BaseAdapter  {
 	        
 		TextView tvTitre = (TextView) layoutItem.findViewById(R.id.titre);
 		TextView tvDetail = (TextView) layoutItem.findViewById(R.id.detail);
+
 	    OCSSection s = (OCSSection) mListe.get(position);    
 		tvTitre.setText(s.getTitle());
 		tvDetail.setText(s.toString());

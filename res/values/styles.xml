@@ -15,8 +15,9 @@
 
     <!-- Application theme. -->
     <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
-    </style>
+       <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+       <item name="android:windowTitleBackgroundStyle">@style/WindowTitleBackground</item>
+     </style>
 
     <style name="ButtonBarButton" />
 
@@ -38,4 +39,7 @@
         <item name="android:background"> @color/black </item>
        <item name="android:textColorHighlight">@color/orange_light</item>
 	</style>
+	<style name="WindowTitleBackground">     
+        <item name="android:background">@color/violet_fonce</item>                   
+    </style>   
 </resources>

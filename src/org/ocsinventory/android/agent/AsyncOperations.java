@@ -1,5 +1,7 @@
 package org.ocsinventory.android.agent;
 
+import java.io.File;
+
 import org.ocsinventory.android.actions.Inventory;
 import org.ocsinventory.android.actions.OCSFiles;
 import org.ocsinventory.android.actions.OCSLog;
@@ -50,8 +52,10 @@ public class AsyncOperations extends AsyncTask<Void , Integer, String> {
 		OCSProtocol ocsproto = new OCSProtocol();
 		
 		if ( ! send ) { 
-			OCSFiles.getInstance().getInventoryFileXML(inventory);
-			return ctx.getString(R.string.state_saved); 
+			String status = OCSFiles.getInstance().copyToExternal(inventory);
+			if ( status.equals("OK"))
+				status=ctx.getString(R.string.state_saved);
+			return status; 
 		}
 		publishProgress(R.string.state_send_prolog);
 	

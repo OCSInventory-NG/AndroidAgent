@@ -46,24 +46,10 @@ public class OCSDrive {
 	 * <SERIAL>e340fd1a-108f-4523-a4f5-25d1c09bb0f2</SERIAL>
 	 * <TOTAL>37547</TOTAL> <TYPE>/</TYPE> <VOLUMN>/dev/sda2</VOLUMN>
 	 */
-	public String toXml() {
-		StringBuffer strOut = new StringBuffer();
-		strOut.append("    <DRIVES>\n");
-		Utils.xmlLine(strOut, "CREATEDATE", createdate);
-		Utils.xmlLine(strOut, "TYPE", type);
-		Utils.xmlLine(strOut, "FILESYSTEM", filesystem);
-		Utils.xmlLine(strOut, "FREE", String.valueOf(free));
-		Utils.xmlLine(strOut, "LABEL", label);
-		Utils.xmlLine(strOut, "SERIAL", null);
-		Utils.xmlLine(strOut, "TOTAL", String.valueOf(total));
-		Utils.xmlLine(strOut, "VOLUMN", volumName);
-		strOut.append("    </DRIVES>\n");
-		return strOut.toString();
-	}
-
 	public OCSSection getSection() {
-		OCSSection s = new OCSSection("DRIVE");
+		OCSSection s = new OCSSection("DRIVES");
 		s.setAttr("CREATEDATE", createdate);
+		s.setAttr("FILESYSTEM", filesystem);
 		s.setAttr("TYPE", type);
 		s.setAttr("FREE", String.valueOf(free));
 		s.setAttr("LABEL", label);
@@ -72,6 +58,9 @@ public class OCSDrive {
 		s.setAttr("VOLUMN", volumName);
 		s.setTitle(volumName);
 		return s;
+	}
+	public String toXml() {
+		return getSection().toXML();
 	}
 	public String toString() {
 		return getSection().toString();

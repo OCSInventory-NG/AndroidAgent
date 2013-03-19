@@ -17,8 +17,9 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 
-public class OCSNetworks
+public class OCSNetworks implements OCSSectionInterface
 {
+	final private String sectionTag = "NETWORKS";
 	private OCSLog ocslog;
 	private ArrayList<OCSNetwork> networks;
 	private int main = 0;
@@ -114,7 +115,7 @@ public class OCSNetworks
       <IPDHCP></IPDHCP>
       <IPGATEWAY>192.168.0.254</IPGATEWAY>
       <IPMASK>255.255.255.0</IPMASK>
-      <IPSUBNET>192.168.0.0</IPSUBNET>
+      <IPSUBNET>192.168.0"SIMS".0</IPSUBNET>
       <MACADDR>00:1f:c6:b6:a1:1e</MACADDR>
       <PCISLOT>0000:02:00.0</PCISLOT>
       <STATUS>Up</STATUS>
@@ -148,5 +149,8 @@ public class OCSNetworks
 			lst.add(o.getSection());
 		}
 		return lst;
+	}
+	public String  getSectionTag() {
+		return sectionTag;
 	}
 }
