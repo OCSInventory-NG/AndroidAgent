@@ -247,7 +247,7 @@ public class Inventory {
 			return videos.getSections();
 		if ( sName.equals("JAVAINFOS") )
 			return javainfos.getSections();
-		if ( sName.equals("SIMS") )
+		if ( sName.equals("SIM") )
 			return sims.getSections();
 
 		return null;

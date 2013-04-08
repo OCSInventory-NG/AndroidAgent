@@ -9,7 +9,7 @@ import android.telephony.TelephonyManager;
 
 
 public class OCSSims implements OCSSectionInterface {
-	final private String sectionTag = "SIMS";
+	final private String sectionTag = "SIM";
 	private String simcountry;
 	private String simoperator;
 	private String simopname;
@@ -37,7 +37,7 @@ public class OCSSims implements OCSSectionInterface {
 		s.setAttr("OPERATOR", simoperator);
 		s.setAttr("OPNAME", simopname);
 		s.setAttr("COUNTRY", simcountry);
-		s.setAttr("SERIAL", simserial);		
+		s.setAttr("SERIALNUMBER", simserial);		
 		s.setTitle(simserial);
 		return s;
 	}
