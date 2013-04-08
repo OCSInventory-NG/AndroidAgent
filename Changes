@@ -43,4 +43,6 @@ Revision history for Ocsinventory NG Android Agent
 	* Change launch and notification icon
 	* Add SIMS section with check mask 0x80000	
 	
-	- 
+2.1.0
+	* Correct SIM XML section name.
+	* 1st Publication version
