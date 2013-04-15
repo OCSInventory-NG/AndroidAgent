@@ -14,15 +14,12 @@
     <string name="pref_default_devicetag">Smartphone</string>
 	<string name="pref_title_automode">Mode automatique</string>
  	<string name="pref_description_automode">Inventaire automatique</string>
-    <string name="pref_default_automode">false</string> 
     
  	<string name="pref_title_freqmaj">Fréquence d\'inventaire</string>
 	<string name="pref_dialog_freqmaj">Intervalle en heures</string>
  	<string name="pref_description_freqmaj">Fréquence d\'envoi de l\'inventaire</string>
-    <string name="pref_default_freqmaj">10</string> 
   	<string name="pref_title_freqwake">Fréquence de réveil</string>
  	<string name="pref_description_freqwake">Intervalle de vérification</string>
-    <string name="pref_default_freqwake">10</string>
 	<string name="pref_dialog_freqwake">Intervalle en minutes</string>
         
 	<string name="pref_header_server">Serveur</string>
@@ -48,9 +45,7 @@
  	
 	<string name="pref_title_cachelen">Durée de vie du cache</string>
   	<string name="pref_description_cachelen">Durée de vie du cache</string>
-	<string name="pref_default_cachelen">900000</string>
  	
-	<string name="pref_list_freq_zero">0</string>
 	<string name="pref_list_freq_5mn">5 minutes</string>
 	<string name="pref_list_freq_15mn">15 minutes</string>
 	<string name="pref_list_freq_30mn">30 minutes</string>
