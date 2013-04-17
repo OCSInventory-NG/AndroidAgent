@@ -16,4 +16,8 @@
 	    <item>VIDEOS</item>
 		<item>SIM</item>	  	    
 	</string-array>   
+	<string name="pref_default_automode">false</string>
+	<string name="pref_default_freqmaj">24</string>
+	<string name="pref_default_freqwake">10</string>
+	<string name="pref_default_cachelen">900000</string>
 </resources>

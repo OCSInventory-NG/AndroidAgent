@@ -72,16 +72,16 @@ public class OCSInputs implements OCSSectionInterface
 	    	OCSInput ocsci = new  OCSInput ();
 	    	ocsci.setType("Camera");
 	    	ocsci.setCaption("facing unknown");
-	    	String sSz = getCameraMaxImgSize();
+	    	String sSz = getCameraMaxImgSize(openCamera());
 	    	ocsci.setDescription("Image size "+sSz);
 	    	inputs.add(ocsci);
 		} else {
 		    int numberOfCameras = Camera.getNumberOfCameras();
 		    CameraInfo cameraInfo = new CameraInfo();
-		    String sSz = getCameraMaxImgSize();
 		    
 		    for (int i = 0; i < numberOfCameras; i++) {
 		    	OCSInput ocsci = new  OCSInput ();
+		    	String sSz = getCameraMaxImgSize(openCamera(i));
 		    	ocsci.setType("Camera");
 		        Camera.getCameraInfo(i, cameraInfo);
 		        if (cameraInfo.facing == CameraInfo.CAMERA_FACING_BACK)
@@ -93,13 +93,29 @@ public class OCSInputs implements OCSSectionInterface
 		    }
 	    }
 	}
-	private String getCameraMaxImgSize() {
-		
-	    Camera cam;
+
+	// Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD
+	private Camera openCamera() {
 	    try {
-	    	cam = Camera.open();
+	    	return Camera.open();
 	    } catch ( RuntimeException e ) {
-	    	return "busy";
+	    	return null;
+	    }
+        }
+
+	// Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD
+	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
+        private Camera openCamera(int idx) {
+            try {
+                return Camera.open(idx);
+            } catch( RuntimeException e) {
+                return null;
+            }
+        }
+
+    private String getCameraMaxImgSize(Camera cam) {
+	    if ( cam == null ) {
+	        return "busy";
 	    }
 	    Camera.Parameters params = cam.getParameters();
 	    long max_v=0;

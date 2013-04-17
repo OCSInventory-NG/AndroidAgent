@@ -46,3 +46,9 @@ Revision history for Ocsinventory NG Android Agent
 2.1.0
 	* Correct SIM XML section name.
 	* 1st Publication version
+2.1.0.1
+	* Cédric Cabessa contribution
+	* add permission RECEIVE_BOOT_COMPLETED into Manifest
+	* Corrections about size image caps when multiples cameras
+	* move configuration strings to strings_nt.xml (no translatable strings)
+
