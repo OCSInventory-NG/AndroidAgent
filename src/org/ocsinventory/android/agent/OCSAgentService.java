@@ -28,8 +28,12 @@ import android.support.v4.app.NotificationCompat;
 public class OCSAgentService extends Service {
 	
 	public final static String FORCE_UPDATE = "force_update";
+	public final static String SAVE_INVENTORY = "save_inventory";
 	private NotificationManager mNM;
 	private OCSSettings mOcssetting;
+	boolean mIsForced = false;
+	boolean mSaveInventory = false;
+
 
 	/*
 	 * Binder juste pour verifier que le service tourne
@@ -50,16 +54,15 @@ public class OCSAgentService extends Service {
 	@Override
 	public int onStartCommand(final Intent intent, final int flags,
 			final int startId) {
-
 		mOcssetting = OCSSettings.getInstance(getApplicationContext());
 		OCSLog ocslog = OCSLog.getInstance();
 		ocslog.append("ocsservice wake : " + new Date().toString());	
-		boolean isForced = false;
-		if( intent.getExtras() != null )
-			isForced = intent.getExtras().getBoolean(FORCE_UPDATE);
-		
+		if( intent.getExtras() != null ) {
+			mIsForced = intent.getExtras().getBoolean(FORCE_UPDATE);
+			mSaveInventory = intent.getExtras().getBoolean(SAVE_INVENTORY);
+		}
 		// Au cas ou l'option a changé depuis le lancement du service
-		if ( ! mOcssetting.isAutoMode() && ! isForced )
+		if ( ! mOcssetting.isAutoMode() && ! mIsForced )
 			return Service.START_NOT_STICKY;
 		
 		// notify(R.string.not_start_service);
@@ -73,7 +76,7 @@ public class OCSAgentService extends Service {
 		ocslog.append("delta laps  : "+delta);
 		ocslog.append("freqmaj     : "+freq * 3600000L);
 
-		if ( (delta > freq * 3600000L && isOnline()) || isForced ) {
+		if ( (delta > freq * 3600000L && isOnline()) || mIsForced ) {
 			AsyncCall task = new AsyncCall(this.getApplicationContext());
 			task.execute();
 		}
@@ -96,6 +99,12 @@ public class OCSAgentService extends Service {
 		return 0;
 	}
 	
+	private int saveInventory() {
+		Inventory inventory  = Inventory.getInstance(getApplicationContext());
+		new OCSFiles(getApplicationContext()).copyToExternal(inventory);
+		return 0;
+	}
+
 	   private class AsyncCall extends AsyncTask<Void, Void, Void> {
 		   int status;
 		   Context mContext;
@@ -107,6 +116,9 @@ public class OCSAgentService extends Service {
 	        @Override
 	        protected Void doInBackground(Void... params) {
 	        	status = sendInventory();
+	        	if(mSaveInventory) {
+	        		saveInventory();
+	        	}
 
 	            return null;
 	        }
