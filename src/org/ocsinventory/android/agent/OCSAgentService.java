@@ -15,8 +15,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -30,6 +28,7 @@ import android.support.v4.app.NotificationCompat;
 public class OCSAgentService extends Service {
 	
 	private NotificationManager mNM;
+	private OCSSettings mOcssetting;
 
 	/*
 	 * Binder juste pour verifier que le service tourne
@@ -50,21 +49,19 @@ public class OCSAgentService extends Service {
 	@Override
 	public int onStartCommand(final Intent intent, final int flags,
 			final int startId) {
-	
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);		
 
-		OCSSettings ocssetting = OCSSettings.getInstance(getApplicationContext());
+		mOcssetting = OCSSettings.getInstance(getApplicationContext());
 		OCSLog ocslog = OCSLog.getInstance();
 		ocslog.append("ocsservice wake : " + new Date().toString());		
 		
 		// Au cas ou l'option a changé depuis le lancement du service
-		if ( ! sp.getBoolean("k_automode", false) ) 
+		if ( ! mOcssetting.isAutoMode() )
 			return Service.START_NOT_STICKY;
 		
 		// notify(R.string.not_start_service);
 		
-		int  freq = Integer.parseInt(sp.getString("k_freqmaj" , ""));
-		long lastUpdt = sp.getLong("k_lastupdt" , 0L);
+		int  freq = mOcssetting.getFreqMaj();
+		long lastUpdt = mOcssetting.getLastUpdt();
 		long delta = System.currentTimeMillis()- lastUpdt;
 		
 		ocslog.append("now         : "+System.currentTimeMillis());
@@ -102,11 +99,9 @@ public class OCSAgentService extends Service {
 	   private class AsyncCall extends AsyncTask<Void, Void, Void> {
 		   int status;
 		   Context mContext;
-		   SharedPreferences mSP ;
 		   
 		   AsyncCall(Context ctx) {
 			   mContext = ctx;
-			   mSP= PreferenceManager.getDefaultSharedPreferences(ctx);
 		   }
 		   
 	        @Override
@@ -119,12 +114,10 @@ public class OCSAgentService extends Service {
 	        @Override
 	        protected void onPostExecute(Void result) {
 	            if ( status == 0) 
-	            {					
-	 					notify(R.string.nty_inventory_sent);
-	 					Editor edt = mSP.edit();
-	 					edt.putLong("k_lastupdt", System.currentTimeMillis());
-	 					edt.commit();
-	 			}
+	            {
+	                notify(R.string.nty_inventory_sent);
+	                mOcssetting.setLastUpdt(System.currentTimeMillis());
+	            }
 	        }
 
 	        @Override

@@ -7,9 +7,10 @@ import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.ocsinventory.android.actions.OCSSettings;
+
 import android.app.Dialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -37,11 +38,10 @@ public class AboutDialog extends Dialog {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.about);
-		
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
 
+		OCSSettings ocssettings = OCSSettings.getInstance(mContext);
 		
-		long lastUpdt = sp.getLong("k_lastupdt" , 0L);
+		long lastUpdt = ocssettings.getLastUpdt();
 		
 		StringBuffer sb = new StringBuffer("OCS Inventory NG android Agent \n");
 		sb.append("Version :");
@@ -55,8 +55,8 @@ public class AboutDialog extends Dialog {
 			sb.append("Last upload : ");
 			sb.append(sdf.format(new Date(lastUpdt)));
 			sb.append("\n");
-			if ( sp.getBoolean("k_automode", false)) {
-				int  freq = Integer.parseInt(sp.getString("k_freqmaj" , ""));
+			if ( ocssettings.isAutoMode() ) {
+				int  freq = ocssettings.getFreqMaj();
 				long nextUpdt= lastUpdt+freq*3600000L;
 				sb.append("Next upload : ");
 				sb.append(sdf.format(new Date(nextUpdt)));
