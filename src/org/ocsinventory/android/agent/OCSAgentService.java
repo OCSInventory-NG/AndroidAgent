@@ -84,8 +84,7 @@ public class OCSAgentService extends Service {
 
 		Inventory inventory  = Inventory.getInstance(getApplicationContext());
 		// OCSFiles.getInstance().getInventoryFileXML(inventory);
-		OCSFiles.initInstance(getApplicationContext());
-		OCSProtocol ocsproto = new OCSProtocol();
+		OCSProtocol ocsproto = new OCSProtocol(getApplicationContext());
 		try {
 			ocsproto.sendPrologueMessage(inventory);
 			ocsproto.sendInventoryMessage(inventory);

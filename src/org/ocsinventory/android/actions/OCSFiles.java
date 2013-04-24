@@ -16,28 +16,16 @@ import android.os.Environment;
 import android.provider.OpenableColumns;
 
 public class OCSFiles {
-	private static OCSFiles instance = null;
 	// public String BASE_FILE_NAME = "termadmin";
 	// public String XML_DIR = "/XML/";
-	private static Context appCtx;
+	private Context appCtx;
 	
 	private String inventoryFileName;
 	private String gzipedFileName		= "tmp.gz";
 	private String prologFileName 		= "prolog.xml";
 	
-	public static OCSFiles getInstance() {
-		if (instance == null)
-			instance = new OCSFiles();
-		return instance;
-	}
-	public static void initInstance(Context ctx) {
-		if (instance == null) {
-			appCtx = ctx;
-			instance = new OCSFiles();
-		}
-	}
-
-	public OCSFiles() {
+	public OCSFiles(Context ctx) {
+		appCtx = ctx;
 		StringBuilder filename = new StringBuilder();
 
 		filename.append(Utils.getHostname());
