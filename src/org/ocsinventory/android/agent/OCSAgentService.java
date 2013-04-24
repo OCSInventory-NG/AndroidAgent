@@ -27,6 +27,7 @@ import android.support.v4.app.NotificationCompat;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class OCSAgentService extends Service {
 	
+	public final static String FORCE_UPDATE = "force_update";
 	private NotificationManager mNM;
 	private OCSSettings mOcssetting;
 
@@ -52,10 +53,13 @@ public class OCSAgentService extends Service {
 
 		mOcssetting = OCSSettings.getInstance(getApplicationContext());
 		OCSLog ocslog = OCSLog.getInstance();
-		ocslog.append("ocsservice wake : " + new Date().toString());		
+		ocslog.append("ocsservice wake : " + new Date().toString());	
+		boolean isForced = false;
+		if( intent.getExtras() != null )
+			isForced = intent.getExtras().getBoolean(FORCE_UPDATE);
 		
 		// Au cas ou l'option a changé depuis le lancement du service
-		if ( ! mOcssetting.isAutoMode() )
+		if ( ! mOcssetting.isAutoMode() && ! isForced )
 			return Service.START_NOT_STICKY;
 		
 		// notify(R.string.not_start_service);
@@ -68,13 +72,10 @@ public class OCSAgentService extends Service {
 		ocslog.append("last update : "+lastUpdt);
 		ocslog.append("delta laps  : "+delta);
 		ocslog.append("freqmaj     : "+freq * 3600000L);
-			
-		if ( delta > freq * 3600000L) {
-			if ( isOnline() ) {
-				
-					AsyncCall task = new AsyncCall(this.getApplicationContext());
-					task.execute(); 
-			}
+
+		if ( (delta > freq * 3600000L && isOnline()) || isForced ) {
+			AsyncCall task = new AsyncCall(this.getApplicationContext());
+			task.execute();
 		}
 		
 		return Service.START_NOT_STICKY;

@@ -64,7 +64,8 @@
 
         <receiver
             android:name=".OCSEventReceiver"
-            android:process=":ocs_process" >
+            android:process=":ocs_process"
+            android:exported="true" >
         </receiver>
         <receiver
             android:name=".OCSBootReceiver"
