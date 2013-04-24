@@ -64,7 +64,8 @@ public class OCSNetworks implements OCSSectionInterface
 			}
 		}
 		
-		// Parcours des intefaces reseau
+		// Check non wifi address, this method will return less informations, but at least we
+		// have all the ip
 		Enumeration<NetworkInterface> listeNI;
 		try {
 			listeNI = NetworkInterface.getNetworkInterfaces();
@@ -82,8 +83,7 @@ public class OCSNetworks implements OCSSectionInterface
 			// android.util.Log.d("OCSNET HAdr", ni.getHardwareAddress());
 			while (listeIPAdr.hasMoreElements()) {
 				InetAddress ipAdr = (InetAddress) listeIPAdr.nextElement();
-				
-				if ( ! ipAdr.isLoopbackAddress() ) {
+				if ( ! ipAdr.isLoopbackAddress() && ! ipAdr.isLinkLocalAddress() ) {
 					OCSNetwork netw = new OCSNetwork(name);
 					String ipadr = ipAdr.getHostAddress();
 					netw.setIpAdress(ipadr);
@@ -92,11 +92,20 @@ public class OCSNetworks implements OCSSectionInterface
 					 		netw.setMacaddr(Utils.bytesToHex(ni.getHardwareAddress()));
 						} catch (SocketException se) {}
 					}
-					networks.add(netw);
+					// this ip may be already presents as a wifi address
+					boolean isWifi = false;
+					for(OCSNetwork tmp : networks) {
+						if ( tmp.ipAdress.equals(netw.ipAdress) ) {
+							isWifi = true;
+							break;
+						}
+					}
+					if (isWifi == false) {
+						networks.add(netw);
+					}
 				}
 			} 
 		}
-
 	}
 	
 /*
