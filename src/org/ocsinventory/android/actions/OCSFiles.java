@@ -6,8 +6,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.util.Date;
+import java.util.Locale;
+import java.text.SimpleDateFormat;
 import java.util.zip.GZIPOutputStream;
 
 import android.content.Context;
@@ -20,7 +21,7 @@ public class OCSFiles {
 	// public String XML_DIR = "/XML/";
 	private static Context appCtx;
 	
-	private String inventoryFileName 	= "inventory.xml";
+	private String inventoryFileName;
 	private String gzipedFileName		= "tmp.gz";
 	private String prologFileName 		= "prolog.xml";
 	
@@ -34,6 +35,20 @@ public class OCSFiles {
 			appCtx = ctx;
 			instance = new OCSFiles();
 		}
+	}
+
+	public OCSFiles() {
+		StringBuilder filename = new StringBuilder();
+
+		filename.append(Utils.getHostname());
+		filename.append("-");
+
+		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.US);
+		filename.append(dt.format(new Date()));
+
+		filename.append(".ocs");
+
+		inventoryFileName = filename.toString();
 	}
 
 	public File getGzipedFile(File inFile) {
