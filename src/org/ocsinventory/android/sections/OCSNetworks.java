@@ -32,7 +32,7 @@ public class OCSNetworks implements OCSSectionInterface
 
 		WifiManager wifii= (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
 		if ( wifii != null ) {
-			if ( wifii.getWifiState() == 4 )
+			if ( wifii.getWifiState() == WifiManager.WIFI_STATE_UNKNOWN )
 				return;
 			if ( wifii.isWifiEnabled() ) {
 				DhcpInfo d=wifii.getDhcpInfo();
