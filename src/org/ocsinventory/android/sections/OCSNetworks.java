@@ -31,14 +31,9 @@ public class OCSNetworks implements OCSSectionInterface
 		this.networks= new ArrayList<OCSNetwork>();
 
 		WifiManager wifii= (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
-		boolean prevWifiState=false;
 		if ( wifii != null ) {
 			if ( wifii.getWifiState() == 4 )
 				return;
-			prevWifiState = wifii.isWifiEnabled(); 
-			if ( ! wifii.isWifiEnabled() ) {
-				wifii.setWifiEnabled(true);
-			}
 			if ( wifii.isWifiEnabled() ) {
 				DhcpInfo d=wifii.getDhcpInfo();
 			
@@ -101,8 +96,6 @@ public class OCSNetworks implements OCSSectionInterface
 				}
 			} 
 		}
-		if ( wifii.isWifiEnabled() && ! prevWifiState)
-				wifii.setWifiEnabled(false);
 
 	}
 	
