@@ -49,10 +49,10 @@ public class AsyncOperations extends AsyncTask<Void , Integer, String> {
 	
 		Inventory inventory  = Inventory.getInstance(activity);
 	
-		OCSProtocol ocsproto = new OCSProtocol();
+		OCSProtocol ocsproto = new OCSProtocol(ctx);
 		
 		if ( ! send ) { 
-			String status = OCSFiles.getInstance().copyToExternal(inventory);
+			String status = new OCSFiles(ctx).copyToExternal(inventory);
 			if ( status.equals("OK"))
 				status=ctx.getString(R.string.state_saved);
 			return status; 

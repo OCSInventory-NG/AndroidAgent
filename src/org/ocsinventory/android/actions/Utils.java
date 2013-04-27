@@ -116,4 +116,11 @@ public class Utils {
 	    }
 	    return "";
 	}
+	
+	public static String getHostname() {
+		String hostname = readSysCommand("/system/bin/getprop", "net.hostname").trim();
+		if(hostname.length() == 0)
+			hostname = "android";
+		return hostname;
+	}
 }

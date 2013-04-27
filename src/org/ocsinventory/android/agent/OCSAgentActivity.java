@@ -51,7 +51,6 @@ public class OCSAgentActivity extends Activity {
 		// Initialisation de la configuration
 		settings=OCSSettings.getInstance(this);
 		settings.logSettings();
-		OCSFiles.initInstance(this.getApplicationContext());
 		// logText.append("Init inventaire\n");
 		// new AsyncJob(this).execute();
 		

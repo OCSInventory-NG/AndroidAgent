@@ -32,15 +32,21 @@ import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 
+import android.content.Context;
+
 public class OCSProtocol {
 	private OCSLog ocslog = OCSLog.getInstance();
+	private OCSFiles ocsfile;
 
+	public OCSProtocol(Context context) {
+		ocsfile = new OCSFiles(context);
+	}
 
 	public String sendPrologueMessage(Inventory inv) throws OCSProtocolException {
 		ocslog.append("Start Sending Prolog...");
 		String repMsg;
 		String reponse;
-		File localFile = OCSFiles.getInstance().getPrologFileXML();
+		File localFile = ocsfile.getPrologFileXML();
 		String sURL = OCSSettings.getInstance().getServerUrl();
 		// boolean gz = OCSSettings.getInstance().getGzip();
 		
@@ -59,7 +65,7 @@ public class OCSProtocol {
 		String retour = null;		
 		// boolean gz = OCSSettings.getInstance().getGzip();
 		
-		File invFile = OCSFiles.getInstance().getInventoryFileXML(inventory);
+		File invFile = ocsfile.getInventoryFileXML(inventory);
 		String sURL = OCSSettings.getInstance().getServerUrl();
 
 		String repMsg  = sendmethod(invFile, sURL, true);
@@ -125,7 +131,7 @@ public class OCSProtocol {
 		File fileToPost;
 		if ( gziped ) {
 			ocslog.append("Start compression");
-			fileToPost=OCSFiles.getInstance().getGzipedFile(pFile);
+			fileToPost=ocsfile.getGzipedFile(pFile);
 			if ( fileToPost == null )
 				throw new OCSProtocolException("Error during temp file creation");
 			ocslog.append("Compression done");

@@ -15,8 +15,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -29,7 +27,13 @@ import android.support.v4.app.NotificationCompat;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class OCSAgentService extends Service {
 	
+	public final static String FORCE_UPDATE = "force_update";
+	public final static String SAVE_INVENTORY = "save_inventory";
 	private NotificationManager mNM;
+	private OCSSettings mOcssetting;
+	boolean mIsForced = false;
+	boolean mSaveInventory = false;
+
 
 	/*
 	 * Binder juste pour verifier que le service tourne
@@ -50,34 +54,31 @@ public class OCSAgentService extends Service {
 	@Override
 	public int onStartCommand(final Intent intent, final int flags,
 			final int startId) {
-	
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);		
-
-		OCSSettings ocssetting = OCSSettings.getInstance(getApplicationContext());
+		mOcssetting = OCSSettings.getInstance(getApplicationContext());
 		OCSLog ocslog = OCSLog.getInstance();
-		ocslog.append("ocsservice wake : " + new Date().toString());		
-		
+		ocslog.append("ocsservice wake : " + new Date().toString());	
+		if( intent.getExtras() != null ) {
+			mIsForced = intent.getExtras().getBoolean(FORCE_UPDATE);
+			mSaveInventory = intent.getExtras().getBoolean(SAVE_INVENTORY);
+		}
 		// Au cas ou l'option a changé depuis le lancement du service
-		if ( ! sp.getBoolean("k_automode", false) ) 
+		if ( ! mOcssetting.isAutoMode() && ! mIsForced )
 			return Service.START_NOT_STICKY;
 		
 		// notify(R.string.not_start_service);
 		
-		int  freq = Integer.parseInt(sp.getString("k_freqmaj" , ""));
-		long lastUpdt = sp.getLong("k_lastupdt" , 0L);
+		int  freq = mOcssetting.getFreqMaj();
+		long lastUpdt = mOcssetting.getLastUpdt();
 		long delta = System.currentTimeMillis()- lastUpdt;
 		
 		ocslog.append("now         : "+System.currentTimeMillis());
 		ocslog.append("last update : "+lastUpdt);
 		ocslog.append("delta laps  : "+delta);
 		ocslog.append("freqmaj     : "+freq * 3600000L);
-			
-		if ( delta > freq * 3600000L) {
-			if ( isOnline() ) {
-				
-					AsyncCall task = new AsyncCall(this.getApplicationContext());
-					task.execute(); 
-			}
+
+		if ( (delta > freq * 3600000L && isOnline()) || mIsForced ) {
+			AsyncCall task = new AsyncCall(this.getApplicationContext());
+			task.execute();
 		}
 		
 		return Service.START_NOT_STICKY;
@@ -87,8 +88,7 @@ public class OCSAgentService extends Service {
 
 		Inventory inventory  = Inventory.getInstance(getApplicationContext());
 		// OCSFiles.getInstance().getInventoryFileXML(inventory);
-		OCSFiles.initInstance(getApplicationContext());
-		OCSProtocol ocsproto = new OCSProtocol();
+		OCSProtocol ocsproto = new OCSProtocol(getApplicationContext());
 		try {
 			ocsproto.sendPrologueMessage(inventory);
 			ocsproto.sendInventoryMessage(inventory);
@@ -99,19 +99,26 @@ public class OCSAgentService extends Service {
 		return 0;
 	}
 	
+	private int saveInventory() {
+		Inventory inventory  = Inventory.getInstance(getApplicationContext());
+		new OCSFiles(getApplicationContext()).copyToExternal(inventory);
+		return 0;
+	}
+
 	   private class AsyncCall extends AsyncTask<Void, Void, Void> {
 		   int status;
 		   Context mContext;
-		   SharedPreferences mSP ;
 		   
 		   AsyncCall(Context ctx) {
 			   mContext = ctx;
-			   mSP= PreferenceManager.getDefaultSharedPreferences(ctx);
 		   }
 		   
 	        @Override
 	        protected Void doInBackground(Void... params) {
 	        	status = sendInventory();
+	        	if(mSaveInventory) {
+	        		saveInventory();
+	        	}
 
 	            return null;
 	        }
@@ -119,12 +126,10 @@ public class OCSAgentService extends Service {
 	        @Override
 	        protected void onPostExecute(Void result) {
 	            if ( status == 0) 
-	            {					
-	 					notify(R.string.nty_inventory_sent);
-	 					Editor edt = mSP.edit();
-	 					edt.putLong("k_lastupdt", System.currentTimeMillis());
-	 					edt.commit();
-	 			}
+	            {
+	                notify(R.string.nty_inventory_sent);
+	                mOcssetting.setLastUpdt(System.currentTimeMillis());
+	            }
 	        }
 
 	        @Override
