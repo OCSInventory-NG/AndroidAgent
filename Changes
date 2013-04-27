@@ -51,4 +51,14 @@ Revision history for Ocsinventory NG Android Agent
 	* add permission RECEIVE_BOOT_COMPLETED into Manifest
 	* Corrections about size image caps when multiples cameras
 	* move configuration strings to strings_nt.xml (no translatable strings)
+2.1.1
+	* add extra to OCSEventReceiver to save inventory on disk
+	* force inventory with OCSEventReceiver
+	* remove OCSFiles singleton
+	* fix unit conversion bug for cache
+	* change inventory file name (host + date)
+	* use OCSSettings instead of direct call to PreferenceManager
+	* change adress detection
+	* Do not force to enable wifi
+	* specify the same process name as service for activity in manifest for good settings share
 
