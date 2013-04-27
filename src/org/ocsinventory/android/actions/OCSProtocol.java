@@ -9,7 +9,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 
-import org.apache.http.Header;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
@@ -177,10 +176,11 @@ public class OCSProtocol {
 			int httpCode = localHttpResponse.getStatusLine().getStatusCode();
 			ocslog.append("Response status code : " + String.valueOf(httpCode));
 			if ( httpCode== 200) {
-				Header hdrs[] = localHttpResponse.getAllHeaders();
 				
-				// Determine la reponse est compressee 
-				boolean repCompressed = false;
+				// Determine if the response is compressed
+				/* Deprecated 
+				Header hdrs[] = localHttpResponse.getAllHeaders();
+				boolean repCompressed;
 				for (int i=0; i<hdrs.length;i++) {
 					ocslog.append(hdrs[i].getName()+":"+hdrs[i].getValue());
 					if ( hdrs[i].getName().equals("Content-Type") ) {
@@ -189,8 +189,7 @@ public class OCSProtocol {
 						break;
 					}
 				}
-				
-				String response;	
+				*/
 				if  ( gziped ) {
 					InputStream is = localHttpResponse.getEntity().getContent();
 					GZIPInputStream gzis = new GZIPInputStream(is);

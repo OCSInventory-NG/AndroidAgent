@@ -2,8 +2,6 @@ package org.ocsinventory.android.sections;
 
 import java.util.ArrayList;
 
-import org.ocsinventory.android.actions.OCSLog;
-
 import android.content.Context;
 import android.telephony.TelephonyManager;
 
@@ -15,11 +13,8 @@ public class OCSSims implements OCSSectionInterface {
 	private String simopname;
 	private String simserial;
 	
-	
-	private OCSLog ocslog;  
 
 	public OCSSims(Context ctx) {
- 		ocslog = OCSLog.getInstance();
  		TelephonyManager mng = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE); 
  		
  

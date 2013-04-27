@@ -1,14 +1,11 @@
 package org.ocsinventory.android.actions;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
 import java.text.DateFormat;
 import java.util.Date;
 
-import android.bluetooth.BluetoothClass.Device.Major;
 import android.os.Environment;
 
 public class OCSLog
@@ -47,6 +44,8 @@ public class OCSLog
 	public void append(String paramString)
 	{
 		if ( paramString == null )
+			return;
+		if ( OCSSettings.getInstance() == null )
 			return;
 		if ( ! OCSSettings.getInstance().getDebug())
 			return;

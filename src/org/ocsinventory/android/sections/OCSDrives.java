@@ -127,14 +127,6 @@ public class OCSDrives implements OCSSectionInterface
 		}
 		return lst;
 	}
-	
-	private int parseInt(String s ) {
-		int i;
-		try {
-			i=Integer.parseInt(s);
-		} catch ( NumberFormatException e ) { i=0; }
-		return i;
-	}
 	public String  getSectionTag() {
 		return sectionTag;
 	}

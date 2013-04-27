@@ -3,11 +3,9 @@ package org.ocsinventory.android.sections;
 import java.util.ArrayList;
 
 import org.ocsinventory.android.actions.OCSLog;
-import org.ocsinventory.android.actions.Utils;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
-import android.provider.Settings.Secure;
 import android.text.format.DateFormat;
 
 /*
@@ -41,8 +39,8 @@ public class OCSHardware implements OCSSectionInterface  {
 	final private String sectionTag = "HARDWARE";
 
 	private long checksum;
-	private String processorType;
-	private String processorNumber;
+	// private String processorType;
+	// private String processorNumber;
 	private String processorSpeed;
 	private String memory;
 	private String swap;

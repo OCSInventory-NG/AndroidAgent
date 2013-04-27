@@ -14,7 +14,7 @@
     <string name="title_bt_save">Store inventory</string>
     <string name="hint_status_bar">Status</string>
     <string name="title_bt_settings">Configuration</string>
-	<string name="title_activity_ocsconfig">Settings</string>
+    <string name="title_activity_ocsconfig">Settings</string>
     <string name="err_save_settings">Error saving configuration file</string>
     <string name="title_bt_validate">Submit</string>
     <string name="title_bt_default">Default value</string>

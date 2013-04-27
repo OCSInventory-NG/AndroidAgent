@@ -1,11 +1,5 @@
 package org.ocsinventory.android.sections;
 
-import java.io.File;
-
-import org.ocsinventory.android.actions.Utils;
-
-import android.os.StatFs;
-import android.text.format.DateFormat;
 
 public class OCSPort {
 	String type;

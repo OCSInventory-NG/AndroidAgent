@@ -1,22 +1,15 @@
 package org.ocsinventory.android.agent;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import org.ocsinventory.android.actions.OCSSettings;
 
 import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.text.Html;
-import android.text.util.Linkify;
 import android.widget.TextView;
 
 public class AboutDialog extends Dialog {
@@ -51,7 +44,7 @@ public class AboutDialog extends Dialog {
 		} catch (NameNotFoundException e) {	}
 		sb.append("\n");
 		if ( lastUpdt > 0) {
-			SimpleDateFormat sdf = new SimpleDateFormat();		
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.US);
 			sb.append("Last upload : ");
 			sb.append(sdf.format(new Date(lastUpdt)));
 			sb.append("\n");

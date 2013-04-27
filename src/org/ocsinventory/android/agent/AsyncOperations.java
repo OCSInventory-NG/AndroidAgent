@@ -1,7 +1,5 @@
 package org.ocsinventory.android.agent;
 
-import java.io.File;
-
 import org.ocsinventory.android.actions.Inventory;
 import org.ocsinventory.android.actions.OCSFiles;
 import org.ocsinventory.android.actions.OCSLog;
@@ -12,9 +10,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
-import android.provider.Contacts.ContactMethods;
 import android.widget.TextView;
 
 @SuppressLint("NewApi")
@@ -22,7 +18,6 @@ public class AsyncOperations extends AsyncTask<Void , Integer, String> {
 	//private final View root;
 	private ProgressDialog progressDialog;
 	private TextView status;
-	private String retour;
 	private Context ctx;
 	private final Activity activity;
 	private boolean send;

@@ -1,20 +1,12 @@
 package org.ocsinventory.android.actions;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.ocsinventory.android.agent.R;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.provider.Contacts.ContactMethods;
-import android.util.Log;
-import android.webkit.WebView.FindListener;
 
 @SuppressLint("NewApi")
 public class OCSSettings

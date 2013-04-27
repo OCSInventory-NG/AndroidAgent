@@ -21,7 +21,6 @@ import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Build;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
  
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)

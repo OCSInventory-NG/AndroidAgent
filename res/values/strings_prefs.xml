@@ -12,8 +12,8 @@
     <string name="pref_title_devicetag">TAG</string>
     <string name="pref_description_devicetag">Cathegory TAG in OCS</string>
     <string name="pref_default_devicetag">Mobile</string>
-	<string name="pref_title_automode">Automatic</string>
- 	<string name="pref_description_automode">Automatic inventory</string>
+    <string name="pref_title_automode">Automatic</string>
+	<string name="pref_description_automode">Automatic inventory</string>
     
  	<string name="pref_title_freqmaj">Inventory frequency</string>
 	<string name="pref_dialog_freqmaj">Delay in hours</string>
@@ -25,7 +25,7 @@
 	<string name="pref_header_server">Server</string>
 	<string name="pref_title_serverurl">Server URL</string>
     <string name="pref_description_serverurl">OCS server address</string>
-    <string name="pref_default_serverurl">http://ocsinventory-ng/ocsinventory</string>
+    <string name="pref_default_serverurl">http://ocsinventory-ng.org/ocsinventory</string>
     <string name="pref_summaryOn_sslstrict">ON</string>
     <string name="pref_summaryOff_sslstrict">OFF</string>
     <string name="pref_title_sslstrict">SSL Control</string>

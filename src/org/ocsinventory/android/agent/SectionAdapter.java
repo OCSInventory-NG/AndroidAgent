@@ -5,7 +5,6 @@ import java.util.List;
 import org.ocsinventory.android.sections.OCSSection;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

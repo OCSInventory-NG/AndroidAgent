@@ -10,7 +10,6 @@ import org.ocsinventory.android.actions.OCSLog;
 import org.ocsinventory.android.actions.Utils;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiInfo;
@@ -39,7 +38,7 @@ public class OCSNetworks implements OCSSectionInterface
 			
 				OCSNetwork netw = new OCSNetwork("Wifi/3G interface");
 				
-				if  ( wifii.getWifiState()== wifii.WIFI_STATE_ENABLED )
+				if  ( wifii.getWifiState()== WifiManager.WIFI_STATE_ENABLED )
 					netw.setStatus("Up");
 				else 
 					netw.setStatus("Down");

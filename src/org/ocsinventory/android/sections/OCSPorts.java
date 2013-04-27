@@ -6,11 +6,6 @@ import org.ocsinventory.android.actions.OCSLog;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.Configuration;
-import android.hardware.Camera;
-import android.hardware.Camera.Area;
-import android.hardware.Camera.CameraInfo;
-import android.hardware.Camera.Size;
 import android.hardware.usb.UsbManager;
 import android.os.Build;
 

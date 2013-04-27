@@ -25,7 +25,7 @@ public class OCSPrefsActivity extends PreferenceActivity {
 	 * as a master/detail two-pane view on tablets. When true, a single pane is
 	 * shown on tablets.
 	 */
-	private static final boolean ALWAYS_SIMPLE_PREFS = false;
+	// private static final boolean ALWAYS_SIMPLE_PREFS = false;
 	private MyPreferenceChangeListener mPreferenceListener;
 	private boolean mfreqwake_chg = false;
 	private boolean mAutoMode_chg = false;
@@ -85,8 +85,8 @@ public class OCSPrefsActivity extends PreferenceActivity {
        					start.getTimeInMillis(), interval*60000L, intentExecuted);
     		} else {
     			// Stop service
-      			AlarmManager alarmManager = (AlarmManager) ctx
-       					.getSystemService(Context.ALARM_SERVICE);
+      			//AlarmManager alarmManager = (AlarmManager) ctx
+       			//		.getSystemService(Context.ALARM_SERVICE);
        			Intent i = new Intent(ctx, OCSEventReceiver.class); 
        																		
        			PendingIntent intentExecuted = PendingIntent.getBroadcast(ctx, 0, i,

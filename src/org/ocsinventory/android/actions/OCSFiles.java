@@ -6,18 +6,16 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.text.SimpleDateFormat;
 import java.util.zip.GZIPOutputStream;
 
 import android.content.Context;
 import android.os.Environment;
-import android.provider.OpenableColumns;
 
 public class OCSFiles {
-	// public String BASE_FILE_NAME = "termadmin";
-	// public String XML_DIR = "/XML/";
+
 	private Context appCtx;
 	
 	private String inventoryFileName;

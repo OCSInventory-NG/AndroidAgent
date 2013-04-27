@@ -3,7 +3,6 @@ package org.ocsinventory.android.sections;
 import java.util.ArrayList;
 
 import org.ocsinventory.android.actions.OCSLog;
-import org.ocsinventory.android.actions.Utils;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -33,7 +32,7 @@ public class OCSBios  implements OCSSectionInterface {
 	private String assettag;
 	private String date;
 	private String manufacturer;
-	private String smanufacturer;
+	//private String smanufacturer;
 	private String version;
 	private String serial;
 	private String type;

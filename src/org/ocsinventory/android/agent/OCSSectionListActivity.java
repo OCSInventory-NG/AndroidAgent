@@ -3,6 +3,7 @@ package org.ocsinventory.android.agent;
 import java.util.ArrayList;
 
 import org.ocsinventory.android.actions.Inventory;
+import org.ocsinventory.android.actions.OCSLog;
 import org.ocsinventory.android.sections.OCSSection;
 
 import android.app.ListActivity;
@@ -12,7 +13,13 @@ public class OCSSectionListActivity extends ListActivity {
 
 		public void onCreate(Bundle bundle) {
 			super.onCreate(bundle);
+			OCSLog ocslog=OCSLog.getInstance();
+			
 			Bundle b = getIntent().getExtras();
+			if ( b == null ) {
+				ocslog.append("OCSSectionListActivity bundle null");
+				return;
+			}
 			CharSequence section = b.getCharSequence("ocsinventory.section").toString();
 			if ( section == null )
 				return;
@@ -20,7 +27,7 @@ public class OCSSectionListActivity extends ListActivity {
 			
 			// recuperation de la section
 			ArrayList<OCSSection> asl =
-					 (ArrayList<OCSSection>) Inventory.getInstance(this).
+		 			 (ArrayList<OCSSection>) Inventory.getInstance(this).
 					 getSections(section.toString());
 			if (asl == null )
 				return;

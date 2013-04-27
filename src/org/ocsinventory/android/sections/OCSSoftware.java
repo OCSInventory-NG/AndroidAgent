@@ -1,6 +1,5 @@
 package org.ocsinventory.android.sections;
 
-import org.ocsinventory.android.actions.Utils;
 
 public class OCSSoftware {
 	public String comments;
