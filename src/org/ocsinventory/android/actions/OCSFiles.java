@@ -129,7 +129,7 @@ public class OCSFiles {
 		return res;
 	}
 	/*
-	 * Retourne le repertoire de l'appli sur la sdcard
+	 * Return application directory on sdcard
 	 * 
 	 */
 	public File getSDWorkDirectory() { 

@@ -2,6 +2,7 @@ package org.ocsinventory.android.sections;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.ocsinventory.android.actions.OCSLog;
 import org.ocsinventory.android.actions.OCSSettings;
@@ -88,6 +89,15 @@ public class OCSSoftwares implements OCSSectionInterface
             }
             softs.add(oSoft);
 		}
+		Properties sp = System.getProperties();
+		OCSSoftware jsoft = new OCSSoftware();
+		jsoft.name=sp.getProperty("java.vm.name");
+		jsoft.version=sp.getProperty("java.vm.version");
+		jsoft.folder=sp.getProperty("java.home");
+		jsoft.publisher=sp.getProperty("java.vm.vendor");
+		jsoft.filesize="n.a";
+		jsoft.installDate="n.a.";
+		softs.add(jsoft);
 	}
 
 	public String toXML() {

@@ -61,4 +61,8 @@ Revision history for Ocsinventory NG Android Agent
 	* change adress detection
 	* Do not force to enable wifi
 	* specify the same process name as service for activity in manifest for good settings share
+	* Add DEVICEID in SIM section for phone id (IMEI) info
+	* Java info returned in software section
+	* Kernel version returned in Harware/OSComments + tag "*ROOTED*" if device is rooted.
+	
 

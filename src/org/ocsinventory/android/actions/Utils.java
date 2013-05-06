@@ -123,4 +123,93 @@ public class Utils {
 			hostname = "android";
 		return hostname;
 	}
+	private static boolean isRooted;
+	private static long lastRootCheck=0;
+	
+	public static boolean isDeviceRooted() {
+        
+	     if (isRooted || (lastRootCheck != 0L && lastRootCheck > System.currentTimeMillis() - 5000))
+	     {
+	         return isRooted;
+	     }
+
+	      // get from build info
+
+	     String buildTags = android.os.Build.TAGS;
+	      if ( buildTags != null )
+	    	  android.util.Log.d("android.os.Build.TAGS", buildTags);
+	      if (buildTags != null && buildTags.contains("test-keys")) {
+	          isRooted = true;
+	          lastRootCheck = System.currentTimeMillis();
+	          // return true;
+	      }
+
+	      // check if /system/app/Superuser.apk is present
+	      try {
+	        File file = new File("/system/app/Superuser.apk");
+	        if (file.exists()) {
+	          isRooted = true;
+	          lastRootCheck = System.currentTimeMillis();
+	          return true;
+	        }
+	      } catch (Throwable e1) {
+	        // ignore
+	      }
+	      // Access to secrure file
+	      try {
+		        File file = new File("/mnt/secure");
+		        if (file.canRead()) {
+		          isRooted = true;
+		          lastRootCheck = System.currentTimeMillis();
+		          return true;
+		        }
+		      } catch (Throwable e1) {
+		        // ignore
+		      }
+
+	      // Access to su
+
+		  if ( checkCommande("/bin/su") ) {
+		          isRooted = true;
+		          lastRootCheck = System.currentTimeMillis();
+		          return true;
+		  }
+		  if ( checkCommande("/xbin/su") ) {
+	          isRooted = true;
+	          lastRootCheck = System.currentTimeMillis();
+	          return true;
+		  }
+		  if ( checkCommande("/sbin/su") ) {
+	          isRooted = true;
+	          lastRootCheck = System.currentTimeMillis();
+	          return true;
+		  }
+	      isRooted = false;
+	      lastRootCheck = System.currentTimeMillis();
+	      return false;
+	}
+	
+	private static boolean checkCommande(String pcmde ) {
+		String commande[]=pcmde.split(" ");
+
+		File file = new File(commande[0]);
+		if ( ! file.exists())
+			return false;
+		
+		boolean ret;
+		Process proc=null;
+		try {
+			// Lancement de la commande
+			ProcessBuilder pb =  new ProcessBuilder(commande);
+			pb.redirectErrorStream(true);
+			proc = pb.start();
+			proc.waitFor();
+			int cr = proc.exitValue();
+			ret = ( cr == 0 );
+		} catch (Exception e) {
+			return false;
+		}
+		return ret;
+	}
+	
 }

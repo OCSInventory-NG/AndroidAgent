@@ -12,12 +12,12 @@ public class OCSSims implements OCSSectionInterface {
 	private String simoperator;
 	private String simopname;
 	private String simserial;
-	
+	private String device_id;
 
 	public OCSSims(Context ctx) {
  		TelephonyManager mng = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE); 
  		
- 
+ 		device_id= mng.getDeviceId();
  		simcountry  = mng.getSimCountryIso();
  		simoperator = mng.getSimOperator();
  		simopname = mng.getSimOperatorName();
@@ -25,14 +25,15 @@ public class OCSSims implements OCSSectionInterface {
 	}
 	/*
 	 * 
-	 * <!ELEMENT SIMS (NAME | MODEL | DESCRIPTION | TYPE)*>
+	 * <!ELEMENT SIM (OPERATOR | OPNAME | COUNTRY | SERIALNUMBER | DEVICEID)*>
 	 */
 	public OCSSection getSection() {
 		OCSSection s = new OCSSection(sectionTag);
 		s.setAttr("OPERATOR", simoperator);
 		s.setAttr("OPNAME", simopname);
 		s.setAttr("COUNTRY", simcountry);
-		s.setAttr("SERIALNUMBER", simserial);		
+		s.setAttr("SERIALNUMBER", simserial);
+		s.setAttr("DEVICEID", device_id);
 		s.setTitle(simserial);
 		return s;
 	}

@@ -3,6 +3,7 @@ package org.ocsinventory.android.sections;
 import java.util.ArrayList;
 
 import org.ocsinventory.android.actions.OCSLog;
+import org.ocsinventory.android.actions.Utils;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
@@ -10,29 +11,11 @@ import android.text.format.DateFormat;
 
 /*
  * 
-     <HARDWARE>
-	  <OSCOMMENTS>#32-Ubuntu SMP Tue Dec 11 18:52:46 UTC 2012</OSCOMMENTS>
-      <OSNAME>Ubuntu 12.10</OSNAME>
-      <OSVERSION>3.5.0-21-generic</OSVERSION>
-      <PROCESSORN>2</PROCESSORN>
-      <PROCESSORS>1596</PROCESSORS>
-      <PROCESSORT>Intel(R) Core(TM)2 Duo CPU     E7200  @ 2.53GHz</PROCESSORT>
-      <DESCRIPTION>i686/00-00-00 02:51:22</DESCRIPTION>
-      <DATELASTLOGGEDUSER>Fri Jan  4 21:53</DATELASTLOGGEDUSER>
-      <LASTLOGGEDUSER>jce</LASTLOGGEDUSER>
-      <MEMORY>4039</MEMORY>
-      <NAME>UBUNTU-JCE</NAME>
-	   <SWAP>972</SWAP>
-      <USERID>jce</USERID>
-      <UUID>C01D9E89-8DFE-D511-93B8-001FC6B6A11E</UUID>
-      <VMSYSTEM>Physical</VMSYSTEM>
-      <WORKGROUP>WORKGROUP</WORKGROUP>
-		<DEFAULTGATEWAY>192.168.0.254</DEFAULTGATEWAY>
-		<DNS>127.0.1.1</DNS>
-      <IPADDR>192.168.0.10</IPADDR>
- 
-       <CHECKSUM>262143</CHECKSUM>
-    </HARDWARE>
+<!ELEMENT HARDWARE (NAME | WORKGROUP | USERDOMAIN | OSNAME | OSVERSION | OSCOMMENTS |
+PROCESSORT | PROCESSORS | PROCESSORN | MEMORY | SWAP | DEFAULTGATEWAY | IPADDR | DNS |
+ LASTDATE | USERID | TYPE | DESCRIPTION | WINCOMPANY | WINOWNER | WINPRODID |
+  WINPRODKEY | CHECKSUM)*>
+
  */
 
 public class OCSHardware implements OCSSectionInterface  {
@@ -71,6 +54,9 @@ public class OCSHardware implements OCSSectionInterface  {
 		this.userid = Build.USER;
 		this.lastUser = Build.USER;
 		this.dateLastLog = (String) DateFormat.format("MM/dd/yy hh:mm:ss", System.currentTimeMillis());
+		this.osComment = "Kernel version : "+System.getProperty("os.version");
+		if ( Utils.isDeviceRooted() )
+				this.osComment+=" *ROOTED*";
 	}
 	public String getProcessorName() {
 		return SystemInfos.getProcessorName();
@@ -147,7 +133,7 @@ public class OCSHardware implements OCSSectionInterface  {
 		s.setAttr("USERDOMAIN", "");
 		s.setAttr("OSNAME",this.getSystemName());
 		s.setAttr("OSVERSION",this.getSystemVersion());
-		s.setAttr("OSCOMMENT",this.getOsComment());
+		s.setAttr("OSCOMMENTS",this.getOsComment());
 		s.setAttr("PROCESSORT",this.getProcessorType());
 		s.setAttr("PROCESSORN",this.getProcessorNumber());
 		s.setAttr("PROCESSORS",this.getProcessorSpeed());
@@ -160,6 +146,7 @@ public class OCSHardware implements OCSSectionInterface  {
 		s.setAttr("DNS",this.getDns());
 		s.setAttr("LASTLOGGEDUSER",this.getLastUser());
 		s.setAttr("DATELASTLOGGEDUSER",this.getDateLastLog());
+		s.setAttr("DESCRIPTION",this.getDescription());
 		return s;
 	}
 	public ArrayList<OCSSection> getSections() {
@@ -201,6 +188,6 @@ public class OCSHardware implements OCSSectionInterface  {
 		}	
 		ocslog.append("TIME         : "+Build.TIME);
 		ocslog.append("TYPE         : "+Build.TYPE);
-		ocslog.append("USER         : "+Build.USER);		
+		ocslog.append("USER         : "+Build.USER);
 	}
 }
