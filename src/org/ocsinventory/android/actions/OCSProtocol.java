@@ -30,15 +30,18 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.ocsinventory.android.agent.R;
 
 import android.content.Context;
 
 public class OCSProtocol {
 	private OCSLog ocslog = OCSLog.getInstance();
 	private OCSFiles ocsfile;
+	private String http_agent;
 
 	public OCSProtocol(Context context) {
 		ocsfile = new OCSFiles(context);
+		http_agent=context.getString(R.string.useragent);
 	}
 
 	public String sendPrologueMessage(Inventory inv) throws OCSProtocolException {
@@ -140,7 +143,7 @@ public class OCSProtocol {
 		
 		FileEntity fileEntity = new FileEntity(fileToPost, "text/plain; charset=\"UTF-8\"");
 		httppost.setEntity(fileEntity);
-		httppost.setHeader("User-Agent", "OCS-NG_Android_agent_v1.0");
+		httppost.setHeader("User-Agent", http_agent);
 		if ( gziped ) {
 			httppost.setHeader("Content-Encoding", "gzip");
 		}

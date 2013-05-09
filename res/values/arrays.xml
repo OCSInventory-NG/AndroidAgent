@@ -14,4 +14,17 @@
         <item name="i1800">1800000</item>
         <item name="i3600">3600000</item>
     </string-array>
+    
+    <string-array name="array_sections" >
+	    <item>BIOS</item>
+	    <item>DRIVES</item>
+	    <item>HARDWARE</item>
+		<item>NETWORKS</item>
+	    <item>INPUTS</item>
+	   	<item>JAVAINFOS</item>
+	    <item>STORAGES</item>
+	    <item>SOFTWARES</item>
+	    <item>VIDEOS</item>
+		<item>SIM</item>	  	    
+	</string-array>  
 </resources>
