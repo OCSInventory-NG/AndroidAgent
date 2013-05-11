@@ -125,6 +125,7 @@ public class OCSFiles {
 					res=e.getMessage();
 					OCSLog.getInstance().append(e.getMessage());
 				}
+			ficIn.delete();
 		}
 		return res;
 	}

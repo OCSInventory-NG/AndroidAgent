@@ -50,6 +50,7 @@ public class AsyncOperations extends AsyncTask<Void , Integer, String> {
 			String status = new OCSFiles(ctx).copyToExternal(inventory);
 			if ( status.equals("OK"))
 				status=ctx.getString(R.string.state_saved);
+			
 			return status; 
 		}
 		publishProgress(R.string.state_send_prolog);
