@@ -76,6 +76,7 @@ public class OCSProtocol {
 		ocslog.append("Finnish Sending Inventory...");
 		// upload ok. Save current sections fingerprints values
 		inventory.saveSectionsFP();
+		invFile.delete();
 		return retour;
 	}
 	
