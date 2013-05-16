@@ -214,8 +214,8 @@ public class OCSProtocol {
 			ocslog.append("Finnish send method");
 
 		} catch (IOException localIOException) {
-			ocslog.append("Finnish send method in error");
-			String msg = localIOException.getMessage();
+			String msg = "Cant connect to "+localIOException.getMessage();
+			ocslog.append(msg);
 			throw new OCSProtocolException(msg);
 		}
 		if ( gziped )
