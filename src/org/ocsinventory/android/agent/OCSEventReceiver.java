@@ -12,7 +12,8 @@ public class OCSEventReceiver extends BroadcastReceiver {
 	public void onReceive(final Context ctx, final Intent intent) {
 		Log.d(LOGTAG, "Called");
 		Intent eventService = new Intent(ctx, OCSAgentService.class);
-		eventService.putExtra(OCSAgentService.FORCE_UPDATE, true);
+		boolean forceUpdate = intent.getBooleanExtra(OCSAgentService.FORCE_UPDATE, false);
+		eventService.putExtra(OCSAgentService.FORCE_UPDATE, forceUpdate);
 		boolean saveInventory = intent.getBooleanExtra(OCSAgentService.SAVE_INVENTORY, false);
 		eventService.putExtra(OCSAgentService.SAVE_INVENTORY, saveInventory);
 		ctx.startService(eventService);

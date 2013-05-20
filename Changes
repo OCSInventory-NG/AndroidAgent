@@ -65,4 +65,6 @@ Revision history for Ocsinventory NG Android Agent
 	* Java info returned in software section
 	* Kernel version returned in Harware/OSComments + tag "*ROOTED*" if device is rooted.
 	* Inventory file cleaned from internal storage
+2.1.1.1
+	* Correction OCSEventreceiver option force_update was always set to true
 
