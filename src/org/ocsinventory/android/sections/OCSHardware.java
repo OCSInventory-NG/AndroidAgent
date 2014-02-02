@@ -44,9 +44,9 @@ public class OCSHardware implements OCSSectionInterface  {
 	public OCSHardware() {
 		logBuild();
 		name = Build.MODEL;
-		this.checksum = 262143; 			// TODO 262143
+		this.checksum = 262143; 			// Calculated later
 		this.systemVersion = Build.VERSION.RELEASE;
-		this.systemName = "Android "+this.systemVersion;
+		this.systemName = "Android linux "+this.systemVersion;
 		this.ipAddress = "";
 		this.processorSpeed = String.valueOf(SystemInfos.getProcessorSpeed()/1000);
 		this.memory=String.valueOf(SystemInfos.getMemtotal()/1024);
@@ -169,25 +169,25 @@ public class OCSHardware implements OCSSectionInterface  {
 	void logBuild() {
 		OCSLog ocslog = OCSLog.getInstance();
 		
-		ocslog.append("BOARD      : "+Build.BOARD);
-		ocslog.append("BOOTLOADER : "+Build.BOOTLOADER);
-		ocslog.append("BRAND      : "+Build.BRAND);
-		ocslog.append("CPU_ABI    : "+Build.CPU_ABI);		
-		ocslog.append("CPU_ABI2   : "+Build.CPU_ABI2);		
-		ocslog.append("DEVICE     : "+Build.DEVICE);		
-		ocslog.append("DISPLAY    : "+Build.DISPLAY);		
-		ocslog.append("FINGERPRINT: "+Build.FINGERPRINT);
-		ocslog.append("HARDWARE   : "+Build.HARDWARE);	
-		ocslog.append("HOST       : "+Build.HOST);
-		ocslog.append("ID         : "+Build.ID);
-		ocslog.append("HARDWARE     : "+Build.HARDWARE);
-		ocslog.append("MANUFACTURER : "+Build.MANUFACTURER);
-		ocslog.append("PRODUCT      : "+Build.PRODUCT);
+		ocslog.debug("BOARD      : "+Build.BOARD);
+		ocslog.debug("BOOTLOADER : "+Build.BOOTLOADER);
+		ocslog.debug("BRAND      : "+Build.BRAND);
+		ocslog.debug("CPU_ABI    : "+Build.CPU_ABI);		
+		ocslog.debug("CPU_ABI2   : "+Build.CPU_ABI2);		
+		ocslog.debug("DEVICE     : "+Build.DEVICE);		
+		ocslog.debug("DISPLAY    : "+Build.DISPLAY);		
+		ocslog.debug("FINGERPRINT: "+Build.FINGERPRINT);
+		ocslog.debug("HARDWARE   : "+Build.HARDWARE);	
+		ocslog.debug("HOST       : "+Build.HOST);
+		ocslog.debug("ID         : "+Build.ID);
+		ocslog.debug("HARDWARE     : "+Build.HARDWARE);
+		ocslog.debug("MANUFACTURER : "+Build.MANUFACTURER);
+		ocslog.debug("PRODUCT      : "+Build.PRODUCT);
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO ) {
-			ocslog.append("SERIAL       : "+Build.SERIAL);
+			ocslog.debug("SERIAL       : "+Build.SERIAL);
 		}	
-		ocslog.append("TIME         : "+Build.TIME);
-		ocslog.append("TYPE         : "+Build.TYPE);
-		ocslog.append("USER         : "+Build.USER);
+		ocslog.debug("TIME         : "+Build.TIME);
+		ocslog.debug("TYPE         : "+Build.TYPE);
+		ocslog.debug("USER         : "+Build.USER);
 	}
 }

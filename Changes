@@ -58,13 +58,13 @@ Revision history for Ocsinventory NG Android Agent
 	* fix unit conversion bug for cache
 	* change inventory file name (host + date)
 	* use OCSSettings instead of direct call to PreferenceManager
-	* change adress detection
+	* change address detection
 	* Do not force to enable wifi
 	* specify the same process name as service for activity in manifest for good settings share
 	* Add DEVICEID in SIM section for phone id (IMEI) info
 	* Java info returned in software section
-	* Kernel version returned in Harware/OSComments + tag "*ROOTED*" if device is rooted.
-	* Inventory file cleaned from internal storage
+	* Kernel version returned in Hardware/OSComments + tag "*ROOTED*" if device is rooted.
 2.1.1.1
-	* Correction OCSEventreceiver option force_update was always set to true
-
+	* Correction OCSEventreceiver option force_update was always set to true	
+2.1.2
+	* Change cpu number evaluation method to obtains correct value.

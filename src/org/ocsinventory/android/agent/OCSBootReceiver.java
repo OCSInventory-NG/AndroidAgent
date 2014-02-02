@@ -18,16 +18,16 @@ public class OCSBootReceiver extends BroadcastReceiver {
 		android.util.Log.d("OCSBOOT","on Receive called");
 		OCSSettings ocssetting = OCSSettings.getInstance(ctx);
 		OCSLog ocslog = OCSLog.getInstance();
-		ocslog.append("OCSBootReceiver : "+intent.getAction());
+		ocslog.debug("OCSBootReceiver : "+intent.getAction());
 		if  ( ocssetting == null  ) {
-			ocslog.append("NULL OSSETTING");
+			ocslog.error("NULL OSSETTING");
 			return;
 		}
 		
 		if  ( ! ocssetting.isAutoMode() ) 
 			return;
 		int interval = ocssetting.getFreqWake();
-		ocslog.append("OCSBootReceiver interval : "+interval);
+		ocslog.debug("OCSBootReceiver interval : "+interval);
 		
 		AlarmManager alarmManager = (AlarmManager) ctx
 				.getSystemService(Context.ALARM_SERVICE);

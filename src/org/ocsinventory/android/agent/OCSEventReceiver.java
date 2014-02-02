@@ -18,7 +18,6 @@ public class OCSEventReceiver extends BroadcastReceiver {
 		eventService.putExtra(OCSAgentService.SAVE_INVENTORY, saveInventory);
 		ctx.startService(eventService);
 		Log.d(LOGTAG, "After start service");
-
 	}
  
 }

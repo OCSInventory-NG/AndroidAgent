@@ -18,6 +18,7 @@ public class OCSLog
 		File rep=Environment.getExternalStoragePublicDirectory("ocs");
 
 		android.util.Log.d(TAG, Environment.getExternalStorageDirectory().getPath());
+
 		if ( ! rep.isDirectory() ) {
 			rep.delete();
 		}
@@ -41,7 +42,7 @@ public class OCSLog
 		return instance;
 	}
 
-	public void append(String paramString)
+	public void debug(String paramString)
 	{
 		if ( paramString == null )
 			return;
@@ -49,35 +50,36 @@ public class OCSLog
 			return;
 		if ( ! OCSSettings.getInstance().getDebug())
 			return;
-		// android.util.Log.d("OCSLOG", paramString);
+		android.util.Log.d("OCSLOG", paramString);
+		if ( logFile == null ) {
+			return;
+		}
+		log(paramString);
+	}
+	
+	public void error(String paramString)
+	{
+		if ( paramString == null )
+			return;
+		if ( OCSSettings.getInstance() == null )
+			return;
+		android.util.Log.e("OCSLOG", paramString);
+		log(paramString);
+	}
+	private void log(String paramString)
+	{
 		if ( logFile == null ) {
 			return;
 		}
 		Date localDate = new Date();
 		String strDate = DateFormat.getInstance().format(localDate);
-
 		try
 		{
 			FileWriter fileWriter = new FileWriter(logFile, true);
-			android.util.Log.d("OCSLOG", paramString);
 			fileWriter.append(strDate+":"+paramString).append("\n");
 			fileWriter.close();
-			
-			/*
-			BufferedWriter bw = new BufferedWriter(fileWriter);
-			bw.append(strDate+":"+paramString);
-			bw.newLine();
-			bw.close();
-			*/
 		}
-		catch (IOException localIOException2)
-		{
-	          localIOException2.printStackTrace();
-	    }
+		catch (IOException e){ }
 	}
+	
 }
-
-/* Location:           C:\Android\apk_ocs_tmp\OCSAndroidBeta\src\
- * Qualified Name:     org.ocsinventory.android.utils.Log
- * JD-Core Version:    0.6.0
- */

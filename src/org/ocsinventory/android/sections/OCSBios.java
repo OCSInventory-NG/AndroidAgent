@@ -49,15 +49,15 @@ public class OCSBios  implements OCSSectionInterface {
 		date = (String) DateFormat.format("MM/dd/yy", Build.TIME);
 		manufacturer = Build.MANUFACTURER;
 		version = Build.BOOTLOADER;
-		ocslog.append("BIOS version: "+version);
+		ocslog.debug("BIOS version: "+version);
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO ) {
 			serial = Build.SERIAL;
 		} else {
 			SystemInfos.getInstance().getSerial();
 		}
-		ocslog.append("OCSBIOS serial "+ serial);
+		ocslog.debug("OCSBIOS serial "+ serial);
 		smodel = Build.MODEL;
-		ocslog.append("OCSBIOS model: "+ smodel);
+		ocslog.debug("OCSBIOS model: "+ smodel);
 	}
 	/*
 	<!ELEMENT BIOS (BDATE | BMANUFACTURER | BVERSION | SMANUFACTURER | SMODEL | SSN | TYPE | ASSETTAG)*>

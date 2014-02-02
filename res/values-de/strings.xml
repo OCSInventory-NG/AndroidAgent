@@ -36,5 +36,8 @@
 	<string name="msg_conf_imported">Konfiguration importiert</string> 
 	
 	<string name="unit_hour">Stunden</string> 	
-	<string name="unit_minutes">Minuten</string> 	        
+	<string name="unit_minutes">Minuten</string>
+	
+	<string name="err_cant_connect">Unmögliche Verbindung auf </string>
+		        
 </resources>

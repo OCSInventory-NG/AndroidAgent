@@ -2,11 +2,14 @@ package org.ocsinventory.android.sections;
 
 import java.util.ArrayList;
 
+import org.ocsinventory.android.actions.OCSLog;
+
 import android.content.Context;
 import android.telephony.TelephonyManager;
 
 
 public class OCSSims implements OCSSectionInterface {
+	private OCSLog ocslog;
 	final private String sectionTag = "SIM";
 	private String simcountry;
 	private String simoperator;
@@ -15,13 +18,19 @@ public class OCSSims implements OCSSectionInterface {
 	private String device_id;
 
 	public OCSSims(Context ctx) {
+		ocslog = OCSLog.getInstance();
  		TelephonyManager mng = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE); 
- 		
- 		device_id= mng.getDeviceId();
- 		simcountry  = mng.getSimCountryIso();
- 		simoperator = mng.getSimOperator();
- 		simopname = mng.getSimOperatorName();
- 		simserial = mng.getSimSerialNumber();
+ 		ocslog.debug("Get TelephonyManager infos");
+ 		if ( mng == null ) {
+ 			ocslog.error("TelephonyManager information not found");
+ 		} else {
+	 		device_id= mng.getDeviceId();
+	 		simcountry  = mng.getSimCountryIso();
+	 		simoperator = mng.getSimOperator();
+	 		simopname = mng.getSimOperatorName();
+	 		simserial = mng.getSimSerialNumber();
+ 			ocslog.debug("device_id : "+device_id);
+ 		}
 	}
 	/*
 	 * 

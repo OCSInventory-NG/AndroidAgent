@@ -67,7 +67,7 @@ public class Inventory {
 	public void BuildInventory(Context ctx) {
 		
 		ocslog = OCSLog.getInstance();
-		ocslog.append("SystemInfos.InitSystemInfos...");
+		ocslog.debug("SystemInfos.InitSystemInfos...");
 		OCSSettings settings = OCSSettings.getInstance();
 		
 		lastDate = new Date();
@@ -76,13 +76,13 @@ public class Inventory {
 		
 		SystemInfos.InitSystemInfos();
 
-		ocslog.append("OCSBios...");
+		ocslog.debug("OCSBios...");
 		this.bios= new OCSBios();
-		ocslog.append("hardware...");
+		ocslog.debug("hardware...");
 		this.hardware= new OCSHardware();
 		String sid = Secure.getString(ctx.getContentResolver(),Secure.ANDROID_ID);
 		this.hardware.setName(this.hardware.getName()+"-"+sid);
-		ocslog.append("OCSNetworks...");
+		ocslog.debug("OCSNetworks...");
 		this.networks=new OCSNetworks(ctx);
 		if ( ! networks.getNetworks().isEmpty() ) {
 			int m = networks.getMain();
@@ -90,7 +90,7 @@ public class Inventory {
 			hardware.setIpAddress(pn.getIpAdress());
 		}
 		
-		ocslog.append("drives...");
+		ocslog.debug("drives...");
 		this.drives=new OCSDrives();
 		this.storages=new OCSStorages();
 		
@@ -104,9 +104,9 @@ public class Inventory {
 		} else
 			this.deviceUid = settings.getDeviceUid();
 
-		ocslog.append("OCSVideos...");
+		ocslog.debug("OCSVideos...");
 		this.videos = new OCSVideos(ctx);
-		ocslog.append("OCSSoftwares...");
+		ocslog.debug("OCSSoftwares...");
 		this.softwares = new OCSSoftwares(ctx);
 		this.inputs=new OCSInputs(ctx.getApplicationContext());
 		this.javainfos= new OCSJavaInfos();
@@ -128,8 +128,8 @@ public class Inventory {
 		checksum |= getChange(this.softwares, 0x10000L);
 		checksum |= getChange(this.sims, 0x80000L);
 		checksum |= getChange(this.javainfos, 0L);
-		ocslog.append(String.format("CK %x", checksum));
-		ocslog.append("CHECKSUM "+checksum);
+		ocslog.debug(String.format("CK %x", checksum));
+		ocslog.debug("CHECKSUM "+checksum);
 		hardware.setChecksum(checksum);
 		}
 	private long getChange( OCSSectionInterface s, long mask ) {
@@ -160,8 +160,8 @@ public class Inventory {
 	}
 
 	public void logInventory() {
-			ocslog.append("****LOG INVENTORY****");
-			ocslog.append(this.toString());
+			ocslog.debug("****LOG INVENTORY****");
+			ocslog.debug(this.toString());
 	}
 
 	public String getDeviceUid() {
@@ -269,7 +269,7 @@ public class Inventory {
 				String str[]=line.split("\\|");
 				String k = str[0];
 				String v = str[1];
-				ocslog.append(String.format("load FP %s %s",k,v));
+				ocslog.debug(String.format("load FP %s %s",k,v));
 				if ( k != null && v != null)  
 					lastFP.put(k, v);
 			}
@@ -281,7 +281,7 @@ public class Inventory {
 		
 		for ( String k : currentFP.keySet()) {
 			sb.append(k).append("|").append(currentFP.get(k)).append("\n");
-			ocslog.append(String.format("save FP %s %s",k,currentFP.get(k)));
+			ocslog.debug(String.format("save FP %s %s",k,currentFP.get(k)));
 		}
 		FileOutputStream fos = null;
 		try {

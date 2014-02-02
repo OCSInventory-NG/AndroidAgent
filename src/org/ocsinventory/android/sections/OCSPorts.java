@@ -27,7 +27,7 @@ public class OCSPorts implements OCSSectionInterface
 		usbMgr.getDeviceList();
 		
 		
-		ocslog.append("OCSInputs");
+		ocslog.debug("OCSInputs");
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
 
 		} else {

@@ -69,8 +69,8 @@ public class OCSNetworks implements OCSSectionInterface
 		try {
 			listeNI = NetworkInterface.getNetworkInterfaces();
 		} catch (SocketException e) {
-			ocslog.append("Error : during call getNetworkInterfaces()");
-			ocslog.append(e.getMessage());
+			ocslog.error("Error : during call getNetworkInterfaces()");
+			ocslog.error(e.getMessage());
 			return;
 		}
 		while (listeNI.hasMoreElements()) {
@@ -78,7 +78,7 @@ public class OCSNetworks implements OCSSectionInterface
 			Enumeration<InetAddress> listeIPAdr = ni.getInetAddresses();
 			String name = ni.getName();
 			
-			ocslog.append("OCSNET Name :"+ni.getName());
+			ocslog.debug("OCSNET Name :"+ni.getName());
 			// android.util.Log.d("OCSNET HAdr", ni.getHardwareAddress());
 			while (listeIPAdr.hasMoreElements()) {
 				InetAddress ipAdr = (InetAddress) listeIPAdr.nextElement();

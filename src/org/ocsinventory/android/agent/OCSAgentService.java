@@ -15,6 +15,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -55,7 +56,7 @@ public class OCSAgentService extends Service {
 			final int startId) {
 		mOcssetting = OCSSettings.getInstance(getApplicationContext());
 		OCSLog ocslog = OCSLog.getInstance();
-		ocslog.append("ocsservice wake : " + new Date().toString());	
+		ocslog.debug("ocsservice wake : " + new Date().toString());	
 		if( intent.getExtras() != null ) {
 			mIsForced = intent.getExtras().getBoolean(FORCE_UPDATE);
 			mSaveInventory = intent.getExtras().getBoolean(SAVE_INVENTORY);
@@ -64,18 +65,25 @@ public class OCSAgentService extends Service {
 		if ( ! mOcssetting.isAutoMode() && ! mIsForced )
 			return Service.START_NOT_STICKY;
 		
+		try {
+			int vcode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
+			new OCSProtocol(getApplicationContext()).verifyNewVersion(vcode);
+		} catch (NameNotFoundException e) {	}
+		
 		// notify(R.string.not_start_service);
 		
 		int  freq = mOcssetting.getFreqMaj();
 		long lastUpdt = mOcssetting.getLastUpdt();
 		long delta = System.currentTimeMillis()- lastUpdt;
 		
-		ocslog.append("now         : "+System.currentTimeMillis());
-		ocslog.append("last update : "+lastUpdt);
-		ocslog.append("delta laps  : "+delta);
-		ocslog.append("freqmaj     : "+freq * 3600000L);
+		ocslog.debug("now         : "+System.currentTimeMillis());
+		ocslog.debug("last update : "+lastUpdt);
+		ocslog.debug("delta laps  : "+delta);
+		ocslog.debug("freqmaj     : "+freq * 3600000L);
 
 		if ( (delta > freq * 3600000L && isOnline()) || mIsForced ) {
+			ocslog.debug("mIsForced  : "+mIsForced);
+			ocslog.debug("bool date  : "+(delta > freq * 3600000L));
 			AsyncCall task = new AsyncCall(this.getApplicationContext());
 			task.execute();
 		}
@@ -84,12 +92,19 @@ public class OCSAgentService extends Service {
 	}
 	
 	private int sendInventory() {
-
+		OCSPrologReply reply;
 		Inventory inventory  = Inventory.getInstance(getApplicationContext());
 		// OCSFiles.getInstance().getInventoryFileXML(inventory);
 		OCSProtocol ocsproto = new OCSProtocol(getApplicationContext());
 		try {
-			ocsproto.sendPrologueMessage(inventory);
+			reply = ocsproto.sendPrologueMessage(inventory);
+			if ( ! reply.getIdList().isEmpty() ) {
+				OCSLog.getInstance().debug(getApplicationContext().getString(R.string.start_download_service));
+				// Some downlowds requiered invoke download service
+				Intent dldService = new Intent(getApplicationContext(), OCSDownloadService.class);
+				getApplicationContext().startService(dldService);
+			}
+
 			ocsproto.sendInventoryMessage(inventory);
 		} catch (OCSProtocolException e) {
 			return(1);
@@ -140,13 +155,14 @@ public class OCSAgentService extends Service {
 	        }
 	    	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	    	private void notify(int id) {
-
+	    		OCSLog.getInstance().debug("Notify inventory");
 	    		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 	    	
 	    		
 	    		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
 	            	.setSmallIcon(R.drawable.ic_notification)
 	            	.setContentTitle(getText(R.string.nty_title))
+	            	.setContentText(getText(id)).setAutoCancel(true)
 	            	.setContentText(getText(id)) 	
 	            	;
 

@@ -9,10 +9,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.ocsinventory.android.actions.OCSLog;
+import org.ocsinventory.android.actions.Utils;
+
+import android.util.Log;
 
 public class SystemInfos {
 	
+	private final static String CPUFREQDIR = "/sys/devices/system/cpu/cpu0/cpufreq";
+
 	private final static String CPUFREQPATH = "/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq";
+	private final static String CPUFREQPATH2 = "/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq";
+	private final static String CPUPRESENT = "/sys/devices/system/cpu/present";
+	
 	private final static String CPUINFOPATH = "/proc/cpuinfo";
 	private final static String MEMINFOPATH = "/proc/meminfo";
 	
@@ -38,26 +46,32 @@ public class SystemInfos {
 	
 	public static void InitSystemInfos() {
 		ocslog = OCSLog.getInstance();
-		ocslog.append("SYSTEMINFOS start");
+		ocslog.debug("SYSTEMINFOS start");
 		readCpuinfo();
 		readMeminfo();
 		readCpuFreq();
-		ocslog.append("SYSTEMINFOS end");
+		ocslog.debug("SYSTEMINFOS end");
 	}
 
 	private static void readCpuinfo() {
 		try {
+			ocslog.debug("=>readCpuinfo");
 			File f = new File(CPUINFOPATH);
 			BufferedReader bReader = new BufferedReader(new FileReader(f), 8192);
 			String line;
 			int nbProc=0;
 			while ( ( line =  bReader.readLine() ) != null  ) {
-				Pattern p = Pattern.compile(".*processor.*:(.*)", Pattern.CASE_INSENSITIVE);
+				ocslog.debug(line);
+				Pattern p = Pattern.compile(".*Processor.*:(.*)");
 				Matcher m= p.matcher(line);
 				if ( m.find() ) {
 					processorName=m.group(1).trim();
-					nbProc++;
 				}
+				p = Pattern.compile(".*BogoMIPS.*:(.*)");
+				m= p.matcher(line);
+				if ( m.find() ) {
+					nbProc++;
+				}				
 				p = Pattern.compile(".*architecture.*:(.*)\\s.*", Pattern.CASE_INSENSITIVE);
 				m= p.matcher(line);
 				if ( m.find() ) {
@@ -72,13 +86,20 @@ public class SystemInfos {
 			processorNumber=nbProc;
 			bReader.close();		}
 		catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ocslog.error("File notfound : "+CPUINFOPATH);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ocslog.error("IO error reading "+CPUINFOPATH);
 		}
-
+		ocslog.debug("<=readCpuinfo");
+		// Use /sys/devices/system/cpu/present to correct cpu/core number
+		// contains 0 or 0-x
+		try {
+			String cpupresent=Utils.readShortFile(new File(CPUPRESENT));
+			processorNumber=parse_cpu_present(cpupresent)+1;
+		} catch (IOException e) {
+			ocslog.error("IO error reading "+CPUPRESENT);
+		}
+				
 	} 
 	
 	private static void readMeminfo() {
@@ -100,25 +121,21 @@ public class SystemInfos {
 			}
 			bReader.close();
 		} catch (FileNotFoundException e) {
-			ocslog.append("File not found : "+MEMINFOPATH);
+			ocslog.error("File not found : "+MEMINFOPATH);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			ocslog.error("IOException : "+e.getMessage());
 		}		
 	}
 	
 	public static void readCpuFreq() {
-		File f = new File(CPUFREQPATH);
-		try {
-            BufferedReader bReader = new BufferedReader(new FileReader(f), 8192);
-            String line = bReader.readLine();
-            processorSpeed = Integer.parseInt(line);
-            bReader.close();
-        } catch (FileNotFoundException e) {
-			ocslog.append("File not found : "+CPUFREQPATH);
-        } catch (IOException e) {
-        	ocslog.append("IO error reading "+CPUFREQPATH);
-        }
+		ocslog.debug("=>readCpuFreq");
+		processorSpeed = readCpuFreq(CPUFREQPATH);
+		if ( processorSpeed == 0 )
+			processorSpeed = readCpuFreq(CPUFREQPATH2);
+		if ( processorSpeed == 0 )
+			debugListDir(CPUFREQDIR);
+		
+		ocslog.debug("=>readCpuFreq");
     }
 
 	public static int getProcessorNumber() {
@@ -147,4 +164,43 @@ public class SystemInfos {
 	public static int getProcessorSpeed() {
 		return processorSpeed;
 	}
+    private static void debugListDir(String path) {
+    	ocslog.debug("debugListDir"+path);
+    	File f = new File(path);
+    	File[] files = f.listFiles();
+    	if ( files != null)
+	    	for (File inFile : files) {
+	    		ocslog.debug(inFile.getName());
+	    	}
+    }
+	private static int  readCpuFreq(String path) {
+		ocslog.debug("=>readCpuFreq");
+		int speed=0;
+		File f = new File(path);
+		try {
+            BufferedReader bReader = new BufferedReader(new FileReader(f), 8192);
+            String line = bReader.readLine();
+			ocslog.debug(line);
+            speed = Integer.parseInt(line);
+            bReader.close();
+        } catch (FileNotFoundException e) {
+			ocslog.error("File not found : "+CPUFREQPATH);
+
+        } catch (IOException e) {
+        	ocslog.error("IO error reading "+CPUFREQPATH);
+        } 
+		ocslog.debug("=>readCpuFreq");
+		return speed;
+    }
+	private static int parse_cpu_present(String ligne) {
+		String ls=System.getProperty("line.separator");
+		ligne=ligne.replaceAll(ls, "");
+		Log.w("SCANCPU",ligne);
+		int x = ligne.indexOf('-');
+		Log.w("SCANCPU", Integer.toString(x));
+		String s = ligne.substring(x+1);
+		
+		return Integer.parseInt(s);
+	}
+
 }

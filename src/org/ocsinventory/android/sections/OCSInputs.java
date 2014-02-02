@@ -19,18 +19,19 @@ public class OCSInputs implements OCSSectionInterface
 	public ArrayList<OCSInput> inputs;
 	  
 
+	@SuppressWarnings("deprecation")
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public OCSInputs(Context ctx) {
 		OCSLog ocslog = OCSLog.getInstance();
 		
 		this.inputs= new ArrayList<OCSInput>();
 		
-		ocslog.append("OCSInputs");
+		ocslog.debug("OCSInputs");
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-			ocslog.append("OCSInputs BUILD Build.VERSION.SDK_INT ");
+			ocslog.debug("OCSInputs BUILD Build.VERSION.SDK_INT ");
 			Configuration config = ctx.getResources().getConfiguration();
-			ocslog.append("config.keyboard"+ config.keyboard);
-			ocslog.append("config.touchscreen"+ config.keyboard);
+			ocslog.debug("config.keyboard"+ config.keyboard);
+			ocslog.debug("config.touchscreen"+ config.keyboard);
 			
 			OCSInput inkb = new   OCSInput ();
 			inkb.setType("keybord");

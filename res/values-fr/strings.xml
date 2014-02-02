@@ -38,4 +38,6 @@
 	<string name="unit_hour">heures</string> 	
 	<string name="unit_minutes">minutes</string> 
 	
+	<string name="err_cant_connect">Impossible de contacter : </string>
+	
 </resources>

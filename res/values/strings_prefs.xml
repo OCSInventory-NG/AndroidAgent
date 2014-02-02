@@ -54,6 +54,11 @@
  	<string name="pref_description_syshide">Exclude system softwares of inventory</string>
     <string name="pref_summaryOn_syshide">Excluded of inventory</string>
     <string name="pref_summaryOff_syshide">Included in inventory</string>
- 					
+ 
+	<string name="pref_title_compua">Useragent compatibility</string>
+ 	<string name="pref_description_compua">Useragent 2.0 for compatibility</string>
+    <string name="pref_summaryOn_compua">User agent 2.0</string>
+    <string name="pref_summaryOff_compua">Current useragent</string>
+    					
 	
 </resources>

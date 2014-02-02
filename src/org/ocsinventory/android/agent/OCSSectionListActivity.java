@@ -17,7 +17,7 @@ public class OCSSectionListActivity extends ListActivity {
 			
 			Bundle b = getIntent().getExtras();
 			if ( b == null ) {
-				ocslog.append("OCSSectionListActivity bundle null");
+				ocslog.debug("OCSSectionListActivity bundle null");
 				return;
 			}
 			CharSequence section = b.getCharSequence("ocsinventory.section").toString();

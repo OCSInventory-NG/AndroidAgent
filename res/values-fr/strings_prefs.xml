@@ -53,6 +53,12 @@
 	
 	<string name="pref_title_syshide">Logiciels système</string>
     <string name="pref_summaryOn_syshide">Exclus de l\'inventaire</string>
-    <string name="pref_summaryOff_syshide">Inclus dans l\'inventaire</string>					
+    <string name="pref_summaryOff_syshide">Inclus dans l\'inventaire</string>
+    
+	<string name="pref_title_compua">Compatibilité useragent</string>
+ 	<string name="pref_description_compua">Useragent 2.0 for compatibility</string>
+    <string name="pref_summaryOn_compua">User agent 2.0</string>
+    <string name="pref_summaryOff_compua">Useragent courant</string>
+    					
 	
 </resources>

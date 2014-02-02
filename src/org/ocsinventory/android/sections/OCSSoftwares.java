@@ -42,18 +42,18 @@ public class OCSSoftwares implements OCSSectionInterface
 	            PackageInfo lpInfo = pm.getPackageInfo (pi.packageName, PackageManager.GET_ACTIVITIES|
 	            		PackageManager.GET_PROVIDERS);
 
-	            ocslog.append("PKG name         "+lpInfo.packageName);
-	            ocslog.append("PKG version      "+ String.valueOf(lpInfo.versionCode));
-	            ocslog.append("PKG version name "+ lpInfo.versionName);
+	            ocslog.debug("PKG name         "+lpInfo.packageName);
+	            ocslog.debug("PKG version      "+ String.valueOf(lpInfo.versionCode));
+	            ocslog.debug("PKG version name "+ lpInfo.versionName);
 	    		oSoft.version = lpInfo.versionName;
 	    		oSoft.publisher=lpInfo.packageName;
 	        }
 	        catch (NameNotFoundException e) {
-	        	ocslog.append("Error :"+e.getMessage ()) ;
+	        	ocslog.error("Error :"+e.getMessage ()) ;
 	        }
 	        PackageStats stats = new PackageStats(pi.packageName);
-	        ocslog.append("PKG size    "+ String.valueOf(stats.codeSize));
-	        ocslog.append("PKG folder  "+ pi.applicationInfo.dataDir);
+	        ocslog.debug("PKG size    "+ String.valueOf(stats.codeSize));
+	        ocslog.debug("PKG folder  "+ pi.applicationInfo.dataDir);
 	        oSoft.filesize=String.valueOf(stats.codeSize);
 	        oSoft.folder=pi.applicationInfo.dataDir;
 	        
@@ -69,20 +69,20 @@ public class OCSSoftwares implements OCSSectionInterface
             		else 
             			oSoft.name = oSoft.publisher;
             	}
-            ocslog.append("PKG appname "+ oSoft.name);
+            ocslog.debug("PKG appname "+ oSoft.name);
             
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO ) {
     			String datei = (String) DateFormat.format("MM/dd/yy mm:ss", pi.firstInstallTime);
-    			ocslog.append("PKG INSTALL :"+ datei);
+    			ocslog.debug("PKG INSTALL :"+ datei);
     			oSoft.installDate=datei;
     		}
             ProviderInfo[] provsi = pi.providers;
             
             if ( provsi != null ) {
             	for ( int i = 0; i < provsi.length; i++  ) {
-            		ocslog.append("PKG Provider "+ provsi[i].authority);
+            		ocslog.debug("PKG Provider "+ provsi[i].authority);
             		if ( provsi[i].descriptionRes != 0 )
-            			ocslog.append("PKG Desc "+ String.valueOf(provsi[i].descriptionRes));
+            			ocslog.debug("PKG Desc "+ String.valueOf(provsi[i].descriptionRes));
             	}
             	if ( provsi.length > 0 )
             		oSoft.publisher=provsi[0].authority;
