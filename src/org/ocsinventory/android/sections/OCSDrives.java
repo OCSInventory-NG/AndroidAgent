@@ -53,7 +53,7 @@ public class OCSDrives implements OCSSectionInterface
 				Matcher m= p.matcher(ligne);
 				if ( m.find() ) {
 					if ( m.group(1) != null ) {
-						ocslog.append("Add drive "+m.group(1));
+						ocslog.debug("Add drive "+m.group(1));
 						OCSDrive drive = new OCSDrive(m.group(1).trim());
 						drives.add(drive);
 					}
@@ -71,22 +71,22 @@ public class OCSDrives implements OCSSectionInterface
 			BufferedReader bReader = new BufferedReader(new FileReader(f), 8192);
 			String line;
 			while ( ( line =  bReader.readLine() ) != null  ) {
-				ocslog.append(line);
+				ocslog.debug(line);
 				Pattern p = Pattern.compile("(.*?)\\s+(.*?)\\s+(.*?)\\s.*", Pattern.CASE_INSENSITIVE);
 				Matcher m= p.matcher(line);
 				if ( m.find() ) {
 						String dev=m.group(1);
 						String type=m.group(2);
 						String fs=m.group(3);
-						ocslog.append("Volumename :"+dev);
-						ocslog.append("type       :"+type);
-						ocslog.append("filesystem :"+fs);
+						ocslog.debug("Volumename :"+dev);
+						ocslog.debug("type       :"+type);
+						ocslog.debug("filesystem :"+fs);
 						int i=0;
 						
 						for ( i=0; i < drives.size(); i++ ) {
 							OCSDrive d=drives.get(i);
 							if ( type.matches(d.getType()) ) {
-								ocslog.append("MATCH       :"+type);
+								ocslog.debug("MATCH       :"+type);
 								d.setFilesystem(fs);
 								d.setVolumName(dev);
 								break;
@@ -126,14 +126,6 @@ public class OCSDrives implements OCSSectionInterface
 			lst.add(o.getSection());
 		}
 		return lst;
-	}
-	
-	private int parseInt(String s ) {
-		int i;
-		try {
-			i=Integer.parseInt(s);
-		} catch ( NumberFormatException e ) { i=0; }
-		return i;
 	}
 	public String  getSectionTag() {
 		return sectionTag;

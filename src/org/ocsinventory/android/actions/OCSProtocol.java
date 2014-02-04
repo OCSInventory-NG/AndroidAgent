@@ -2,6 +2,7 @@ package org.ocsinventory.android.actions;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.KeyStore;
@@ -9,12 +10,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 
-import org.apache.http.Header;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.params.ConnRoutePNames;
@@ -31,43 +33,75 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
+import org.ocsinventory.android.agent.OCSPrologReply;
+import org.ocsinventory.android.agent.R;
+
+import android.content.Context;
 
 public class OCSProtocol {
 	private OCSLog ocslog = OCSLog.getInstance();
+	private OCSFiles ocsfile;
+	private String http_agent;
+	private Context appCtx;
 
+	public OCSProtocol(Context context) {
+		ocsfile = new OCSFiles(context);
+		appCtx=context;
+		if ( OCSSettings.getInstance().isCompUAEnabled() )
+			http_agent=context.getString(R.string.comp_useragent);
+		else
+			http_agent=context.getString(R.string.useragent);
+		ocslog.debug("USERAGENT "+http_agent);
+	}
 
-	public String sendPrologueMessage(Inventory inv) throws OCSProtocolException {
-		ocslog.append("Start Sending Prolog...");
+	public OCSPrologReply sendPrologueMessage(Inventory inv) throws OCSProtocolException {
+		ocslog.debug("Start Sending Prolog...");
 		String repMsg;
-		String reponse;
-		File localFile = OCSFiles.getInstance().getPrologFileXML();
+		File localFile = ocsfile.getPrologFileXML();
 		String sURL = OCSSettings.getInstance().getServerUrl();
 		// boolean gz = OCSSettings.getInstance().getGzip();
 		
 		repMsg = sendmethod(localFile, sURL, true);
-		ocslog.append("Finnish Sending Prolog...");
+		ocslog.debug("Finnish Sending Prolog...");
 		String freq=extractFreq(repMsg);
 		if  ( freq.length() > 0 )
 			OCSSettings.getInstance().setFreqMaj(freq);
-		
-		reponse = extractResponse(repMsg);
-		return reponse;
+		PrologReplyParser prp =new PrologReplyParser();
+		// reponse = extractResponse(repMsg);
+		// Save reply 
+		ocsfile.savePrologReply(repMsg);
+		return prp.parseDocument(repMsg);
 	}
+	public String sendRequestMessage(String query, String id, String err) throws OCSProtocolException {
+		ocslog.debug("Start Sending Request "+query+","+id+","+err);
+		String repMsg;
+		File localFile = ocsfile.getRequestFileXML(query,  id,  err);
+		String sURL = OCSSettings.getInstance().getServerUrl();
+		// boolean gz = OCSSettings.getInstance().getGzip();
+		
+		repMsg = sendmethod(localFile, sURL, false);
+		ocslog.debug("Finnish Sending Request...");
 
+		String reponse = extractResponse(repMsg);
+		// Save reply 
+		return(reponse);
+	}
+	
 	public String sendInventoryMessage(Inventory inventory) throws OCSProtocolException {
-		ocslog.append("Start Sending Inventory...");
+		ocslog.debug("Start Sending Inventory...");
 		String retour = null;		
 		// boolean gz = OCSSettings.getInstance().getGzip();
 		
-		File invFile = OCSFiles.getInstance().getInventoryFileXML(inventory);
+		File invFile = ocsfile.getInventoryFileXML(inventory);
 		String sURL = OCSSettings.getInstance().getServerUrl();
 
 		String repMsg  = sendmethod(invFile, sURL, true);
 		
 		retour = extractResponse(repMsg);
-		ocslog.append("Finnish Sending Inventory...");
 		// upload ok. Save current sections fingerprints values
 		inventory.saveSectionsFP();
+		invFile.delete();
+		ocslog.debug("Finnish Sending Inventory..."+retour);
 		return retour;
 	}
 	
@@ -78,7 +112,6 @@ public class OCSProtocol {
 	    		sf = SSLSocketFactory.getSocketFactory();
 	    	}
 	    	else {
-	    		android.util.Log.d("X509", "cool");
 	    		KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
 	        	trustStore.load(null, null);
 	        	sf = new CoolSSLSocketFactory(trustStore);
@@ -106,7 +139,7 @@ public class OCSProtocol {
 	public String sendmethod(File pFile, String server, boolean gziped)	throws OCSProtocolException {
 		OCSLog ocslog = OCSLog.getInstance();
 		OCSSettings ocssettings = OCSSettings.getInstance();
-		ocslog.append("Start send method");
+		ocslog.debug("Start send method");
 		String retour;
 
 		HttpPost httppost = null;
@@ -114,77 +147,69 @@ public class OCSProtocol {
 		try {
 			httppost = new HttpPost(server);
 		} catch ( IllegalArgumentException e ) {
-			ocslog.append(e.getMessage());
+			ocslog.error(e.getMessage());
 			throw new OCSProtocolException("Incorect serveur URL");
 		}
-		
-
 		
 		// FileEntity localFileEntity = new FileEntity(paramFile, "application/x-compress; charset=\"UTF-8\"");
  
 		File fileToPost;
 		if ( gziped ) {
-			ocslog.append("Start compression");
-			fileToPost=OCSFiles.getInstance().getGzipedFile(pFile);
+			ocslog.debug("Start compression");
+			fileToPost=ocsfile.getGzipedFile(pFile);
 			if ( fileToPost == null )
 				throw new OCSProtocolException("Error during temp file creation");
-			ocslog.append("Compression done");
+			ocslog.debug("Compression done");
 		}
 		else
 			fileToPost=pFile;
 		
 		FileEntity fileEntity = new FileEntity(fileToPost, "text/plain; charset=\"UTF-8\"");
 		httppost.setEntity(fileEntity);
-		httppost.setHeader("User-Agent", "OCS-NG_Android_agent_v1.0");
+		httppost.setHeader("User-Agent", http_agent);
 		if ( gziped ) {
 			httppost.setHeader("Content-Encoding", "gzip");
 		}
 		
-		
 		DefaultHttpClient httpClient = getNewHttpClient(OCSSettings.getInstance().isSSLStrict());
-		
 
 		if  ( ocssettings.isProxy()) {
-			ocslog.append("Use proxy : " + ocssettings.getProxyAdr());
+			ocslog.debug("Use proxy : " + ocssettings.getProxyAdr());
 			HttpHost proxy = new HttpHost(ocssettings.getProxyAdr(), ocssettings.getProxyPort());
 		    httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);	       
 		}
 		if  ( ocssettings.isAuth()) {
-			ocslog.append("Use AUTH : " + ocssettings.getLogin()+"/*****");
+			ocslog.debug("Use AUTH : " + ocssettings.getLogin()+"/*****");
 			/*
 			CredentialsProvider credProvider = new BasicCredentialsProvider();
 	        credProvider.setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
 	            new UsernamePasswordCredentials(ocssettings.getLogin(), ocssettings.getPasswd()));
 	        */
 			UsernamePasswordCredentials  creds = new UsernamePasswordCredentials(ocssettings.getLogin(), ocssettings.getPasswd());
-			ocslog.append(creds.toString());
+			ocslog.debug(creds.toString());
 			httpClient.getCredentialsProvider().setCredentials(
 	        		new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
 	        		creds);
 		}
- 
- 		
-		try {
-			ocslog.append("Call : " + server);
-			HttpResponse localHttpResponse = httpClient
-					.execute(httppost);
+  		
+
+			ocslog.debug("Call : " + server);
+			HttpResponse localHttpResponse=null;
+			try {
+				localHttpResponse = httpClient.execute(httppost);
+			} catch (ClientProtocolException e) {
+				throw new OCSProtocolException(e.getMessage());
+			} 
+			catch (IOException e) {
+				String msg = appCtx.getString(R.string.err_cant_connect)+" "+e.getMessage();
+				ocslog.error(msg);
+				throw new OCSProtocolException(msg);
+			}
+			
+			try {		
 			int httpCode = localHttpResponse.getStatusLine().getStatusCode();
-			ocslog.append("Response status code : " + String.valueOf(httpCode));
+			ocslog.debug("Response status code : " + String.valueOf(httpCode));
 			if ( httpCode== 200) {
-				Header hdrs[] = localHttpResponse.getAllHeaders();
-				
-				// Determine la reponse est compressee 
-				boolean repCompressed = false;
-				for (int i=0; i<hdrs.length;i++) {
-					ocslog.append(hdrs[i].getName()+":"+hdrs[i].getValue());
-					if ( hdrs[i].getName().equals("Content-Type") ) {
-						repCompressed = ( hdrs[i].getValue().contains("compressed") ||
-									   hdrs[i].getValue().contains("gzip") );
-						break;
-					}
-				}
-				
-				String response;	
 				if  ( gziped ) {
 					InputStream is = localHttpResponse.getEntity().getContent();
 					GZIPInputStream gzis = new GZIPInputStream(is);
@@ -198,20 +223,89 @@ public class OCSProtocol {
 				} else
 					retour=EntityUtils.toString(localHttpResponse.getEntity());
 			
-			} else {
-				ocslog.append("***Server communication error: ");
+			}
+			else if ( httpCode == 400) {
+				throw new OCSProtocolException("Error http 400 may be wrong agent version");
+			}
+			else {
+				ocslog.error("***Server communication error: ");
 				throw new OCSProtocolException("Http communication error code "+String.valueOf(httpCode));
 			}
-			ocslog.append("Finnish send method");
-
+			ocslog.debug("Finnish send method");
 		} catch (IOException localIOException) {
-			ocslog.append("Finnish send method in error");
 			String msg = localIOException.getMessage();
+			ocslog.error(msg);
 			throw new OCSProtocolException(msg);
 		}
-		if ( gziped )
-			fileToPost.delete();
 		return retour;
+	}
+	
+	public void downloadFile(String url, String fileName) throws OCSProtocolException {
+		DefaultHttpClient httpClient = getNewHttpClient(OCSSettings.getInstance().isSSLStrict());
+		HttpGet httpget = new HttpGet(url);
+		httpget.setHeader("User-Agent", http_agent);
+		
+		HttpResponse httpResponse=null;
+		try {
+			httpResponse = httpClient.execute(httpget);
+		} catch (Exception e) {
+			throw new OCSProtocolException("Cant connect "+url);
+		}
+		int httpCode = httpResponse.getStatusLine().getStatusCode();
+		ocslog.debug("Response status code : " + String.valueOf(httpCode));
+		if ( httpCode == 200) {
+			byte[] buff = new byte[4096];
+			try {
+				InputStream is = httpResponse.getEntity().getContent();
+				File fout = new File(appCtx.getFilesDir(),fileName);
+				FileOutputStream fos = new FileOutputStream(fout);
+				int n=0;
+				while ( (n=is.read(buff)) > -1) {
+					fos.write(buff,0,n);
+				}
+				fos.close();
+			} catch (IOException e) {
+				throw new OCSProtocolException("IOException ");
+			}
+		} else 
+		if ( httpCode == 400) {
+			throw new OCSProtocolException("Error 400 may be wrong agent version");
+		}
+		else {
+			throw new OCSProtocolException("Http error code "+String.valueOf(httpCode));
+		}
+	}
+	
+	public String strwget(String url) throws OCSProtocolException {
+		DefaultHttpClient httpClient = getNewHttpClient(OCSSettings.getInstance().isSSLStrict());
+		HttpGet httpget = new HttpGet(url);
+		httpget.setHeader("User-Agent", http_agent);
+		
+		HttpResponse httpResponse=null;
+		try {
+			httpResponse = httpClient.execute(httpget);
+		} catch (Exception e) {
+			throw new OCSProtocolException("Cant connect "+url);
+		}
+		int httpCode = httpResponse.getStatusLine().getStatusCode();
+		ocslog.debug("Response status code : " + String.valueOf(httpCode));
+		if ( httpCode == 200) {
+			byte[] buff = new byte[1024];
+			try {
+				InputStream is = httpResponse.getEntity().getContent();
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				int n=0;
+				while ( (n=is.read(buff)) > -1) {
+					baos.write(buff,0,n);
+				}
+				baos.close();
+				return baos.toString();
+			} catch (IOException e) {
+				throw new OCSProtocolException("IOException ");
+			}
+		} else {
+				throw new OCSProtocolException("Http error code "+String.valueOf(httpCode));
+		}
 	}
 	
 	private String extractResponse( String message ) {
@@ -230,4 +324,31 @@ public class OCSProtocol {
 			return m.group(1);
 		return resp;
 	}
+	
+	public void verifyNewVersion(int pvcode) {
+		File uptdflag = appCtx.getFileStreamPath("update.flag");
+		if ( uptdflag.exists() ) {
+			try {
+				String uctx= Utils.readShortFile(uptdflag);
+				OCSLog.getInstance().debug("uctx :"+uctx);
+				String[]str = uctx.split(";");
+				if ( str.length > 1  ) {
+					String id=str[0];
+					int vcode=Integer.parseInt(str[1]);
+					ocslog.debug("Test version code :"+vcode+"="+pvcode);
+					if ( vcode == pvcode) 
+							sendRequestMessage("DOWNLOAD", id, "SUCCESS");
+					// else
+					//	ocsproto.sendRequestMessage("DOWNLOAD", id, "ERR_ABORT");
+					}
+			} catch (IOException e) {
+				ocslog.error("Cant read update.flag");
+			} catch (OCSProtocolException e) {
+				ocslog.error(e.getMessage());
+			}
+			if ( ! uptdflag.delete() )
+				ocslog.error("Cant delete update.flag");
+		}
+	}
+	
 }

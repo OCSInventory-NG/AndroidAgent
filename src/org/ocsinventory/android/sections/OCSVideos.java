@@ -2,8 +2,6 @@ package org.ocsinventory.android.sections;
 
 import java.util.ArrayList;
 
-import org.ocsinventory.android.actions.Utils;
-
 import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.Display;

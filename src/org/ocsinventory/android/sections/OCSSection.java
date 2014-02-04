@@ -2,8 +2,6 @@ package org.ocsinventory.android.sections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.ocsinventory.android.actions.Utils;
-
 public class OCSSection  {
 	String name;  // Section name ie BIOS
 	String titre; // Section title for display

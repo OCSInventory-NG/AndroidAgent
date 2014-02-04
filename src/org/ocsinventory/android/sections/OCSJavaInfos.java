@@ -4,13 +4,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Properties;
 
-import org.ocsinventory.android.actions.OCSLog;
-import org.ocsinventory.android.actions.Utils;
-
-import android.annotation.TargetApi;
-import android.os.Build;
-import android.text.format.DateFormat;
-
 
 public class OCSJavaInfos implements OCSSectionInterface {
 	final private String sectionTag = "JAVAINFOS";
@@ -21,10 +14,9 @@ public class OCSJavaInfos implements OCSSectionInterface {
 	private String javaclasspath;
 	private String javahome;
 	
-	private OCSLog ocslog;  
 
 	public OCSJavaInfos() {
- 		ocslog = OCSLog.getInstance();
+
 		Properties sp = System.getProperties();
 		javaname=sp.getProperty("java.vm.name")+
 				sp.getProperty("java.vm.version");

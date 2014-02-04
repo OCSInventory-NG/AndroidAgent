@@ -12,23 +12,20 @@
     <string name="pref_title_devicetag">TAG</string>
     <string name="pref_description_devicetag">Cathegory TAG in OCS</string>
     <string name="pref_default_devicetag">Mobile</string>
-	<string name="pref_title_automode">Automatic</string>
- 	<string name="pref_description_automode">Automatic inventory</string>
-    <string name="pref_default_automode">false</string> 
+    <string name="pref_title_automode">Automatic</string>
+	<string name="pref_description_automode">Automatic inventory</string>
     
  	<string name="pref_title_freqmaj">Inventory frequency</string>
 	<string name="pref_dialog_freqmaj">Delay in hours</string>
  	<string name="pref_description_freqmaj">Delay between two inventory sent</string>
-    <string name="pref_default_freqmaj">24</string> 
   	<string name="pref_title_freqwake">Wake frequency</string>
  	<string name="pref_description_freqwake">Interval between verifications</string>
-    <string name="pref_default_freqwake">10</string>
 	<string name="pref_dialog_freqwake">Delay in minutes</string>
         
 	<string name="pref_header_server">Server</string>
 	<string name="pref_title_serverurl">Server URL</string>
     <string name="pref_description_serverurl">OCS server address</string>
-    <string name="pref_default_serverurl">http://ocsinventory-ng/ocsinventory</string>
+    <string name="pref_default_serverurl">http://ocsinventory-ng.org/ocsinventory</string>
     <string name="pref_summaryOn_sslstrict">ON</string>
     <string name="pref_summaryOff_sslstrict">OFF</string>
     <string name="pref_title_sslstrict">SSL Control</string>
@@ -48,9 +45,6 @@
  	
 	<string name="pref_title_cachelen">Cache lifetime</string>
   	<string name="pref_description_cachelen">Cache live time</string>
-  	<string name="pref_default_cachelen">900000</string>
- 	
-	<string name="pref_list_freq_zero">0</string>
 	<string name="pref_list_freq_5mn">5 minutes</string>
 	<string name="pref_list_freq_15mn">15 minutes</string>
 	<string name="pref_list_freq_30mn">30 minutes</string>
@@ -60,6 +54,11 @@
  	<string name="pref_description_syshide">Exclude system softwares of inventory</string>
     <string name="pref_summaryOn_syshide">Excluded of inventory</string>
     <string name="pref_summaryOff_syshide">Included in inventory</string>
- 					
+ 
+	<string name="pref_title_compua">Useragent compatibility</string>
+ 	<string name="pref_description_compua">Useragent 2.0 for compatibility</string>
+    <string name="pref_summaryOn_compua">User agent 2.0</string>
+    <string name="pref_summaryOff_compua">Current useragent</string>
+    					
 	
 </resources>

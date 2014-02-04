@@ -29,7 +29,10 @@
 		<CheckBoxPreference android:key="k_syshide" 
             android:title="@string/pref_title_syshide" 
             android:summary="@string/pref_description_syshide" android:defaultValue="true" android:summaryOn="@string/pref_summaryOn_syshide" android:summaryOff="@string/pref_summaryOff_syshide"/>
-        
+		<CheckBoxPreference android:key="k_compua" 
+            android:title="@string/pref_title_compua" 
+            android:summary="@string/pref_description_compua" android:defaultValue="false" android:summaryOn="@string/pref_summaryOn_compua" android:summaryOff="@string/pref_summaryOff_compua"/>
+		
  	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/pref_header_server">
  		<EditTextPreference android:key="k_serverurl" android:summary="@string/pref_description_serverurl" android:title="@string/pref_title_serverurl" android:dialogTitle="@string/pref_title_serverurl" android:defaultValue="@string/pref_default_serverurl" android:persistent="true" />

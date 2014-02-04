@@ -1,43 +1,50 @@
 package org.ocsinventory.android.actions;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
+
+import org.ocsinventory.android.agent.OCSPrologReply;
 
 import android.content.Context;
 import android.os.Environment;
-import android.provider.OpenableColumns;
 
 public class OCSFiles {
-	private static OCSFiles instance = null;
-	// public String BASE_FILE_NAME = "termadmin";
-	// public String XML_DIR = "/XML/";
-	private static Context appCtx;
+
+	private Context appCtx;
 	
-	private String inventoryFileName 	= "inventory.xml";
-	private String gzipedFileName		= "tmp.gz";
-	private String prologFileName 		= "prolog.xml";
+	private String inventoryFileName;
+	private final String gzipedFileName			= "tmp.gz";
+	private final String prologFileName 		= "prolog.xml";
+	private final String prologReplyFileName	= "prolog_reply.xml";
+	private  OCSLog ocslog;
 	
-	public static OCSFiles getInstance() {
-		if (instance == null)
-			instance = new OCSFiles();
-		return instance;
-	}
-	public static void initInstance(Context ctx) {
-		if (instance == null) {
-			appCtx = ctx;
-			instance = new OCSFiles();
-		}
+	public OCSFiles(Context ctx) {
+		ocslog = OCSLog.getInstance();
+		appCtx = ctx;
+		StringBuilder filename = new StringBuilder();
+
+		filename.append(Utils.getHostname());
+		filename.append("-");
+
+		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.US);
+		filename.append(dt.format(new Date()));
+
+		filename.append(".ocs");
+
+		inventoryFileName = filename.toString();
 	}
 
 	public File getGzipedFile(File inFile) {
-		OCSLog ocslog = OCSLog.getInstance();
 		FileInputStream fis;
 		try {
 			fis = new FileInputStream(inFile);
@@ -49,14 +56,24 @@ public class OCSFiles {
 			fis.close();
 			gzos.close();
 		} catch (Exception e) {
-			ocslog.append("Erreur creating "+gzipedFileName);
+			ocslog.error("Erreur creating "+gzipedFileName);
 		}
 		return appCtx.getFileStreamPath (gzipedFileName);
 	}
-	
-	public File getInventoryFileXML(Inventory pInventory) {
-		OCSLog ocslog = OCSLog.getInstance();
+	public void getUnGzipedFile(File inFile, String  fileOutName) throws IOException {
+			FileInputStream fis = new FileInputStream(inFile);
 
+			GZIPInputStream gzis = new GZIPInputStream(new BufferedInputStream(fis)); 
+			FileOutputStream fos = appCtx.openFileOutput(fileOutName, Context.MODE_PRIVATE );
+			byte[] buff = new byte[1024];
+			int n;
+			while ((n = fis.read(buff)) != -1)
+				 fos.write(buff, 0, n);
+			gzis.close();
+			fos.close();
+	}
+
+	public File getInventoryFileXML(Inventory pInventory) {
 		StringBuffer strOut = new StringBuffer("<?xml version =\"1.0\" encoding=\"UTF-8\"?>\n");
 		strOut.append(pInventory.toXML());
 		
@@ -69,23 +86,20 @@ public class OCSFiles {
 			bos.flush();
 			bos.close();
 		} catch (FileNotFoundException e) {
-			android.util.Log.e("OCS", "FileNotFoundException");
-			ocslog.append("Erreur de creation fichier xml inventaire");
+			ocslog.error("Error during xml inventory file creation");
 		} catch (IOException e) {
-			android.util.Log.e("OCS", "FileNotFoundException");
-			ocslog.append("Erreur d'ecriture sur le fichier xml");
+			ocslog.error("Error writing to xml inventory file ");
 		}
 		/*
 		 * if (!(inventoryFile).exists()) { boolean bool =
 		 * (inventoryFile).delete(); inventoryFile = new
 		 * File(this.inventoryFilePath); }
 		 */
-		android.util.Log.i("OCS", "Fichier pret");
+		ocslog.debug("xml inventory file ready");
 		return appCtx.getFileStreamPath (inventoryFileName);
 	}
-	
+	// deprecated for getRequestFileXML
 	public File getPrologFileXML() {
-		OCSLog ocslog = OCSLog.getInstance();		
 		String deviceId = OCSSettings.getInstance().getDeviceUid();
 		
 		StringBuffer strBuf = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
@@ -99,7 +113,7 @@ public class OCSFiles {
 
 		FileOutputStream prologFileOStream;
 		try {
-			prologFileOStream = appCtx.openFileOutput(this.prologFileName,0);
+			prologFileOStream = appCtx.openFileOutput(this.prologFileName,Context.MODE_PRIVATE);
 			BufferedOutputStream prologFileBOS = new BufferedOutputStream(
 					prologFileOStream);
 			byte[] arrayOfByte = strBuf.toString().getBytes();
@@ -107,11 +121,45 @@ public class OCSFiles {
 			prologFileBOS.flush();
 			prologFileBOS.close();
 		} catch (Exception e) {
-			ocslog.append("Erreur during prolog file creation");
+			ocslog.error("Erreur during prolog file creation");
 		}
 		return appCtx.getFileStreamPath(prologFileName);
 	}
 	
+	public File getRequestFileXML(String query, String id, String err) {
+		String deviceId = OCSSettings.getInstance().getDeviceUid();
+		String queryFileName=query+".xml";
+		
+		StringBuffer strBuf = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
+		// strBuf.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<!DOCTYPE REQUEST>\r\n");
+		strBuf.append("<REQUEST>\n");
+		strBuf.append("  <QUERY>").append(query).append("</QUERY>\n");
+		strBuf.append("  <DEVICEID>");
+		strBuf.append(deviceId);
+		strBuf.append("</DEVICEID>\n");
+		if ( id != null ) {
+			strBuf.append("  <ID>").append(id).append("</ID>\n");
+		}
+		if ( err != null ) {
+			strBuf.append("  <ERR>").append(err).append("</ERR>\n");
+		}
+		strBuf.append("</REQUEST>\n");
+
+		FileOutputStream fos;
+		try {
+			fos = appCtx.openFileOutput(queryFileName,Context.MODE_PRIVATE);
+			BufferedOutputStream bos = new BufferedOutputStream(
+					fos);
+			byte[] arrayOfByte = strBuf.toString().getBytes();
+			bos.write(arrayOfByte);
+			bos.flush();
+			bos.close();
+		} catch (Exception e) {
+			ocslog.error("Erreur during "+query+ "request file creation");
+		}
+		return appCtx.getFileStreamPath(queryFileName);
+	}
+
 	public String copyToExternal(Inventory inventory) {
 		String res="OK";
 		File wd = getSDWorkDirectory();
@@ -122,14 +170,15 @@ public class OCSFiles {
 					Utils.copyFile(ficIn, ficOut);
 				} catch (IOException e) {
 					res=e.getMessage();
-					OCSLog.getInstance().append(e.getMessage());
+					OCSLog.getInstance().error(e.getMessage());
 				}
+				ficIn.delete();
 		}
 		return res;
 	}
-	/*
-	 * Retourne le repertoire de l'appli sur la sdcard
+	/**
 	 * 
+	 * @return File objet of ocs directory on sdcard
 	 */
 	public File getSDWorkDirectory() { 
 		File rep=Environment.getExternalStoragePublicDirectory("ocs");
@@ -147,5 +196,29 @@ public class OCSFiles {
 		}
 		return rep;
 	}
-
+	// Prolog reply is stored on file to be read py dowload service
+	// This is more simple as sending  the object on intend .
+	void savePrologReply(String str) {
+		FileOutputStream fos;
+		try {
+			fos=appCtx.openFileOutput(this.prologReplyFileName,Context.MODE_PRIVATE );
+			fos.write(str.getBytes());
+		} catch (Exception e) {
+			ocslog.error("Erreur during prolog replay file creation");
+		}
+	}
+	
+	// 
+	public OCSPrologReply loadPrologReply() {
+		OCSPrologReply reply=null;
+		FileInputStream fis;
+		try {
+			fis=appCtx.openFileInput(this.prologReplyFileName);
+			PrologReplyParser prp =new PrologReplyParser();
+			reply=prp.parseDocument(fis);
+		} catch (Exception e) {
+			ocslog.error("Erreur during prolog replay file read");
+		}
+		return reply;
+	}
 }

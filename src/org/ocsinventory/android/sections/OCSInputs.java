@@ -8,7 +8,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.hardware.Camera;
-import android.hardware.Camera.Area;
 import android.hardware.Camera.CameraInfo;
 import android.hardware.Camera.Size;
 import android.os.Build;
@@ -20,18 +19,19 @@ public class OCSInputs implements OCSSectionInterface
 	public ArrayList<OCSInput> inputs;
 	  
 
+	@SuppressWarnings("deprecation")
 	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	public OCSInputs(Context ctx) {
 		OCSLog ocslog = OCSLog.getInstance();
 		
 		this.inputs= new ArrayList<OCSInput>();
 		
-		ocslog.append("OCSInputs");
+		ocslog.debug("OCSInputs");
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-			ocslog.append("OCSInputs BUILD Build.VERSION.SDK_INT ");
+			ocslog.debug("OCSInputs BUILD Build.VERSION.SDK_INT ");
 			Configuration config = ctx.getResources().getConfiguration();
-			ocslog.append("config.keyboard"+ config.keyboard);
-			ocslog.append("config.touchscreen"+ config.keyboard);
+			ocslog.debug("config.keyboard"+ config.keyboard);
+			ocslog.debug("config.touchscreen"+ config.keyboard);
 			
 			OCSInput inkb = new   OCSInput ();
 			inkb.setType("keybord");
@@ -72,16 +72,16 @@ public class OCSInputs implements OCSSectionInterface
 	    	OCSInput ocsci = new  OCSInput ();
 	    	ocsci.setType("Camera");
 	    	ocsci.setCaption("facing unknown");
-	    	String sSz = getCameraMaxImgSize();
+	    	String sSz = getCameraMaxImgSize(openCamera());
 	    	ocsci.setDescription("Image size "+sSz);
 	    	inputs.add(ocsci);
 		} else {
 		    int numberOfCameras = Camera.getNumberOfCameras();
 		    CameraInfo cameraInfo = new CameraInfo();
-		    String sSz = getCameraMaxImgSize();
 		    
 		    for (int i = 0; i < numberOfCameras; i++) {
 		    	OCSInput ocsci = new  OCSInput ();
+		    	String sSz = getCameraMaxImgSize(openCamera(i));
 		    	ocsci.setType("Camera");
 		        Camera.getCameraInfo(i, cameraInfo);
 		        if (cameraInfo.facing == CameraInfo.CAMERA_FACING_BACK)
@@ -93,13 +93,29 @@ public class OCSInputs implements OCSSectionInterface
 		    }
 	    }
 	}
-	private String getCameraMaxImgSize() {
-		
-	    Camera cam;
+
+	// Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD
+	private Camera openCamera() {
 	    try {
-	    	cam = Camera.open();
+	    	return Camera.open();
 	    } catch ( RuntimeException e ) {
-	    	return "busy";
+	    	return null;
+	    }
+        }
+
+	// Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD
+	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
+        private Camera openCamera(int idx) {
+            try {
+                return Camera.open(idx);
+            } catch( RuntimeException e) {
+                return null;
+            }
+        }
+
+    private String getCameraMaxImgSize(Camera cam) {
+	    if ( cam == null ) {
+	        return "busy";
 	    }
 	    Camera.Parameters params = cam.getParameters();
 	    long max_v=0;

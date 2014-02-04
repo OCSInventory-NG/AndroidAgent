@@ -3,37 +3,34 @@ package org.ocsinventory.android.agent;
 import java.io.File;
 import java.io.IOException;
 
-import org.ocsinventory.android.actions.OCSFiles;
+import org.ocsinventory.android.actions.OCSProtocol;
 import org.ocsinventory.android.actions.OCSSettings;
 import org.ocsinventory.android.actions.PrefsParser;
 import org.ocsinventory.android.actions.Utils;
-import org.ocsinventory.android.agent.R.color;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class OCSAgentActivity extends Activity {
 	public OCSSettings settings = null;
+
 	protected  ProgressDialog mProgressDialog;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		// setContentView(R.layout.ocs_splash);
 		setContentView(R.layout.ocs_agent);
 		/*
 		Typeface font = Typeface.createFromAsset(getAssets(), Constantes.OCSFONT);        
@@ -42,37 +39,25 @@ public class OCSAgentActivity extends Activity {
 		((Button) findViewById(R.id.bt_show)).setTypeface(font);
 		((TextView) findViewById(R.id.statusBar)).setTypeface(font);
 		*/
-		/*
-		View title = getWindow().findViewById(android.R.id.title);
-		View titleBar = (View) title.getParent();
-		titleBar.setBackgroundColor(color.violet_clair);
-		// setTitleColor(color.violet_fonce);
-		*/
 		// Initialisation de la configuration
 		settings=OCSSettings.getInstance(this);
 		settings.logSettings();
-		OCSFiles.initInstance(this.getApplicationContext());
-		// logText.append("Init inventaire\n");
-		// new AsyncJob(this).execute();
 		
 		// MAJ de la version dans la barre de titre
 		String version;
+		int vcode;
 		try {
 			version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+			vcode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
 		} catch (NameNotFoundException e) {
 			version = "";
+			vcode=0;
 		}
+		new OCSProtocol(getApplicationContext()).verifyNewVersion(vcode);
 		setTitle(getTitle()+" v."+version);
-		/*
-		if ( settings.getLastUpdt() > 0 ) {
-			SimpleDateFormat sdf = new SimpleDateFormat();
-			// (String)DateFormat.format("MM/dd/yyyy hh:mm:ss", settings.getLastUpdt());
-			StringBuffer sb = new StringBuffer("Last upload ");
-			sb.append(sdf.format(new Date(settings.getLastUpdt())));
-			setStatus(sb.toString());;
-		}
-		*/
  }
+	
+	
 	@Override
 	protected void onStart() {
 		// TODO Auto-generated method stub
@@ -180,4 +165,5 @@ public class OCSAgentActivity extends Activity {
 		TextView status = (TextView) findViewById(R.id.statusBar);
 		status.setText(msg);	
 	}
+	
 }

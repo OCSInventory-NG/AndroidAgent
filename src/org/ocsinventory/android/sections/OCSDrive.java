@@ -2,8 +2,6 @@ package org.ocsinventory.android.sections;
 
 import java.io.File;
 
-import org.ocsinventory.android.actions.Utils;
-
 import android.os.StatFs;
 import android.text.format.DateFormat;
 
@@ -20,8 +18,6 @@ public class OCSDrive {
 
 	public OCSDrive(String fs) {
 		File d = new File (fs);
-		if ( d == null )
-			return;
 		StatFs statfs = new StatFs(fs);
 		long bs = statfs.getBlockSize();
 		long bc = statfs.getBlockCount();

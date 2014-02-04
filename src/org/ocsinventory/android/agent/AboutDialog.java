@@ -1,21 +1,15 @@
 package org.ocsinventory.android.agent;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+
+import org.ocsinventory.android.actions.OCSSettings;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.text.Html;
-import android.text.util.Linkify;
 import android.widget.TextView;
 
 public class AboutDialog extends Dialog {
@@ -37,11 +31,10 @@ public class AboutDialog extends Dialog {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		setContentView(R.layout.about);
-		
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(mContext);
 
+		OCSSettings ocssettings = OCSSettings.getInstance(mContext);
 		
-		long lastUpdt = sp.getLong("k_lastupdt" , 0L);
+		long lastUpdt = ocssettings.getLastUpdt();
 		
 		StringBuffer sb = new StringBuffer("OCS Inventory NG android Agent \n");
 		sb.append("Version :");
@@ -51,12 +44,12 @@ public class AboutDialog extends Dialog {
 		} catch (NameNotFoundException e) {	}
 		sb.append("\n");
 		if ( lastUpdt > 0) {
-			SimpleDateFormat sdf = new SimpleDateFormat();		
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.US);
 			sb.append("Last upload : ");
 			sb.append(sdf.format(new Date(lastUpdt)));
 			sb.append("\n");
-			if ( sp.getBoolean("k_automode", false)) {
-				int  freq = Integer.parseInt(sp.getString("k_freqmaj" , ""));
+			if ( ocssettings.isAutoMode() ) {
+				int  freq = ocssettings.getFreqMaj();
 				long nextUpdt= lastUpdt+freq*3600000L;
 				sb.append("Next upload : ");
 				sb.append(sdf.format(new Date(nextUpdt)));

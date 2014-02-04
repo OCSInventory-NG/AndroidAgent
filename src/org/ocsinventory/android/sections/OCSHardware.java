@@ -7,42 +7,23 @@ import org.ocsinventory.android.actions.Utils;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
-import android.provider.Settings.Secure;
 import android.text.format.DateFormat;
 
 /*
  * 
-     <HARDWARE>
-	  <OSCOMMENTS>#32-Ubuntu SMP Tue Dec 11 18:52:46 UTC 2012</OSCOMMENTS>
-      <OSNAME>Ubuntu 12.10</OSNAME>
-      <OSVERSION>3.5.0-21-generic</OSVERSION>
-      <PROCESSORN>2</PROCESSORN>
-      <PROCESSORS>1596</PROCESSORS>
-      <PROCESSORT>Intel(R) Core(TM)2 Duo CPU     E7200  @ 2.53GHz</PROCESSORT>
-      <DESCRIPTION>i686/00-00-00 02:51:22</DESCRIPTION>
-      <DATELASTLOGGEDUSER>Fri Jan  4 21:53</DATELASTLOGGEDUSER>
-      <LASTLOGGEDUSER>jce</LASTLOGGEDUSER>
-      <MEMORY>4039</MEMORY>
-      <NAME>UBUNTU-JCE</NAME>
-	   <SWAP>972</SWAP>
-      <USERID>jce</USERID>
-      <UUID>C01D9E89-8DFE-D511-93B8-001FC6B6A11E</UUID>
-      <VMSYSTEM>Physical</VMSYSTEM>
-      <WORKGROUP>WORKGROUP</WORKGROUP>
-		<DEFAULTGATEWAY>192.168.0.254</DEFAULTGATEWAY>
-		<DNS>127.0.1.1</DNS>
-      <IPADDR>192.168.0.10</IPADDR>
- 
-       <CHECKSUM>262143</CHECKSUM>
-    </HARDWARE>
+<!ELEMENT HARDWARE (NAME | WORKGROUP | USERDOMAIN | OSNAME | OSVERSION | OSCOMMENTS |
+PROCESSORT | PROCESSORS | PROCESSORN | MEMORY | SWAP | DEFAULTGATEWAY | IPADDR | DNS |
+ LASTDATE | USERID | TYPE | DESCRIPTION | WINCOMPANY | WINOWNER | WINPRODID |
+  WINPRODKEY | CHECKSUM)*>
+
  */
 
 public class OCSHardware implements OCSSectionInterface  {
 	final private String sectionTag = "HARDWARE";
 
 	private long checksum;
-	private String processorType;
-	private String processorNumber;
+	// private String processorType;
+	// private String processorNumber;
 	private String processorSpeed;
 	private String memory;
 	private String swap;
@@ -63,9 +44,9 @@ public class OCSHardware implements OCSSectionInterface  {
 	public OCSHardware() {
 		logBuild();
 		name = Build.MODEL;
-		this.checksum = 262143; 			// TODO 262143
+		this.checksum = 262143; 			// Calculated later
 		this.systemVersion = Build.VERSION.RELEASE;
-		this.systemName = "Android "+this.systemVersion;
+		this.systemName = "Android linux "+this.systemVersion;
 		this.ipAddress = "";
 		this.processorSpeed = String.valueOf(SystemInfos.getProcessorSpeed()/1000);
 		this.memory=String.valueOf(SystemInfos.getMemtotal()/1024);
@@ -73,6 +54,9 @@ public class OCSHardware implements OCSSectionInterface  {
 		this.userid = Build.USER;
 		this.lastUser = Build.USER;
 		this.dateLastLog = (String) DateFormat.format("MM/dd/yy hh:mm:ss", System.currentTimeMillis());
+		this.osComment = "Kernel version : "+System.getProperty("os.version");
+		if ( Utils.isDeviceRooted() )
+				this.osComment+=" *ROOTED*";
 	}
 	public String getProcessorName() {
 		return SystemInfos.getProcessorName();
@@ -149,7 +133,7 @@ public class OCSHardware implements OCSSectionInterface  {
 		s.setAttr("USERDOMAIN", "");
 		s.setAttr("OSNAME",this.getSystemName());
 		s.setAttr("OSVERSION",this.getSystemVersion());
-		s.setAttr("OSCOMMENT",this.getOsComment());
+		s.setAttr("OSCOMMENTS",this.getOsComment());
 		s.setAttr("PROCESSORT",this.getProcessorType());
 		s.setAttr("PROCESSORN",this.getProcessorNumber());
 		s.setAttr("PROCESSORS",this.getProcessorSpeed());
@@ -162,6 +146,7 @@ public class OCSHardware implements OCSSectionInterface  {
 		s.setAttr("DNS",this.getDns());
 		s.setAttr("LASTLOGGEDUSER",this.getLastUser());
 		s.setAttr("DATELASTLOGGEDUSER",this.getDateLastLog());
+		s.setAttr("DESCRIPTION",this.getDescription());
 		return s;
 	}
 	public ArrayList<OCSSection> getSections() {
@@ -184,25 +169,25 @@ public class OCSHardware implements OCSSectionInterface  {
 	void logBuild() {
 		OCSLog ocslog = OCSLog.getInstance();
 		
-		ocslog.append("BOARD      : "+Build.BOARD);
-		ocslog.append("BOOTLOADER : "+Build.BOOTLOADER);
-		ocslog.append("BRAND      : "+Build.BRAND);
-		ocslog.append("CPU_ABI    : "+Build.CPU_ABI);		
-		ocslog.append("CPU_ABI2   : "+Build.CPU_ABI2);		
-		ocslog.append("DEVICE     : "+Build.DEVICE);		
-		ocslog.append("DISPLAY    : "+Build.DISPLAY);		
-		ocslog.append("FINGERPRINT: "+Build.FINGERPRINT);
-		ocslog.append("HARDWARE   : "+Build.HARDWARE);	
-		ocslog.append("HOST       : "+Build.HOST);
-		ocslog.append("ID         : "+Build.ID);
-		ocslog.append("HARDWARE     : "+Build.HARDWARE);
-		ocslog.append("MANUFACTURER : "+Build.MANUFACTURER);
-		ocslog.append("PRODUCT      : "+Build.PRODUCT);
+		ocslog.debug("BOARD      : "+Build.BOARD);
+		ocslog.debug("BOOTLOADER : "+Build.BOOTLOADER);
+		ocslog.debug("BRAND      : "+Build.BRAND);
+		ocslog.debug("CPU_ABI    : "+Build.CPU_ABI);		
+		ocslog.debug("CPU_ABI2   : "+Build.CPU_ABI2);		
+		ocslog.debug("DEVICE     : "+Build.DEVICE);		
+		ocslog.debug("DISPLAY    : "+Build.DISPLAY);		
+		ocslog.debug("FINGERPRINT: "+Build.FINGERPRINT);
+		ocslog.debug("HARDWARE   : "+Build.HARDWARE);	
+		ocslog.debug("HOST       : "+Build.HOST);
+		ocslog.debug("ID         : "+Build.ID);
+		ocslog.debug("HARDWARE     : "+Build.HARDWARE);
+		ocslog.debug("MANUFACTURER : "+Build.MANUFACTURER);
+		ocslog.debug("PRODUCT      : "+Build.PRODUCT);
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO ) {
-			ocslog.append("SERIAL       : "+Build.SERIAL);
+			ocslog.debug("SERIAL       : "+Build.SERIAL);
 		}	
-		ocslog.append("TIME         : "+Build.TIME);
-		ocslog.append("TYPE         : "+Build.TYPE);
-		ocslog.append("USER         : "+Build.USER);		
+		ocslog.debug("TIME         : "+Build.TIME);
+		ocslog.debug("TYPE         : "+Build.TYPE);
+		ocslog.debug("USER         : "+Build.USER);
 	}
 }

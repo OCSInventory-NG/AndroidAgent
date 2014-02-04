@@ -1,24 +1,21 @@
 package org.ocsinventory.android.actions;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.Writer;
+
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.preference.Preference;
 
 public class PrefsParser extends DefaultHandler {
 	private String responseText = "";
-	private SharedPreferences prefs;
 	private String keyName;
 	private String keyValue;
 	private Editor edit; 
@@ -32,7 +29,6 @@ public class PrefsParser extends DefaultHandler {
 
 	public void parseDocument(File paramFile, SharedPreferences prefs) {
 		android.util.Log.d("PARSE", "Start parseDocument ");
-		this.prefs = prefs;
 		edit = prefs.edit();
 
 		SAXParserFactory localSAXParserFactory = SAXParserFactory.newInstance();

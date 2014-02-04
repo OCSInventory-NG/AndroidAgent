@@ -6,11 +6,6 @@ import org.ocsinventory.android.actions.OCSLog;
 
 import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.Configuration;
-import android.hardware.Camera;
-import android.hardware.Camera.Area;
-import android.hardware.Camera.CameraInfo;
-import android.hardware.Camera.Size;
 import android.hardware.usb.UsbManager;
 import android.os.Build;
 
@@ -32,7 +27,7 @@ public class OCSPorts implements OCSSectionInterface
 		usbMgr.getDeviceList();
 		
 		
-		ocslog.append("OCSInputs");
+		ocslog.debug("OCSInputs");
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
 
 		} else {

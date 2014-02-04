@@ -1,7 +1,6 @@
 package org.ocsinventory.android.agent;
 
 import org.ocsinventory.android.actions.Inventory;
-import org.ocsinventory.android.agent.R;
 import org.ocsinventory.android.agent.util.SystemUiHider;
 
 import android.annotation.TargetApi;
@@ -12,7 +11,6 @@ import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.

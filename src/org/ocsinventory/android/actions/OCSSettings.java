@@ -1,20 +1,12 @@
 package org.ocsinventory.android.actions;
 
-import java.io.File;
-import java.io.IOException;
-
 import org.ocsinventory.android.agent.R;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.provider.Contacts.ContactMethods;
-import android.util.Log;
-import android.webkit.WebView.FindListener;
 
 @SuppressLint("NewApi")
 public class OCSSettings
@@ -45,6 +37,7 @@ public class OCSSettings
 	final String KLOGIN = "k_login";	
 	final String KPASSWD = "k_passwd";
 	final String KSYSHIDE = "k_syshide";
+	final String KCOMPUA = "k_compua";
 	
 	public OCSSettings(Context ctx)
 	{
@@ -59,13 +52,13 @@ public class OCSSettings
 		OCSLog ocslog = OCSLog.getInstance();
 		if ( ocslog == null )
 			return;
-		ocslog.append("deviceUid : "+getDeviceUid());
-		ocslog.append("debug     : "+getDebug());
-		ocslog.append("autostart : "+isAutoMode());
-		ocslog.append("serverURL : "+getServerUrl());
-		ocslog.append("gzip      : "+getGzip());
-		ocslog.append("TAG       : "+getDeviceTag());
-		ocslog.append("STRICTSSL : "+isSSLStrict());
+		ocslog.debug("deviceUid : "+getDeviceUid());
+		ocslog.debug("debug     : "+getDebug());
+		ocslog.debug("autostart : "+isAutoMode());
+		ocslog.debug("serverURL : "+getServerUrl());
+		ocslog.debug("gzip      : "+getGzip());
+		ocslog.debug("TAG       : "+getDeviceTag());
+		ocslog.debug("STRICTSSL : "+isSSLStrict());
 	}
 
 	public static OCSSettings getInstance(Context ctx) {
@@ -160,4 +153,9 @@ public class OCSSettings
 	public boolean isSysHide() {
 		return prefs.getBoolean(KSYSHIDE, true);
 	}
+	public boolean isCompUAEnabled() {
+		return prefs.getBoolean(KCOMPUA, false);
+	}
+	
+	
 }

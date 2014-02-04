@@ -3,7 +3,6 @@ package org.ocsinventory.android.sections;
 import java.util.ArrayList;
 
 import org.ocsinventory.android.actions.OCSLog;
-import org.ocsinventory.android.actions.Utils;
 
 import android.annotation.TargetApi;
 import android.os.Build;
@@ -33,7 +32,7 @@ public class OCSBios  implements OCSSectionInterface {
 	private String assettag;
 	private String date;
 	private String manufacturer;
-	private String smanufacturer;
+	//private String smanufacturer;
 	private String version;
 	private String serial;
 	private String type;
@@ -50,15 +49,15 @@ public class OCSBios  implements OCSSectionInterface {
 		date = (String) DateFormat.format("MM/dd/yy", Build.TIME);
 		manufacturer = Build.MANUFACTURER;
 		version = Build.BOOTLOADER;
-		ocslog.append("BIOS version: "+version);
+		ocslog.debug("BIOS version: "+version);
 		if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO ) {
 			serial = Build.SERIAL;
 		} else {
 			SystemInfos.getInstance().getSerial();
 		}
-		ocslog.append("OCSBIOS serial "+ serial);
+		ocslog.debug("OCSBIOS serial "+ serial);
 		smodel = Build.MODEL;
-		ocslog.append("OCSBIOS model: "+ smodel);
+		ocslog.debug("OCSBIOS model: "+ smodel);
 	}
 	/*
 	<!ELEMENT BIOS (BDATE | BMANUFACTURER | BVERSION | SMANUFACTURER | SMODEL | SSN | TYPE | ASSETTAG)*>
