@@ -46,3 +46,25 @@ Revision history for Ocsinventory NG Android Agent
 2.1.0
 	* Correct SIM XML section name.
 	* 1st Publication version
+2.1.0.1
+	* Cédric Cabessa contribution
+	* add permission RECEIVE_BOOT_COMPLETED into Manifest
+	* Corrections about size image caps when multiples cameras
+	* move configuration strings to strings_nt.xml (no translatable strings)
+2.1.1
+	* add extra to OCSEventReceiver to save inventory on disk
+	* force inventory with OCSEventReceiver
+	* remove OCSFiles singleton
+	* fix unit conversion bug for cache
+	* change inventory file name (host + date)
+	* use OCSSettings instead of direct call to PreferenceManager
+	* change address detection
+	* Do not force to enable wifi
+	* specify the same process name as service for activity in manifest for good settings share
+	* Add DEVICEID in SIM section for phone id (IMEI) info
+	* Java info returned in software section
+	* Kernel version returned in Hardware/OSComments + tag "*ROOTED*" if device is rooted.
+2.1.1.1
+	* Correction OCSEventreceiver option force_update was always set to true	
+2.1.2
+	* Change cpu number evaluation method to obtains correct value.

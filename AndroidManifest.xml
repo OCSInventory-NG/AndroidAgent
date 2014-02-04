@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.ocsinventory.android.agent"
-    android:versionCode="15"
-    android:versionName="2.1.0" android:installLocation="auto">
+    android:installLocation="auto"
+    android:versionCode="19"
+    android:versionName="2.1.2f" >
 
     <uses-sdk
         android:minSdkVersion="8"
-        android:targetSdkVersion="16" />
+        android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -16,7 +17,8 @@
     <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
     <application
         android:allowBackup="true"
@@ -26,47 +28,58 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="org.ocsinventory.android.agent.OCSAgentActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:process=":ocs_process" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-               <category android:name="android.intent.category.LAUNCHER" />
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+		<activity
+            android:name="org.ocsinventory.android.agent.OCSLaunchActivity"
+            android:label="@string/title_activity_ocslaunch"
+           	android:process=":ocs_process" >
+        </activity>
+        
         <activity
             android:name="org.ocsinventory.android.agent.OCSShowActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_show_inventory"
             android:theme="@style/FullscreenTheme" >
         </activity>
-		<activity
+        <activity
             android:name="org.ocsinventory.android.agent.OCSListActivity"
             android:label="@string/title_activity_show_inventory"
-            >
-		</activity>
-		<activity
+            android:process=":ocs_process" >
+        </activity>
+        <activity
             android:name="org.ocsinventory.android.agent.OCSSectionListActivity"
             android:label="@string/title_activity_show_inventory"
-            >
- 
+            android:process=":ocs_process" >
         </activity>
-        
         <activity
             android:name="org.ocsinventory.android.agent.OCSPrefsActivity"
             android:label="@string/title_activity_ocsconfig"
+            android:process=":ocs_process"
             android:theme="@android:style/Theme.Black" >
         </activity>
-
+ 
         <service
             android:name="org.ocsinventory.android.agent.OCSAgentService"
             android:process=":ocs_process" >
         </service>
+        <service
+            android:name="org.ocsinventory.android.agent.OCSDownloadService"
+            android:process=":ocs_process" >
+        </service>
 
         <receiver
-            android:name="OCSEventReceiver"
+            android:name="org.ocsinventory.android.agent.OCSEventReceiver"
+            android:exported="true"
             android:process=":ocs_process" >
         </receiver>
         <receiver
-            android:name="OCSBootReceiver"
+            android:name="org.ocsinventory.android.agent.OCSBootReceiver"
             android:process=":ocs_process" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -74,4 +87,5 @@
             </intent-filter>
         </receiver>
     </application>
+
 </manifest>
