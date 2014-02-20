@@ -68,3 +68,6 @@ Revision history for Ocsinventory NG Android Agent
 	* Correction OCSEventreceiver option force_update was always set to true	
 2.1.2
 	* Change cpu number evaluation method to obtains correct value.
+2.1.3
+	* On first start after installation, load automaticaly the configuration
+	if present on the sdcard.

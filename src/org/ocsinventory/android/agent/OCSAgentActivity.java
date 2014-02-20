@@ -2,6 +2,9 @@ package org.ocsinventory.android.agent;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import org.ocsinventory.android.actions.OCSProtocol;
 import org.ocsinventory.android.actions.OCSSettings;
@@ -16,6 +19,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.Settings.Secure;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -42,6 +46,8 @@ public class OCSAgentActivity extends Activity {
 		// Initialisation de la configuration
 		settings=OCSSettings.getInstance(this);
 		settings.logSettings();
+		if ( settings.getDeviceUid() == null ) 
+			importConfig();
 		
 		// MAJ de la version dans la barre de titre
 		String version;
@@ -107,17 +113,28 @@ public class OCSAgentActivity extends Activity {
 	
 	private void importConfig() {
 		String myPackName = getApplicationContext().getPackageName();
-		String filePrefs=myPackName+"_preferences.xml";
-		File repOut=Environment.getExternalStoragePublicDirectory("ocs");
-		File ficOut= new File(repOut, filePrefs);
-
+		String filePrefsName=myPackName+"_preferences.xml";
+		File repPrefs=Environment.getExternalStoragePublicDirectory("ocs");
+		File ficPrefs= new File(repPrefs, filePrefsName);
+		
+		if ( ! ficPrefs.exists() )
+			return;
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 		PrefsParser pp = new PrefsParser();
-		pp.parseDocument(ficOut, prefs);
+		pp.parseDocument(ficPrefs, prefs);
+		
+		Date now = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss",
+					Locale.getDefault());
+		String deviceUid = "android-"+Secure.getString(getContentResolver(),
+	                Secure.ANDROID_ID)+"-"+sdf.format(now);
+		settings.setDeviceUid(deviceUid);
+		
 		Toast.makeText(this, getText(R.string.msg_conf_imported),Toast.LENGTH_SHORT ).show();
 		setStatus(R.string.msg_conf_imported);
 	}
+	
 	private void exportConfig() {
 		String myPackName = getApplicationContext().getPackageName();
 		String filePrefs=myPackName+"_preferences.xml";
