@@ -14,6 +14,12 @@
     <string name="pref_default_devicetag">Smartphone</string>
     <string name="pref_title_automode">Automatikmodus</string>
  	<string name="pref_description_automode">Automatische Inventarisierung</string>
+	
+	<string name="pref_title_automodeNetwork">Abhängig von der Netzwerkstatus</string>
+	<string name="pref_list_Network_always">Immer</string>
+	<string name="pref_list_Network_noroaming">Data oder WIFI, kein roaming</string>
+	<string name="pref_list_Network_any">Data oder WIFI, alles Netze</string>
+	<string name="pref_list_Network_wifi">Nur WIFI</string>	
     
  	<string name="pref_title_freqmaj">Inventarisierungsintervall</string>
 	<string name="pref_dialog_freqmaj">Zeitraum in Stunden</string>
@@ -56,6 +62,12 @@
  	<string name="pref_description_syshide">Ausschließen System Software von Inventarisierung</string>
     <string name="pref_summaryOn_syshide">Ausgeschlossen von Inventarisierung</string>
     <string name="pref_summaryOff_syshide">Im Inventarisierung</string>
-					
+				   				
+	<string name="pref_title_hideNotif">Verbergung Meldungen</string>
+	<string name="pref_description_hideNotif">Keine Meldungen nacht der Aktie zeigen</string>
+	<string name="pref_list_hideNotif_none">Keine</string>
+	<string name="pref_list_hideNotif_inventory">Inventare</string>
+	<string name="pref_list_hideNotif_download">Downloads</string>
+	<string name="pref_list_hideNotif_all">All</string>	
 	
 </resources>

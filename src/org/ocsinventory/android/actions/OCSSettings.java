@@ -22,6 +22,7 @@ public class OCSSettings
 	final String KSERVERURL = "k_serverurl";
 	final String KDEVICETAG = "k_devicetag";
 	final String KAUTOMODE = "k_automode";
+	final String KAUTOMODENETWORK = "k_automodeNetwork";
 	final String KFREQMAJ = "k_freqmaj";
 	final String KFREQWAKE = "k_freqwake";
 	final String KDEBUG = "k_debug";
@@ -38,6 +39,7 @@ public class OCSSettings
 	final String KPASSWD = "k_passwd";
 	final String KSYSHIDE = "k_syshide";
 	final String KCOMPUA = "k_compua";
+	final String KHIDENOTIF = "k_hideNotif";
 	
 	public OCSSettings(Context ctx)
 	{
@@ -88,6 +90,17 @@ public class OCSSettings
 
 	public boolean isAutoMode() {
 		return prefs.getBoolean(KAUTOMODE, false);
+	}
+	
+	public int getAutoModeNetwork() {
+		String p =  prefs.getString(KAUTOMODENETWORK,"");
+		int i = Integer.parseInt(p);
+		return i;
+	}
+	public int getHiddenNotif() {
+		String p =  prefs.getString(KHIDENOTIF,"");
+		int i = Integer.parseInt(p);
+		return i;
 	}
 
 	public String getDeviceUid() {
@@ -156,6 +169,4 @@ public class OCSSettings
 	public boolean isCompUAEnabled() {
 		return prefs.getBoolean(KCOMPUA, false);
 	}
-	
-	
 }

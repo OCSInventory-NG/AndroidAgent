@@ -24,11 +24,25 @@ import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
  
+
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class OCSAgentService extends Service {
 	
 	public final static String FORCE_UPDATE = "force_update";
 	public final static String SAVE_INVENTORY = "save_inventory";
+	
+	public final static int HIDE_NOTIF_NONE 		= 0;
+	public final static int HIDE_NOTIF_INVENT 		= 1;
+	public final static int HIDE_NOTIF_DOWNLOAD		= 2;
+	public final static int HIDE_NOTIF_ALL 			= 3;
+	
+	private final long HOUR_IN_MILLIS 		= android.text.format.DateUtils.HOUR_IN_MILLIS;
+	private final int AUTOMODE_NOROAMING 	=  0;
+	private final int AUTOMODE_ANY 			=  1;
+	private final int AUTOMODE_WIFI 		=  2;	
+
+
+
 	private NotificationManager mNM;
 	private OCSSettings mOcssetting;
 	boolean mIsForced = false;
@@ -79,11 +93,11 @@ public class OCSAgentService extends Service {
 		ocslog.debug("now         : "+System.currentTimeMillis());
 		ocslog.debug("last update : "+lastUpdt);
 		ocslog.debug("delta laps  : "+delta);
-		ocslog.debug("freqmaj     : "+freq * 3600000L);
+		ocslog.debug("freqmaj     : "+freq * HOUR_IN_MILLIS );
 
-		if ( (delta > freq * 3600000L && isOnline()) || mIsForced ) {
+		if ( (delta > freq * HOUR_IN_MILLIS && isOnline()) || mIsForced ) {
 			ocslog.debug("mIsForced  : "+mIsForced);
-			ocslog.debug("bool date  : "+(delta > freq * 3600000L));
+			ocslog.debug("bool date  : "+(delta > freq * HOUR_IN_MILLIS));
 			AsyncCall task = new AsyncCall(this.getApplicationContext());
 			task.execute();
 		}
@@ -155,6 +169,10 @@ public class OCSAgentService extends Service {
 	        }
 	    	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 	    	private void notify(int id) {
+		
+		    if ( mOcssetting.getHiddenNotif()==HIDE_NOTIF_INVENT || mOcssetting.getHiddenNotif()==HIDE_NOTIF_ALL)
+				return;
+				
 	    		OCSLog.getInstance().debug("Notify inventory");
 	    		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 	    	
@@ -215,12 +233,19 @@ public class OCSAgentService extends Service {
     	mNM.cancelAll();
     }
  
+	/*NR : Now not only check if we are online but also is the connectivity matches the preference "automodeNetwork"
+	 */
 	private  boolean isOnline() {
 	    ConnectivityManager cm =
 	        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
 	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
-	        return true;
+			if ( mOcssetting.getAutoModeNetwork() == AUTOMODE_NOROAMING && !netInfo.isRoaming())
+				return true; // no roaming
+			if ( mOcssetting.getAutoModeNetwork() == AUTOMODE_ANY )
+				return true; // any network (including roaming)
+			if ( mOcssetting.getAutoModeNetwork() == AUTOMODE_WIFI && netInfo.getType() == ConnectivityManager.TYPE_WIFI )
+				return true; // wifi only
 	    }
 	    return false;
 	}

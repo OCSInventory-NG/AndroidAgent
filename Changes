@@ -71,3 +71,9 @@ Revision history for Ocsinventory NG Android Agent
 2.1.3
 	* On first start after installation, load automaticaly the configuration
 	if present on the sdcard.
+2.1.4
+	* Nicolas Ricquemaque contribution.
+	* New settings : Automatic mode's networks behavior management.
+	* New settings : Notifications hidding management
+
+

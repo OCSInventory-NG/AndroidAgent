@@ -9,6 +9,7 @@ import org.ocsinventory.android.actions.OCSLog;
 import org.ocsinventory.android.actions.OCSProtocol;
 import org.ocsinventory.android.actions.OCSProtocolException;
 import org.ocsinventory.android.actions.Utils;
+import org.ocsinventory.android.actions.OCSSettings;
 
 import android.annotation.TargetApi;
 import android.app.NotificationManager;
@@ -43,7 +44,7 @@ public class OCSDownloadService extends Service {
 	private boolean mLaunch=false; 			// One package(s) downloaded for install
 
 	private NotificationManager mNM;
-	// private OCSSettings mOcssetting;
+	private OCSSettings mOcssetting;
 	private OCSLog mOcslog;
 	private OCSProtocol mOcsproto;
 	private OCSFiles mOcsfiles;
@@ -70,7 +71,7 @@ public class OCSDownloadService extends Service {
 	@Override
 	public int onStartCommand(final Intent intent, final int flags,
 			final int startId) {
-		// mOcssetting = OCSSettings.getInstance(getApplicationContext());
+		mOcssetting = OCSSettings.getInstance(getApplicationContext());
 		mOcslog = OCSLog.getInstance();
 		// Read the prolog reply file describing the jobs
 		mOcsfiles = new OCSFiles(getApplicationContext());
@@ -248,14 +249,17 @@ public class OCSDownloadService extends Service {
 		
 		@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 		private void notify(int id) {
+		
+			if ( mOcssetting.getHiddenNotif() == OCSAgentService.HIDE_NOTIF_DOWNLOAD ||
+				mOcssetting.getHiddenNotif() == OCSAgentService.HIDE_NOTIF_ALL ) return;
 
 			mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
 			NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
-			.setSmallIcon(R.drawable.ic_notification)
-			.setContentTitle(getText(R.string.nty_title))
-			.setContentText(getText(id)).setAutoCancel(true)	
-			;
+				.setSmallIcon(R.drawable.ic_notification)
+				.setContentTitle(getText(R.string.nty_title))
+				.setContentText(getText(id)).setAutoCancel(true)	
+				;
 
 			Intent rIntent = new Intent(mContext, OCSLaunchActivity.class);
 			/*

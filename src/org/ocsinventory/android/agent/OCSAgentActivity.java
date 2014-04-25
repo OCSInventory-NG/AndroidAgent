@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 public class OCSAgentActivity extends Activity {
 	public OCSSettings settings = null;
+	private final static String IMPORT_CONFIG = "import_config";
 
 	protected  ProgressDialog mProgressDialog;
 	
@@ -36,20 +37,20 @@ public class OCSAgentActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.ocs_agent);
-		/*
-		Typeface font = Typeface.createFromAsset(getAssets(), Constantes.OCSFONT);        
-		((Button)findViewById(R.id.bt_launch)).setTypeface(font);
-		((Button)findViewById(R.id.bt_save)).setTypeface(font);
-		((Button) findViewById(R.id.bt_show)).setTypeface(font);
-		((TextView) findViewById(R.id.statusBar)).setTypeface(font);
-		*/
-		// Initialisation de la configuration
+		
+		// Initialisation de la configuration. Si on ajoute une chaine extra "IMPORT_CONFIG" en lançant l'activité, la configuration est réimportée de force.
+		// Init. configuration. If an extra "IMPORT_CONFIG" is added on launch of the activity. The configuration import is forced.
 		settings=OCSSettings.getInstance(this);
 		settings.logSettings();
+		if ( getIntent().getStringExtra(IMPORT_CONFIG)!=null )  {
+			importConfig();
+			finish();
+		}
+		// If deviceUid is null. It is the first start. The an import config is tried.		
 		if ( settings.getDeviceUid() == null ) 
 			importConfig();
 		
-		// MAJ de la version dans la barre de titre
+		// Version update on title bar.
 		String version;
 		int vcode;
 		try {
@@ -66,7 +67,6 @@ public class OCSAgentActivity extends Activity {
 	
 	@Override
 	protected void onStart() {
-		// TODO Auto-generated method stub
 		super.onStart();
 		android.util.Log.d("OCSAgentActivity", "onStart()");
 	}

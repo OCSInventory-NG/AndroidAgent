@@ -50,6 +50,8 @@ public class OCSPrefsActivity extends PreferenceActivity {
 		bindPreferenceSummaryToValue(findPreference("k_devicetag"));
 		bindPreferenceSummaryToValue(findPreference("k_freqmaj"));
 		bindPreferenceSummaryToValue(findPreference("k_freqwake"));
+		bindPreferenceSummaryToValue(findPreference("k_automodeNetwork"));	
+		bindPreferenceSummaryToValue(findPreference("k_hideNotif"));		
 		bindPreferenceSummaryToValue(findPreference("k_cachelen"));
 		bindPreferenceSummaryToValue(findPreference("k_proxyadr"));
 		bindPreferenceSummaryToValue(findPreference("k_proxyport"));
@@ -127,7 +129,6 @@ public class OCSPrefsActivity extends PreferenceActivity {
 	            android.util.Log.v("PreferenceChange", "**** KEY test_preference_key modified ****");
 	            mfreqwake_chg=true;
 	        }
-	        
 	    }  
 	}
 	

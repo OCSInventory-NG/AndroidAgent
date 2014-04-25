@@ -4,6 +4,14 @@
         <EditTextPreference android:key="k_devicetag" android:summary="@string/pref_description_devicetag" android:title="@string/pref_title_devicetag" android:dialogTitle="@string/pref_title_devicetag" android:defaultValue="@string/pref_default_devicetag"/>
         <CheckBoxPreference android:enabled="true" android:title="@string/pref_title_debug" android:summary="@string/pref_description_debug" android:key="k_debug"/>
         <CheckBoxPreference android:key="k_automode" android:title="@string/pref_title_automode" android:summary="@string/pref_description_automode"/>
+		<ListPreference 
+            android:key="k_automodeNetwork"
+            android:title="@string/pref_title_automodeNetwork"
+            android:defaultValue="0" 
+            android:entries="@array/automodeNetwork"
+            android:entryValues="@array/automodeNetworkValues"
+            android:dependency="k_automode"
+        />
         <EditTextPreference android:key="k_freqmaj" android:title="@string/pref_title_freqmaj" 
             android:dialogTitle="@string/pref_dialog_freqmaj"
             android:defaultValue="@string/pref_default_freqmaj" 
@@ -32,6 +40,13 @@
 		<CheckBoxPreference android:key="k_compua" 
             android:title="@string/pref_title_compua" 
             android:summary="@string/pref_description_compua" android:defaultValue="false" android:summaryOn="@string/pref_summaryOn_compua" android:summaryOff="@string/pref_summaryOff_compua"/>
+		<ListPreference 
+            android:key="k_hideNotif"
+            android:title="@string/pref_title_hideNotif"
+            android:defaultValue="0" 
+            android:entries="@array/hideNotif"
+            android:entryValues="@array/hideNotifValues"
+        />
 		
  	</PreferenceCategory>
 	<PreferenceCategory android:title="@string/pref_header_server">
