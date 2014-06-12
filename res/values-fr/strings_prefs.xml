@@ -14,6 +14,12 @@
     <string name="pref_default_devicetag">Smartphone</string>
 	<string name="pref_title_automode">Mode automatique</string>
  	<string name="pref_description_automode">Inventaire automatique</string>
+	
+	<string name="pref_title_automodeNetwork">En fonction du réseau</string>
+	<string name="pref_list_Network_always">Toujours</string>
+	<string name="pref_list_Network_noroaming">Data ou WIFI, pas de roaming</string>
+	<string name="pref_list_Network_any">Data ou WIFI, tout réseau</string>
+	<string name="pref_list_Network_wifi">WIFI seulement</string>	
     
  	<string name="pref_title_freqmaj">Fréquence d\'inventaire</string>
 	<string name="pref_dialog_freqmaj">Intervalle en heures</string>
@@ -60,5 +66,11 @@
     <string name="pref_summaryOn_compua">User agent 2.0</string>
     <string name="pref_summaryOff_compua">Useragent courant</string>
     					
+<!--NR--><string name="pref_title_hideNotif">Cacher notifications</string>
+<!--NR--><string name="pref_description_hideNotif">Cacher certaines notifications</string>
+<!--NR--><string name="pref_list_hideNotif_none">Aucune</string>
+<!--NR--><string name="pref_list_hideNotif_inventory">Inventaires</string>
+<!--NR--><string name="pref_list_hideNotif_download">Téléchargements</string>
+<!--NR--><string name="pref_list_hideNotif_all">Toutes</string>	
 	
 </resources>
