@@ -75,5 +75,8 @@ Revision history for Ocsinventory NG Android Agent
 	* Nicolas Ricquemaque contribution.
 	* New settings : Automatic mode's networks behavior management.
 	* New settings : Notifications hidding management
-
-
+	* Load configuration from sdcard when start with a "force_update" extra.
+2.1.5
+	* Package renamed to org.orcinventoryng.android
+	* Import exported configuration file the name org.orcinventoryng.android.agent_preferences.xml 
+	* OR org.orcinventory.android.agent_preferences.xml
