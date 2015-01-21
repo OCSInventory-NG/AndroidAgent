@@ -37,6 +37,7 @@ import org.ocsinventoryng.android.agent.OCSPrologReply;
 import org.ocsinventoryng.android.agent.R;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 public class OCSProtocol {
 	private OCSLog ocslog = OCSLog.getInstance();
@@ -193,20 +194,23 @@ public class OCSProtocol {
 		}
   		
 
-			ocslog.debug("Call : " + server);
-			HttpResponse localHttpResponse=null;
-			try {
-				localHttpResponse = httpClient.execute(httppost);
-			} catch (ClientProtocolException e) {
-				throw new OCSProtocolException(e.getMessage());
-			} 
-			catch (IOException e) {
-				String msg = appCtx.getString(R.string.err_cant_connect)+" "+e.getMessage();
-				ocslog.error(msg);
-				throw new OCSProtocolException(msg);
-			}
+		ocslog.debug("Call : " + server);
+		HttpResponse localHttpResponse=null;
+		try {
+			localHttpResponse = httpClient.execute(httppost);
+			ocslog.debug("Message sent");
+		} catch (ClientProtocolException e) {
+			ocslog.error("ClientProtocolException"+e.getMessage());
+			throw new OCSProtocolException(e.getMessage());
+		} 
+		catch (IOException e) {
+			String msg = appCtx.getString(R.string.err_cant_connect)+" "+e.getMessage();
+			ocslog.error(msg);
+			throw new OCSProtocolException(msg);
+		}
 			
-			try {		
+		try
+		{		
 			int httpCode = localHttpResponse.getStatusLine().getStatusCode();
 			ocslog.debug("Response status code : " + String.valueOf(httpCode));
 			if ( httpCode== 200) {
@@ -325,15 +329,22 @@ public class OCSProtocol {
 		return resp;
 	}
 	
+	/*
+	 * Function called on main start to verify il a new verion is installed 
+	 * Then send success status and delete package
+	 * Operation done in  Installereceiver for othet package but INSTALL event is 
+	 * not send to then application itself
+
 	public void verifyNewVersion(int pvcode) {
 		File uptdflag = appCtx.getFileStreamPath("update.flag");
+		String id="";
 		if ( uptdflag.exists() ) {
 			try {
 				String uctx= Utils.readShortFile(uptdflag);
 				OCSLog.getInstance().debug("uctx :"+uctx);
-				String[]str = uctx.split(";");
+				String[]str = uctx.split(":");
 				if ( str.length > 1  ) {
-					String id=str[0];
+					id=str[0];
 					int vcode=Integer.parseInt(str[1]);
 					ocslog.debug("Test version code :"+vcode+"="+pvcode);
 					if ( vcode == pvcode) 
@@ -348,7 +359,79 @@ public class OCSProtocol {
 			}
 			if ( ! uptdflag.delete() )
 				ocslog.error("Cant delete update.flag");
+			
+			// Clean download files
+			File fapk = new File(appCtx.getExternalCacheDir(),id+".apk");
+			fapk.delete();
+			File finst = new File(appCtx.getFilesDir(),appCtx.getPackageName()+".inst");
+			finst.delete();
+			File finfo = new File(appCtx.getFilesDir(),id+".info");
+			finfo.delete();
 		}
 	}
-	
+		 */
+	/*
+	 * Function called on main start to verify if a new version is installed 
+	 * Then send success status and delete package
+	 * Operation done in  Installereceiver for othet package but INSTALL event is 
+	 * not send to then application itself
+	 */
+	public void verifyNewVersion(int pvcode) {
+		File uptdflag = appCtx.getFileStreamPath("update.flag");
+		String id="";
+		OCSLog ocslog=OCSLog.getInstance();
+		if ( uptdflag.exists() ) {
+			try {
+				String uctx= Utils.readShortFile(uptdflag);
+				OCSLog.getInstance().debug("uctx :"+uctx);
+				String[]str = uctx.split(":");
+				if ( str.length > 1  ) {
+					id=str[0];
+					int vcode=Integer.parseInt(str[1]);
+					ocslog.debug("Test version code :"+vcode+"="+pvcode);
+					if ( vcode == pvcode) {
+							AsyncSend task = new AsyncSend(appCtx);
+							task.execute(id, "SUCCESS");
+					}
+					// else
+					//	ocsproto.sendRequestMessage("DOWNLOAD", id, "ERR_ABORT");
+					}
+			} catch (IOException e) {
+				ocslog.error("Cant read update.flag");
+			}
+			if ( ! uptdflag.delete() )
+				ocslog.error("Cant delete update.flag");
+			
+			// Clean download files
+			File fapk = new File(appCtx.getExternalCacheDir(),id+".apk");
+			fapk.delete();
+			File finst = new File(appCtx.getFilesDir(),appCtx.getPackageName()+".inst");
+			finst.delete();
+			File finfo = new File(appCtx.getFilesDir(),id+".info");
+			finfo.delete();
+		}
+	}
+    private class AsyncSend extends AsyncTask<String, Void, Void> {
+		Context mContext;
+
+		AsyncSend(Context ctx) {
+			mContext = ctx;
+		}
+
+		@Override
+		protected Void doInBackground(String... params) {
+			OCSLog ocslog=OCSLog.getInstance();
+			OCSProtocol ocsproto = new OCSProtocol(mContext);
+			String ocsid=params[0];
+			String status=params[1];
+			try {
+				ocsproto.sendRequestMessage("DOWNLOAD", ocsid, status);
+			} catch (OCSProtocolException e) {
+				ocslog.error(e.getMessage());
+			}
+			return null;
+		}
+
+	}
+
 }

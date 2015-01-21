@@ -186,5 +186,5 @@ public class OCSAgentActivity extends Activity {
 		TextView status = (TextView) findViewById(R.id.statusBar);
 		status.setText(msg);	
 	}
-	
+
 }
