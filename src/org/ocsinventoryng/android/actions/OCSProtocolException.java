@@ -7,6 +7,7 @@ public class OCSProtocolException extends Exception {
 	 /**
 	 * 
 	 */
+	private OCSLog ocslog = OCSLog.getInstance();
 	private static final long serialVersionUID = 8115364599391499226L;
 
 	public OCSProtocolException() {
@@ -15,6 +16,7 @@ public class OCSProtocolException extends Exception {
 
 	public OCSProtocolException(String s) {
 	        super(s);
+			ocslog.error(s);
 	    }	
 
 }

@@ -8,28 +8,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.ocsinventoryng.android.actions.OCSLog;
-import org.ocsinventoryng.android.actions.OCSProtocol;
-import org.ocsinventoryng.android.actions.OCSProtocolException;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class OCSLaunchActivity extends Activity {
 
 	private File[] mFiles;
 	private String[] mPackageNames;
 	private String[] mPackageVersions;
+	private String[] mIdOCS;
 	private int[] mVersionCode;
-	private boolean[] mInstalled;
 	private OCSLog mOcslog;
-	private int mLaunched =0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +36,14 @@ public class OCSLaunchActivity extends Activity {
 		mFiles = dirSofts.listFiles();
 		mPackageNames = new String[mFiles.length];
 		mPackageVersions = new String[mFiles.length];
-		mInstalled = new boolean[mFiles.length];
+		mIdOCS = new String[mFiles.length];
 		mVersionCode = new int[mFiles.length];
-		mLaunched=0;
 		
-		StringBuffer sb = new StringBuffer("Soft to be installed :\n");
+		StringBuffer sb = new StringBuffer("OCS installations :\n\n");
 		for (int i = 0; i < mFiles.length; ++i) {
 	    	String filename=mFiles[i].getName();
-	    	String id=filename.substring(0,filename.indexOf(".apk"));
-
+	    	mIdOCS[i]=filename.substring(0,filename.indexOf(".apk"));
+	    	
 	        PackageManager pm = getPackageManager();
 	        PackageInfo pkgInfo = pm.getPackageArchiveInfo(mFiles[i].getPath(), 
 	                               PackageManager.GET_ACTIVITIES);
@@ -58,13 +52,15 @@ public class OCSLaunchActivity extends Activity {
 	    	mVersionCode[i]=pkgInfo.versionCode;
 	    	mOcslog.debug("package : "+mPackageNames[i]+"/"+pkgInfo.versionCode);
 	    	mOcslog.debug("package : "+mPackageNames[i]+"/"+mPackageVersions[i]);
-	    	sb.append(filename).append(" : ").append(pkgInfo.applicationInfo.packageName);
-	    	
+	    	sb.append(filename).append(" :\n  ").append(pkgInfo.applicationInfo.packageName)
+	    		.append("\n").append("  version:").append(pkgInfo.versionName)
+	    		.append("\n\n");
 	    	OCSDownloadInfos infos = null;
 			try {
-				infos = getInfos(id);
+				infos = getInfos(mIdOCS[i]);
 				if  (infos != null )
-				sb.append(infos.getNotify_text());
+				if ( infos.getNotify_text() != null)
+					sb.append("\n"+infos.getNotify_text());
 			} catch (IOException e) {
 				mOcslog.error(filename+" : "+e.getMessage());
 			}
@@ -75,10 +71,11 @@ public class OCSLaunchActivity extends Activity {
 			Intent intent = new Intent(Intent.ACTION_VIEW);
 			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			intent.setDataAndType(Uri.fromFile(finst), "application/vnd.android.package-archive");
-			if ( mPackageNames[i].equals("org.ocsinventory.android.agent" ) ) {
-				mOcslog.debug("org.ocsinventory.android.agent detected");
+			// Special case of agent itself
+			if ( mPackageNames[i].equals(this.getPackageName() ) ) {
+				mOcslog.debug(this.getPackageName()+" detected");
 				// Save id;version code for asynchrone check later
-				String idctx=id+";"+pkgInfo.versionCode;
+				String idctx=mIdOCS[i]+":"+pkgInfo.versionCode;
 				try {
 					FileOutputStream fos = getApplicationContext().openFileOutput("update.flag", 0);
 					fos.write(idctx.getBytes());
@@ -93,70 +90,35 @@ public class OCSLaunchActivity extends Activity {
 		}
 		TextView vMsg = (TextView) findViewById(R.id.textInstall);
 		vMsg.setText(sb.toString());
-		
-		mOcslog.debug(sb.toString());
+ 		mOcslog.debug(sb.toString());
 	}
 	
 	/**
-	 * Catch the result of each installation task
+	 * Called at end of an Activity
+	 * Set a little context file named with package name and 
+	 * contain OCS pakageid and version code
+	 * For asynchronous verification by OCSInstallReceiver.java 
 	 */
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     	int no=requestCode-1;
-    	String msg=String.valueOf(no+"/"+String.valueOf(resultCode));
-    	Toast toast = Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG);
-    	toast.show();
-    	String filename=mFiles[no].getName();
-    	String id=filename.substring(0,filename.indexOf(".apk"));
-   	
-    	OCSProtocol ocsproto = new OCSProtocol(getApplicationContext());
-		try {
-			// if ( resultCode == RESULT_OK )
-			mInstalled[no]=isPkgInstalled( mPackageNames[no], mVersionCode[no] );
-		   	if ( mInstalled[no])
-		   	 	ocsproto.sendRequestMessage("DOWNLOAD", id, "SUCCESS");
-			else
-		    	ocsproto.sendRequestMessage("DOWNLOAD", id, "ERR_ABORTED");
-		} catch (OCSProtocolException e) {}
-
-		mLaunched++;
-		if ( mLaunched == mFiles.length ) {
-			StringBuffer sb = new StringBuffer("Installation report :\n");
-			for( int i=0; i <mFiles.length; i++ ) {
-					sb.append(mPackageNames[i]).append(" ").append(mPackageVersions[i]).append(" : ");
-					if  ( mInstalled[i]) {
-						sb.append("OK\n");
-						mFiles[i].delete();
-					} else {
-						sb.append("KO\n");
-					}
-			}
-			TextView vMsg = (TextView) findViewById(R.id.textInstall);
-			vMsg.setText(sb.toString());	
+    	mOcslog = OCSLog.getInstance();
+  	
+    	String packageName=mPackageNames[no];
+    	if (packageName == null )
+    		return;
+    	String ctx=mIdOCS[no]+":"+mVersionCode[no]+":";
+		// Save requestid and versioncode in a package context file for verification in OCSInstallReceiver
+    	try {
+			FileOutputStream fos = getApplicationContext().openFileOutput(packageName+".inst", 0);
+			fos.write(ctx.getBytes());
+			fos.close();
+		} catch (Exception e) {
+			mOcslog.error(e.getMessage());
 		}
-   	
      }
     /**
-     * Check if a package is installed whith a given version code
-     * 
-     * @param pkg	Package name
-     * @param version Version code
-     * @return true if installed
-     */
-    private boolean isPkgInstalled( String pkg, int version) {
-		PackageManager pm = getApplicationContext().getPackageManager () ;
-
-		mOcslog.debug("Check installation "+pkg+"/"+version);
-		try {
-			PackageInfo lpInfo = pm.getPackageInfo (pkg, PackageManager.GET_ACTIVITIES);
-			return ( lpInfo.versionCode == version );
-		} catch (NameNotFoundException e) {
-			mOcslog.error("Package notfound");
-			return false;
-		}
-    }
-    /**
-     * 
-     * @param id ocd id package
+     * Read informations file of OSC package
+     * @param id OCS id of the package 
      * @return OCSDownloadInfos object builded from info file
      * @throws IOException
      */

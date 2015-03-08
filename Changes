@@ -80,3 +80,6 @@ Revision history for Ocsinventory NG Android Agent
 	* Package renamed to org.orcinventoryng.android
 	* Import exported configuration file the name org.orcinventoryng.android.agent_preferences.xml 
 	* OR org.orcinventory.android.agent_preferences.xml
+2.1.6
+	* Bugs correction on package installation managment notifications
+	* Add InstallReceiver class

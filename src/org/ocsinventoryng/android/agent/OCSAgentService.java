@@ -197,37 +197,6 @@ public class OCSAgentService extends Service {
 	    	}	
 	    }
 	
-/*	
-	@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-	private void notify(int id) {
-
-		Notification notif;
-		mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
-		NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-        .setSmallIcon(R.drawable.ic_notification)
-        .setContentTitle("OCS notification")
-        .setContentText(getText(id));
-
-		
-		Intent rIntent = new Intent(this, OCSAgentActivity.class);
-		
-		TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-		stackBuilder.addParentStack(OCSAgentActivity.class);
-		stackBuilder.addNextIntent(rIntent);
-		PendingIntent intent = PendingIntent.getActivity(this, 0, rIntent, PendingIntent.FLAG_ONE_SHOT);
-		PendingIntent rpIntent =
-		        stackBuilder.getPendingIntent(
-		            0,
-		            PendingIntent.FLAG_UPDATE_CURRENT
-		        );
-		mBuilder.setContentIntent(rpIntent);
-		
-		mNM.notify(id, mBuilder.build());
-	}
-	*/
-
-	
     public void onDestroy() {
     	NotificationManager mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
     	mNM.cancelAll();

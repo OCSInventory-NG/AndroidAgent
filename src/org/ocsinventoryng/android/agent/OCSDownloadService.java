@@ -118,8 +118,10 @@ public class OCSDownloadService extends Service {
 			for (int iCycle=1; iCycle <= mReply.getPeriode_length() ; iCycle++) {
 				mOcslog.debug("Period " +iPeriod+" cycle "+iCycle+" todo "+todo);
 				for ( OCSDownloadIdParams dip : mReply.getIdList() ) {
-					if ( dip.getInfos() == null )
+					if ( dip.getInfos() == null ) {
+						todo --;
 						continue;
+					}
 					int pri=dip.getInfos().getPri();
 					int m = ( pri == 0 ? 0 : iCycle % pri);	
 					if ( m == 0 ) {
@@ -169,6 +171,7 @@ public class OCSDownloadService extends Service {
 									File finst = new File(getExternalCacheDir(),dip.getId()+".apk");
 									try {
 										Utils.copyFile(fileOut,  finst);
+										mOcslog.debug("Ready to install : "+finst);
 										mLaunch=true;
 									} catch (IOException e) { 
 										mOcslog.error("Erreur : " +e.getMessage());
