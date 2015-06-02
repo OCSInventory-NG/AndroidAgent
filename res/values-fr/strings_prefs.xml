@@ -1,0 +1,76 @@
+<resources>
+
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+    <string name="pref_title_debug">Debug</string>
+    <string name="pref_description_debug">Produit un fichier de trace sur sdcard</string>
+    <string name="pref_title_devicetag">TAG</string>
+    <string name="pref_description_devicetag">Etiquette de categorie dans OCS</string>
+    <string name="pref_default_devicetag">Smartphone</string>
+	<string name="pref_title_automode">Mode automatique</string>
+ 	<string name="pref_description_automode">Inventaire automatique</string>
+	
+	<string name="pref_title_automodeNetwork">En fonction du réseau</string>
+	<string name="pref_list_Network_always">Toujours</string>
+	<string name="pref_list_Network_noroaming">Data ou WIFI, pas de roaming</string>
+	<string name="pref_list_Network_any">Data ou WIFI, tout réseau</string>
+	<string name="pref_list_Network_wifi">WIFI seulement</string>	
+    
+ 	<string name="pref_title_freqmaj">Fréquence d\'inventaire</string>
+	<string name="pref_dialog_freqmaj">Intervalle en heures</string>
+ 	<string name="pref_description_freqmaj">Fréquence d\'envoi de l\'inventaire</string>
+  	<string name="pref_title_freqwake">Fréquence de réveil</string>
+ 	<string name="pref_description_freqwake">Intervalle de vérification</string>
+	<string name="pref_dialog_freqwake">Intervalle en minutes</string>
+        
+	<string name="pref_header_server">Serveur</string>
+	<string name="pref_title_serverurl">URL du serveur</string>
+    <string name="pref_description_serverurl">URL du serveur OCS</string>
+    <string name="pref_default_serverurl">http://ocsinventory-ng/ocsinventory</string>
+    <string name="pref_summaryOn_sslstrict">Activé</string>
+    <string name="pref_summaryOff_sslstrict">Désactivé</string>
+    <string name="pref_title_sslstrict">Contrôle SSL</string>
+    
+    <string name="pref_title_proxy">Proxy http</string>
+	<string name="pref_title_proxyadr">Adresse</string>
+ 	<string name="pref_description_proxyadr">Adresse IP du proxy</string>   
+	<string name="pref_title_proxyport">Port</string>
+ 	<string name="pref_description_proxyport">Port du proxy</string> 
+
+	<string name="pref_title_auth">Authentification</string>		
+	<string name="pref_title_login">Identifiant</string> 
+	<string name="pref_title_passwd">Mot de passe</string> 	
+		
+ 	<string name="pref_title_cache">Cache</string>
+ 	<string name="pref_description_cache">Cache de l\'inventaire sur le mobile</string>
+ 	
+	<string name="pref_title_cachelen">Durée de vie du cache</string>
+  	<string name="pref_description_cachelen">Durée de vie du cache</string>
+ 	
+	<string name="pref_list_freq_5mn">5 minutes</string>
+	<string name="pref_list_freq_15mn">15 minutes</string>
+	<string name="pref_list_freq_30mn">30 minutes</string>
+	<string name="pref_list_freq_1h">une heure</string>	
+	
+	<string name="pref_title_syshide">Logiciels système</string>
+    <string name="pref_summaryOn_syshide">Exclus de l\'inventaire</string>
+    <string name="pref_summaryOff_syshide">Inclus dans l\'inventaire</string>
+    
+	<string name="pref_title_compua">Compatibilité useragent</string>
+ 	<string name="pref_description_compua">Useragent 2.0 for compatibility</string>
+    <string name="pref_summaryOn_compua">User agent 2.0</string>
+    <string name="pref_summaryOff_compua">Useragent courant</string>
+    					
+<!--NR--><string name="pref_title_hideNotif">Cacher notifications</string>
+<!--NR--><string name="pref_description_hideNotif">Cacher certaines notifications</string>
+<!--NR--><string name="pref_list_hideNotif_none">Aucune</string>
+<!--NR--><string name="pref_list_hideNotif_inventory">Inventaires</string>
+<!--NR--><string name="pref_list_hideNotif_download">Téléchargements</string>
+<!--NR--><string name="pref_list_hideNotif_all">Toutes</string>	
+	
+</resources>

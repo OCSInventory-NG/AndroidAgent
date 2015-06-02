@@ -1,0 +1,76 @@
+<resources>
+
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+    <string name="pref_title_debug">Debug</string>
+    <string name="pref_description_debug">Make a trace file on sdcard</string>
+    <string name="pref_title_devicetag">TAG</string>
+    <string name="pref_description_devicetag">Cathegory TAG in OCS</string>
+    <string name="pref_default_devicetag">Mobile</string>
+    <string name="pref_title_automode">Automatic</string>
+	<string name="pref_description_automode">Automatic inventory</string>
+	
+	<string name="pref_title_automodeNetwork">Depending on network status</string>
+	<string name="pref_list_Network_always">Always</string>
+	<string name="pref_list_Network_noroaming">Data or WIFI, no roaming</string>
+	<string name="pref_list_Network_any">Data or WIFI, any network</string>
+	<string name="pref_list_Network_wifi">WIFI only</string>		
+    
+ 	<string name="pref_title_freqmaj">Inventory frequency</string>
+	<string name="pref_dialog_freqmaj">Delay in hours</string>
+ 	<string name="pref_description_freqmaj">Delay between two inventory sent</string>
+  	<string name="pref_title_freqwake">Wake frequency</string>
+ 	<string name="pref_description_freqwake">Interval between verifications</string>
+	<string name="pref_dialog_freqwake">Delay in minutes</string>
+        
+	<string name="pref_header_server">Server</string>
+	<string name="pref_title_serverurl">Server URL</string>
+    <string name="pref_description_serverurl">OCS server address</string>
+    <string name="pref_default_serverurl">http://ocsinventory-ng.org/ocsinventory</string>
+    <string name="pref_summaryOn_sslstrict">ON</string>
+    <string name="pref_summaryOff_sslstrict">OFF</string>
+    <string name="pref_title_sslstrict">SSL Control</string>
+    
+    <string name="pref_title_proxy">Proxy http</string>
+	<string name="pref_title_proxyadr">Address</string>
+ 	<string name="pref_description_proxyadr">Proxy IP address</string>   
+	<string name="pref_title_proxyport">Port</string>
+ 	<string name="pref_description_proxyport">Proxy TCP port</string> 
+
+	<string name="pref_title_auth">Basic authentication</string>		
+	<string name="pref_title_login">Login</string> 
+	<string name="pref_title_passwd">Password</string> 	
+		
+ 	<string name="pref_title_cache">Cache</string>
+ 	<string name="pref_description_cache">Inventory cache on device</string>
+ 	
+	<string name="pref_title_cachelen">Cache lifetime</string>
+  	<string name="pref_description_cachelen">Cache live time</string>
+	<string name="pref_list_freq_5mn">5 minutes</string>
+	<string name="pref_list_freq_15mn">15 minutes</string>
+	<string name="pref_list_freq_30mn">30 minutes</string>
+	<string name="pref_list_freq_1h">one hour</string>		
+	
+	<string name="pref_title_syshide">System software</string>
+ 	<string name="pref_description_syshide">Exclude system softwares of inventory</string>
+    <string name="pref_summaryOn_syshide">Excluded of inventory</string>
+    <string name="pref_summaryOff_syshide">Included in inventory</string>
+ 
+	<string name="pref_title_compua">Useragent compatibility</string>
+ 	<string name="pref_description_compua">Useragent 2.0 for compatibility</string>
+    <string name="pref_summaryOn_compua">User agent 2.0</string>
+    <string name="pref_summaryOff_compua">Current useragent</string>
+    			
+	<string name="pref_title_hideNotif">Hide notifications</string>
+	<string name="pref_description_hideNotif">Do not show a notification depending on task</string>
+	<string name="pref_list_hideNotif_none">None</string>
+	<string name="pref_list_hideNotif_inventory">Inventories</string>
+	<string name="pref_list_hideNotif_download">Downloads</string>
+	<string name="pref_list_hideNotif_all">All</string>	
+	
+</resources>

@@ -1,0 +1,85 @@
+Revision history for Ocsinventory NG Android Agent
+
+0.9
+       * Initial version 
+
+0.9.1  	* Add service mode (automatic)
+	* Many corrections
+	* Add notifications
+	* Use standard android settings menus
+	* Lot of corrections 
+0.9.2
+	* Replace OCSShowActivity by a structured Listview activity
+	* Add OCS section object to contain a section usable by a ListView adapter 
+	* Each section implement a getSection() meth. returning a such as object
+0.9.3 
+	* Bug deteted in android 4.x : network operation cant be executed in the main thread as do
+	in service mode. Work in 2.x & 3.0 but exception in 4.1
+	=> send inventory executed in an Async Task
+0.9.4
+	* Device uid exclude of import settings operation
+	* Change icon
+	* Change default language to English
+	* Translations corrections
+ 	* On opening, Log file deleted if size > 100000 bytes
+	* Add option hide system software ( true by default)
+0.9.5   
+	* Correction on Inputs sections (not exported)
+	* Add camera in inputs
+0.9.6
+	* Messages corrections
+	* device uid not exported with settings
+0.9.7
+	* Messages corrections in settings
+	* Wifi speed information added
+	* Correction : crash when camera already open
+0.9.8
+	* In harware section : the field checksum is correctly calculated from sections changes 
+	since last successful upload.
+	* New logo
+	* Logo centred on main activity background.
+	* Different layout in lanscape disposition.
+0.9.9
+	* Change launch and notification icon
+	* Add SIMS section with check mask 0x80000	
+	
+2.1.0
+	* Correct SIM XML section name.
+	* 1st Publication version
+2.1.0.1
+	* Cédric Cabessa contribution
+	* add permission RECEIVE_BOOT_COMPLETED into Manifest
+	* Corrections about size image caps when multiples cameras
+	* move configuration strings to strings_nt.xml (no translatable strings)
+2.1.1
+	* add extra to OCSEventReceiver to save inventory on disk
+	* force inventory with OCSEventReceiver
+	* remove OCSFiles singleton
+	* fix unit conversion bug for cache
+	* change inventory file name (host + date)
+	* use OCSSettings instead of direct call to PreferenceManager
+	* change address detection
+	* Do not force to enable wifi
+	* specify the same process name as service for activity in manifest for good settings share
+	* Add DEVICEID in SIM section for phone id (IMEI) info
+	* Java info returned in software section
+	* Kernel version returned in Hardware/OSComments + tag "*ROOTED*" if device is rooted.
+2.1.1.1
+	* Correction OCSEventreceiver option force_update was always set to true	
+2.1.2
+	* Change cpu number evaluation method to obtains correct value.
+2.1.3
+	* On first start after installation, load automaticaly the configuration
+	if present on the sdcard.
+2.1.4
+	* Nicolas Ricquemaque contribution.
+	* New settings : Automatic mode's networks behavior management.
+	* New settings : Notifications hidding management
+	* Load configuration from sdcard when start with a "force_update" extra.
+2.1.5
+	* Package renamed to org.orcinventoryng.android
+	* Import exported configuration file the name org.orcinventoryng.android.agent_preferences.xml 
+	* OR org.orcinventory.android.agent_preferences.xml
+2.1.6
+	* Bugs correction on package installation managment notifications
+	* Add InstallReceiver class

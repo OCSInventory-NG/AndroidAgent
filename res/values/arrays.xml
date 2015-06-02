@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <string-array name="cacheInterval">
+        <item name="i300">@string/pref_list_freq_5mn</item>
+        <item name="i900">@string/pref_list_freq_15mn</item>
+        <item name="i1800">@string/pref_list_freq_30mn</item>
+        <item name="i3600">@string/pref_list_freq_1h</item>
+    </string-array>
+    
+    <string-array name="cacheIntervalValues">
+        <item name="i300">300000</item>
+        <item name="i900">900000</item>
+        <item name="i1800">1800000</item>
+        <item name="i3600">3600000</item>
+    </string-array>
+	
+	<string-array name="array_sections" >
+	    <item>BIOS</item>
+	    <item>DRIVES</item>
+	    <item>HARDWARE</item>
+		<item>NETWORKS</item>
+	    <item>INPUTS</item>
+	   	<item>JAVAINFOS</item>
+	    <item>STORAGES</item>
+	    <item>SOFTWARES</item>
+	    <item>VIDEOS</item>
+		<item>SIM</item>	  	    
+	</string-array> 
+	
+	<string-array name="automodeNetwork">
+	   <item name="r0">@string/pref_list_Network_noroaming</item>
+	    <item name="r1">@string/pref_list_Network_any</item>
+	    <item name="r2">@string/pref_list_Network_wifi</item>
+	</string-array>    
+	<string-array name="automodeNetworkValues">
+	    <item name="r0">0</item>
+	    <item name="r1">1</item>
+	    <item name="r2">2</item>
+	</string-array>
+	
+	<string-array name="hideNotif">
+	    <item name="h0">@string/pref_list_hideNotif_none</item>       
+	    <item name="h1">@string/pref_list_hideNotif_inventory</item>
+	    <item name="h2">@string/pref_list_hideNotif_download</item>
+		 <item name="h3">@string/pref_list_hideNotif_all</item>
+	</string-array>    
+	<string-array name="hideNotifValues">
+		<item name="h0">0</item>
+	    <item name="h1">1</item>
+		<item name="h2">2</item>
+		<item name="h3">3</item>
+	</string-array>
+    
+ 
+</resources>
