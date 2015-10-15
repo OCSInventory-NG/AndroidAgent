@@ -28,7 +28,7 @@ public class OCSSettings
 	final String KDEBUG = "k_debug";
 	final String KGZIP = "k_gzip";
 	final String KSTRICTSSL = "k_strictssl";	
-	final String KPROXY = "k_proxyl";
+	final String KPROXY = "k_proxy";
 	final String KPROXYADR = "k_proxyadr";
 	final String KPROXYPORT = "k_proxyport";
 	final String KCACHE = "k_cache";

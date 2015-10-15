@@ -90,8 +90,9 @@ public class Inventory {
 			hardware.setIpAddress(pn.getIpAdress());
 		}
 		
-		ocslog.debug("drives...");
+		ocslog.debug("OCSdrives...");
 		this.drives=new OCSDrives();
+		ocslog.debug("OCSStorages...");
 		this.storages=new OCSStorages();
 		
 		if ( settings.getDeviceUid() == null ) {
@@ -108,12 +109,16 @@ public class Inventory {
 		this.videos = new OCSVideos(ctx);
 		ocslog.debug("OCSSoftwares...");
 		this.softwares = new OCSSoftwares(ctx);
+		ocslog.debug("OCSInputs...");
 		this.inputs=new OCSInputs(ctx.getApplicationContext());
+		ocslog.debug("OCSJavaInfos...");
 		this.javainfos= new OCSJavaInfos();
+		ocslog.debug("OCSSims...");
 		this.sims= new OCSSims(ctx);
 		
 	/* Mise a jour du checksum */
 		mCtx=ctx;
+		ocslog.debug("CHECKSUM update");
 		loadSectionsFP(ctx);
 		currentFP=new Hashtable<String, String>();
 		
@@ -251,7 +256,11 @@ public class Inventory {
 
 		return null;
 	}
-	
+
+	/**
+	Load sections checksum from file
+	 @param ctx application context
+	 **/
 	private void loadSectionsFP(Context ctx ) {
 		lastFP=new Hashtable<String, String>();
 		

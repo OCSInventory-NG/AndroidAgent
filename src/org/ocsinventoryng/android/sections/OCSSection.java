@@ -1,4 +1,6 @@
 package org.ocsinventoryng.android.sections;
+import org.ocsinventoryng.android.actions.OCSLog;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -6,6 +8,7 @@ public class OCSSection  {
 	String name;  // Section name ie BIOS
 	String titre; // Section title for display
 	Map<String, String> attrs;
+	private OCSLog ocslog = OCSLog.getInstance();
 	public OCSSection(String pName) {
 		name = pName;
 		attrs = new  HashMap<String, String>();
@@ -30,8 +33,11 @@ public class OCSSection  {
 	public String toString() {
 		StringBuffer strOut = new StringBuffer("");
 		for ( String k : attrs.keySet() ) {
+			ocslog.debug("Key : "+k);
 			String v = attrs.get(k);
-			strOut.append(k).append(": ").append(v).append("\n");			
+			ocslog.debug("Val : "+v);
+			if ( v != null )
+				strOut.append(k).append(": ").append(v).append("\n");
 		}
 		return strOut.toString();
 	}

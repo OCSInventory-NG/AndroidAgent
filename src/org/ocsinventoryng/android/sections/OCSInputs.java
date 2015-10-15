@@ -30,8 +30,8 @@ public class OCSInputs implements OCSSectionInterface
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
 			ocslog.debug("OCSInputs BUILD Build.VERSION.SDK_INT ");
 			Configuration config = ctx.getResources().getConfiguration();
-			ocslog.debug("config.keyboard"+ config.keyboard);
-			ocslog.debug("config.touchscreen"+ config.keyboard);
+			ocslog.debug("config.keyboard "+ config.keyboard);
+			ocslog.debug("config.touchscreen "+ config.touchscreen);
 			
 			OCSInput inkb = new   OCSInput ();
 			inkb.setType("keybord");
@@ -66,8 +66,10 @@ public class OCSInputs implements OCSSectionInterface
 			}
 			inputs.add(ocsin);
 		}
-
-		// Infos sur les apareils photo
+/*
+		// About cameras
+		ocslog.debug("Search camera infos on build : "+Build.VERSION.SDK_INT );
+		// Test if build < GINGERBREAD November 2010: Android 2.3
 		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
 	    	OCSInput ocsci = new  OCSInput ();
 	    	ocsci.setType("Camera");
@@ -77,8 +79,8 @@ public class OCSInputs implements OCSSectionInterface
 	    	inputs.add(ocsci);
 		} else {
 		    int numberOfCameras = Camera.getNumberOfCameras();
+			ocslog.debug("Number of cameras : "+numberOfCameras);
 		    CameraInfo cameraInfo = new CameraInfo();
-		    
 		    for (int i = 0; i < numberOfCameras; i++) {
 		    	OCSInput ocsci = new  OCSInput ();
 		    	String sSz = getCameraMaxImgSize(openCamera(i));
@@ -91,10 +93,13 @@ public class OCSInputs implements OCSSectionInterface
 			    ocsci.setDescription("Image size "+sSz);
 		    	inputs.add(ocsci);
 		    }
-	    }
+		}
+*/
+		ocslog.debug("OCSInputs done");
 	}
 
 	// Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD
+	@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 	private Camera openCamera() {
 	    try {
 	    	return Camera.open();

@@ -83,3 +83,6 @@ Revision history for Ocsinventory NG Android Agent
 2.1.6
 	* Bugs correction on package installation managment notifications
 	* Add InstallReceiver class
+2.1.7
+	* Bug on proxy option corrected. The option was not applied.
+
