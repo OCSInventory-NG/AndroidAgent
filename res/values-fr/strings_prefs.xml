@@ -1,24 +1,24 @@
 <resources>
 
-    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_settings">Paramètres</string>
 
     <!-- Strings related to Settings -->
 
 
     <!-- Example General settings -->
-    <string name="pref_header_general">General</string>
-    <string name="pref_title_debug">Debug</string>
-    <string name="pref_description_debug">Produit un fichier de trace sur sdcard</string>
+    <string name="pref_header_general">Général</string>
+    <string name="pref_title_debug">Débug</string>
+    <string name="pref_description_debug">Produit un fichier de trace sur la carte SD</string>
     <string name="pref_title_devicetag">TAG</string>
-    <string name="pref_description_devicetag">Etiquette de categorie dans OCS</string>
+    <string name="pref_description_devicetag">Etiquette de catégorie dans OCS</string>
     <string name="pref_default_devicetag">Smartphone</string>
 	<string name="pref_title_automode">Mode automatique</string>
  	<string name="pref_description_automode">Inventaire automatique</string>
 	
 	<string name="pref_title_automodeNetwork">En fonction du réseau</string>
 	<string name="pref_list_Network_always">Toujours</string>
-	<string name="pref_list_Network_noroaming">Data ou WIFI, pas de roaming</string>
-	<string name="pref_list_Network_any">Data ou WIFI, tout réseau</string>
+	<string name="pref_list_Network_noroaming">Data ou WIFI, pas en roaming</string>
+	<string name="pref_list_Network_any">Data ou WIFI, tous réseaux</string>
 	<string name="pref_list_Network_wifi">WIFI seulement</string>	
     
  	<string name="pref_title_freqmaj">Fréquence d\'inventaire</string>
@@ -36,7 +36,7 @@
     <string name="pref_summaryOff_sslstrict">Désactivé</string>
     <string name="pref_title_sslstrict">Contrôle SSL</string>
     
-    <string name="pref_title_proxy">Proxy http</string>
+    <string name="pref_title_proxy">Proxy HTTP</string>
 	<string name="pref_title_proxyadr">Adresse</string>
  	<string name="pref_description_proxyadr">Adresse IP du proxy</string>   
 	<string name="pref_title_proxyport">Port</string>
@@ -55,16 +55,16 @@
 	<string name="pref_list_freq_5mn">5 minutes</string>
 	<string name="pref_list_freq_15mn">15 minutes</string>
 	<string name="pref_list_freq_30mn">30 minutes</string>
-	<string name="pref_list_freq_1h">une heure</string>	
+	<string name="pref_list_freq_1h">1 heure</string>	
 	
 	<string name="pref_title_syshide">Logiciels système</string>
     <string name="pref_summaryOn_syshide">Exclus de l\'inventaire</string>
     <string name="pref_summaryOff_syshide">Inclus dans l\'inventaire</string>
     
-	<string name="pref_title_compua">Compatibilité useragent</string>
- 	<string name="pref_description_compua">Useragent 2.0 for compatibility</string>
-    <string name="pref_summaryOn_compua">User agent 2.0</string>
-    <string name="pref_summaryOff_compua">Useragent courant</string>
+	<string name="pref_title_compua">Compatibilité de l'agent</string>
+ 	<string name="pref_description_compua">Agent v2.0 (compatibilité)</string>
+    <string name="pref_summaryOn_compua">Agent v2.0</string>
+    <string name="pref_summaryOff_compua">Agent actuel</string>
     					
 <!--NR--><string name="pref_title_hideNotif">Cacher notifications</string>
 <!--NR--><string name="pref_description_hideNotif">Cacher certaines notifications</string>
