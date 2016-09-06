@@ -3,12 +3,11 @@ package org.ocsinventoryng.android.sections;
 import java.util.ArrayList;
 
 public interface OCSSectionInterface {
-    public String getSectionTag();
+    String getSectionTag();
 
-    // public long getSectioMask();
-    public ArrayList<OCSSection> getSections();
+    ArrayList<OCSSection> getSections();
 
-    public String toString();
+    String toString();
 
-    public String toXML();
+    String toXML();
 }

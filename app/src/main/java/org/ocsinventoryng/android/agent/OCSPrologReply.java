@@ -52,7 +52,6 @@ public class OCSPrologReply {
             this.frag_latency = Integer.parseInt(str);
         } catch (NumberFormatException e) {
         }
-        ;
     }
 
     /**
@@ -71,7 +70,6 @@ public class OCSPrologReply {
             this.period_latency = Integer.parseInt(str);
         } catch (NumberFormatException e) {
         }
-        ;
     }
 
     /**
@@ -90,7 +88,6 @@ public class OCSPrologReply {
             this.cycle_latency = Integer.parseInt(str);
         } catch (NumberFormatException e) {
         }
-        ;
     }
 
     public int getTimeout() {
@@ -106,7 +103,6 @@ public class OCSPrologReply {
             this.timeout = Integer.parseInt(str);
         } catch (NumberFormatException e) {
         }
-        ;
     }
 
     public int getPeriode_length() {
@@ -123,7 +119,6 @@ public class OCSPrologReply {
         } catch (NumberFormatException e) {
             this.periode_length = DEF_PERIODE_LENGTH;
         }
-        ;
     }
 
     public int getExecution_timeout() {
@@ -142,7 +137,6 @@ public class OCSPrologReply {
             this.execution_timeout = Integer.parseInt(str);
         } catch (NumberFormatException e) {
         }
-        ;
     }
 
     public boolean isOn() {

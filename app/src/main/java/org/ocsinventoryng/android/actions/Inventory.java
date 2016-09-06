@@ -226,7 +226,6 @@ public class Inventory {
 
         StringBuffer strOut = new StringBuffer();
         strOut.append(this.getDeviceUid()).append('\n');
-        ;
         strOut.append(this.bios);
         strOut.append(this.drives);
         strOut.append(this.storages);

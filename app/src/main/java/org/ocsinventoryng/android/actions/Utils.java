@@ -61,7 +61,7 @@ public class Utils {
             while ((i = isr.read(buffer, 0, buffer.length)) != -1) {
                 sb.append(buffer, 0, i);
             }
-            ;
+
             localInputStream.close();
             reponse = new String(sb);
         } catch (IOException localIOException) {

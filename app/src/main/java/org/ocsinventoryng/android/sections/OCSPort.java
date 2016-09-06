@@ -17,7 +17,6 @@ public class OCSPort {
         this.description = "NA";
         this.interf = "";
         this.pointtype = "";
-        ;
     }
 
 /*

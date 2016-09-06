@@ -78,9 +78,6 @@ public class OCSDownloadInfos {
         return need_done_action_text;
     }
 
-    public String getGardefou() {
-        return gardefou;
-    }
 
     private String id;
     private int pri;
@@ -98,7 +95,6 @@ public class OCSDownloadInfos {
     private boolean notify_can_delay;
     private boolean need_done_action;
     private String need_done_action_text;
-    private String gardefou;
 
 
     OCSDownloadInfos(String strinfos) {
@@ -114,17 +110,15 @@ public class OCSDownloadInfos {
         notify_can_delay = extrAttr(strinfos, "NOTIFY_CAN_DELAY").equals("1");
         need_done_action = extrAttr(strinfos, "NEED_DONE_ACTION").equals("1");
         need_done_action_text = extrAttr(strinfos, "NEED_DONE_ACTION_TEXT");
-        gardefou = extrAttr(strinfos, "GARDEFOU");
         try {
             pri = Integer.parseInt(extrAttr(strinfos, "PRI"));
         } catch (NumberFormatException e) {
         }
-        ;
+
         try {
             frags = Integer.parseInt(extrAttr(strinfos, "FRAGS"));
         } catch (NumberFormatException e) {
         }
-        ;
     }
 
     private String extrAttr(String doc, String attrName) {

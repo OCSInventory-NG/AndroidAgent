@@ -53,7 +53,7 @@ public class OCSLaunchActivity extends Activity {
             mOcslog.debug("package : " + mPackageNames[i] + "/" + mPackageVersions[i]);
             sb.append(filename).append(" :\n  ").append(pkgInfo.applicationInfo.packageName).append("\n").append(
                     "  version:").append(pkgInfo.versionName).append("\n\n");
-            OCSDownloadInfos infos = null;
+            OCSDownloadInfos infos;
             try {
                 infos = getInfos(mIdOCS[i]);
                 if (infos != null) {

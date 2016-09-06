@@ -17,7 +17,6 @@ public class OCSInput {
         this.description = "NA";
         this.interf = "";
         this.pointtype = "";
-        ;
     }
 
 /*

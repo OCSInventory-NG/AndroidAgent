@@ -35,7 +35,6 @@ public class PrefsParser extends DefaultHandler {
         try {
             SAXParser localSAXParser = localSAXParserFactory.newSAXParser();
             localSAXParser.parse(paramFile, this);
-            return;
         } catch (SAXException localSAXException) {
             localSAXException.printStackTrace();
         } catch (ParserConfigurationException localParserConfigurationException) {
