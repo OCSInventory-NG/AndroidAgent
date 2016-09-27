@@ -70,9 +70,14 @@ public class OCSDrives implements OCSSectionInterface {
                 if (m.find()) {
                     if (m.group(1) != null) {
                         ocslog.debug("Add drive " + m.group(1));
-                        OCSDrive drive = new OCSDrive(m.group(1).trim());
-                        drives.add(drive);
-                    }
+                        try {
+                            OCSDrive drive = new OCSDrive(m.group(1).trim());
+                            drives.add(drive);
+                        }
+                        catch (IllegalArgumentException e) {
+                            ocslog.debug("Error - adding drive " + m.group(1) + e.toString());
+                        }
+                     }
                 }
             }
             is.close();
