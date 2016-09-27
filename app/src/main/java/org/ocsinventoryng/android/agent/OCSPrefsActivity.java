@@ -49,7 +49,6 @@ public class OCSPrefsActivity extends PreferenceActivity {
     private static String uHour;
     private static String uMn;
 
-    @SuppressWarnings("deprecation")
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -120,7 +119,6 @@ public class OCSPrefsActivity extends PreferenceActivity {
         mAutoMode_chg = false;
     }
 
-    @SuppressWarnings("unused")
     private void cancelTimer(final Context ctx) {
 
         Intent i = new Intent(ctx, OCSEventReceiver.class);

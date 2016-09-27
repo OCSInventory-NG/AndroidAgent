@@ -34,8 +34,6 @@ public class OCSInputs implements OCSSectionInterface {
     final private String sectionTag = "INPUTS";
     public ArrayList<OCSInput> inputs;
 
-
-    @SuppressWarnings("deprecation")
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public OCSInputs(Context ctx) {
         OCSLog ocslog = OCSLog.getInstance();
@@ -82,35 +80,7 @@ public class OCSInputs implements OCSSectionInterface {
             }
             inputs.add(ocsin);
         }
-/*
-        // About cameras
-		ocslog.debug("Search camera infos on build : "+Build.VERSION.SDK_INT );
-		// Test if build < GINGERBREAD November 2010: Android 2.3
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-	    	OCSInput ocsci = new  OCSInput ();
-	    	ocsci.setType("Camera");
-	    	ocsci.setCaption("facing unknown");
-	    	String sSz = getCameraMaxImgSize(openCamera());
-	    	ocsci.setDescription("Image size "+sSz);
-	    	inputs.add(ocsci);
-		} else {
-		    int numberOfCameras = Camera.getNumberOfCameras();
-			ocslog.debug("Number of cameras : "+numberOfCameras);
-		    CameraInfo cameraInfo = new CameraInfo();
-		    for (int i = 0; i < numberOfCameras; i++) {
-		    	OCSInput ocsci = new  OCSInput ();
-		    	String sSz = getCameraMaxImgSize(openCamera(i));
-		    	ocsci.setType("Camera");
-		        Camera.getCameraInfo(i, cameraInfo);
-		        if (cameraInfo.facing == CameraInfo.CAMERA_FACING_BACK)
-		        	ocsci.setCaption("facing back");
-		        else 
-		        	ocsci.setCaption("facing front");
-			    ocsci.setDescription("Image size "+sSz);
-		    	inputs.add(ocsci);
-		    }
-		}
-*/
+
         ocslog.debug("OCSInputs done");
     }
 
