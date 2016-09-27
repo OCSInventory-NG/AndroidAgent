@@ -33,30 +33,30 @@ public class OCSSettings {
     private Context ctx;
     private SharedPreferences prefs;
 
-    final String KLASTUPDT = "k_lastupdt";
-    final String KDEVICEUID = "k_deviceUid";
+    private final String KLASTUPDT = "k_lastupdt";
+    private final String KDEVICEUID = "k_deviceUid";
 
-    final String KSERVERURL = "k_serverurl";
-    final String KDEVICETAG = "k_devicetag";
-    final String KAUTOMODE = "k_automode";
-    final String KAUTOMODENETWORK = "k_automodeNetwork";
-    final String KFREQMAJ = "k_freqmaj";
-    final String KFREQWAKE = "k_freqwake";
-    final String KDEBUG = "k_debug";
-    final String KGZIP = "k_gzip";
-    final String KSTRICTSSL = "k_strictssl";
-    final String KPROXY = "k_proxy";
-    final String KPROXYADR = "k_proxyadr";
-    final String KPROXYPORT = "k_proxyport";
-    final String KCACHE = "k_cache";
-    final String KCACHELEN = "k_cachelen";
+    private final String KSERVERURL = "k_serverurl";
+    private final String KDEVICETAG = "k_devicetag";
+    private final String KAUTOMODE = "k_automode";
+    private final String KAUTOMODENETWORK = "k_automodeNetwork";
+    private final String KFREQMAJ = "k_freqmaj";
+    private final String KFREQWAKE = "k_freqwake";
+    private final String KDEBUG = "k_debug";
+    private final String KGZIP = "k_gzip";
+    private final String KSTRICTSSL = "k_strictssl";
+    private final String KPROXY = "k_proxy";
+    private final String KPROXYADR = "k_proxyadr";
+    private final String KPROXYPORT = "k_proxyport";
+    private final String KCACHE = "k_cache";
+    private final String KCACHELEN = "k_cachelen";
 
-    final String KAUTH = "k_auth";
-    final String KLOGIN = "k_login";
-    final String KPASSWD = "k_passwd";
-    final String KSYSHIDE = "k_syshide";
-    final String KCOMPUA = "k_compua";
-    final String KHIDENOTIF = "k_hideNotif";
+    private final String KAUTH = "k_auth";
+    private final String KLOGIN = "k_login";
+    private final String KPASSWD = "k_passwd";
+    private final String KSYSHIDE = "k_syshide";
+    private final String KCOMPUA = "k_compua";
+    private final String KHIDENOTIF = "k_hideNotif";
 
     public OCSSettings(Context ctx) {
         //prefs = act.getSharedPreferences(LOGTAG, Context.MODE_PRIVATE);
@@ -114,14 +114,12 @@ public class OCSSettings {
 
     public int getAutoModeNetwork() {
         String p = prefs.getString(KAUTOMODENETWORK, "");
-        int i = Integer.parseInt(p);
-        return i;
+        return Integer.parseInt(p);
     }
 
     public int getHiddenNotif() {
         String p = prefs.getString(KHIDENOTIF, "");
-        int i = Integer.parseInt(p);
-        return i;
+        return Integer.parseInt(p);
     }
 
     public String getDeviceUid() {

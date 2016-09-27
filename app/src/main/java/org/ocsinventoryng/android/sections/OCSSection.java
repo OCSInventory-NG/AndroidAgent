@@ -24,9 +24,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class OCSSection {
-    String name;  // Section name ie BIOS
-    String titre; // Section title for display
-    Map<String, String> attrs;
+    private String name;  // Section name ie BIOS
+    private String titre; // Section title for display
+    private Map<String, String> attrs;
     private OCSLog ocslog = OCSLog.getInstance();
 
     public OCSSection(String pName) {

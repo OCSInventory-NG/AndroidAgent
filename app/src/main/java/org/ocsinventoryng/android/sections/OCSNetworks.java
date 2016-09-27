@@ -57,9 +57,9 @@ public class OCSNetworks implements OCSSectionInterface {
                 OCSNetwork netw = new OCSNetwork("Wifi/3G interface");
 
                 if (wifii.getWifiState() == WifiManager.WIFI_STATE_ENABLED) {
-                    netw.setStatus("Up");
+                    netw.setStatus(OCSNetwork.STATUS_UP);
                 } else {
-                    netw.setStatus("Down");
+                    netw.setStatus(OCSNetwork.STATUS_DOWN);
                 }
 
                 netw.setIpAdress(Utils.intToIp(d.ipAddress));
@@ -98,13 +98,13 @@ public class OCSNetworks implements OCSSectionInterface {
             String name = ni.getName();
 
             ocslog.debug("OCSNET Name :" + ni.getName());
-            // android.util.Log.d("OCSNET HAdr", ni.getHardwareAddress());
+
             while (listeIPAdr.hasMoreElements()) {
                 InetAddress ipAdr = listeIPAdr.nextElement();
                 if (!ipAdr.isLoopbackAddress() && !ipAdr.isLinkLocalAddress()) {
                     OCSNetwork netw = new OCSNetwork(name);
-                    String ipadr = ipAdr.getHostAddress();
-                    netw.setIpAdress(ipadr);
+                    netw.setIpAdress(ipAdr.getHostAddress());
+
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO) {
                         try {
                             netw.setMacaddr(Utils.bytesToHex(ni.getHardwareAddress()));
@@ -114,7 +114,7 @@ public class OCSNetworks implements OCSSectionInterface {
                     // this ip may be already presents as a wifi address
                     boolean isWifi = false;
                     for (OCSNetwork tmp : networks) {
-                        if (tmp.ipAdress.equals(netw.ipAdress)) {
+                        if (tmp.getIpAdress().equals(netw.getIpAdress())) {
                             isWifi = true;
                             break;
                         }

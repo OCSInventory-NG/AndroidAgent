@@ -25,7 +25,7 @@ import java.util.ArrayList;
 public class OCSStorages implements OCSSectionInterface {
     final private String sectionTag = "STORAGES";
 
-    public ArrayList<OCSStorage> storages;
+    private ArrayList<OCSStorage> storages;
 
     public OCSStorages() {
         this.storages = new ArrayList<OCSStorage>();

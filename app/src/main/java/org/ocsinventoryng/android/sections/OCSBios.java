@@ -56,13 +56,9 @@ public class OCSBios implements OCSSectionInterface {
     private String type;
     private String smodel;
 
-    private OCSLog ocslog;
-
-
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
     public OCSBios() {
         type = "Mobile";
-        ocslog = OCSLog.getInstance();
+        OCSLog ocslog = OCSLog.getInstance();
         assettag = Build.ID + "-0123456789";
         date = (String) DateFormat.format("MM/dd/yy", Build.TIME);
         manufacturer = Build.MANUFACTURER;

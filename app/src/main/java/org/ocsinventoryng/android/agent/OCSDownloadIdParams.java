@@ -25,18 +25,18 @@ package org.ocsinventoryng.android.agent;
  * 
  */
 public class OCSDownloadIdParams {
-    String id;
-    String schedule;
-    String certFile;
-    String type;
-    String infoLoc;
-    String certPath;
-    String packLoc;
-    boolean force;
-    String postcmd;
+    private String id;
+    private String schedule;
+    private String certFile;
+    private String type;
+    private String infoLoc;
+    private String certPath;
+    private String packLoc;
+    private boolean force;
+    private String postcmd;
 
-    OCSDownloadInfos infos = null;
-    int downloaded = 0;
+    private OCSDownloadInfos infos = null;
+    private int downloaded = 0;
 
 
     public int getDownloaded() {

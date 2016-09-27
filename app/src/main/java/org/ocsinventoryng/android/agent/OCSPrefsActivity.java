@@ -101,13 +101,10 @@ public class OCSPrefsActivity extends PreferenceActivity {
                 alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, start.getTimeInMillis(), interval * 60000L, intentExecuted);
             } else {
                 // Stop service
-                //AlarmManager alarmManager = (AlarmManager) ctx
-                //		.getSystemService(Context.ALARM_SERVICE);
                 Intent i = new Intent(ctx, OCSEventReceiver.class);
 
                 PendingIntent intentExecuted = PendingIntent.getBroadcast(ctx, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
                 intentExecuted.cancel();
-                // alarmManager.cancel(intentExecuted)
                 Intent eventService = new Intent(ctx, OCSAgentService.class);
                 if (ctx.stopService(eventService)) {
                     Toast.makeText(ctx, "Service stopped", Toast.LENGTH_LONG).show();

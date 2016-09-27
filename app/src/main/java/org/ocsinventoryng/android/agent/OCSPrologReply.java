@@ -30,6 +30,38 @@ import java.util.ArrayList;
 public class OCSPrologReply {
     final private int DEF_PERIODE_LENGTH = 10;
 
+    private String type;
+    private String response;
+    private String prologFreq;
+    private String optName;
+
+    private int period_latency;        // Wait between 2 periods of deployment  (def 1 sec)
+    private int cycle_latency;        // Wait between 2 cycles (def 60 sec )
+    private int frag_latency;        // Wait between 2 fragment download	( def. 10 sec )
+    private int timeout;            // Validity of a package from 1st consideration
+    private int periode_length;        // Nombre de cycle dans la periode def 10
+    private int execution_timeout;
+    private boolean on;
+    private ArrayList<OCSDownloadIdParams> idList;
+
+    public OCSPrologReply() {
+        idList = new ArrayList<OCSDownloadIdParams>();
+        optName = null;
+        response = "";
+    }
+
+    public String log() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("OPTION: ").append(optName).append("\n");
+        sb.append("prologFreq: ").append(prologFreq).append("\n");
+        sb.append("period_latency: ").append(period_latency).append("\n");
+        sb.append("cycle_latency: ").append(cycle_latency).append("\n");
+        for (OCSDownloadIdParams dip : idList) {
+            sb.append("PARAM ID: ").append(dip.getId()).append("TYPE:").append(dip.getType()).append("\n");
+        }
+        return sb.toString();
+    }
+
     public String getResponse() {
         return response;
     }
@@ -180,46 +212,11 @@ public class OCSPrologReply {
         this.type = type;
     }
 
-    private String type;
-
     public ArrayList<OCSDownloadIdParams> getIdList() {
         return idList;
     }
 
     public void setIdList(ArrayList<OCSDownloadIdParams> idList) {
         this.idList = idList;
-    }
-
-    private String response;
-    private String prologFreq;
-    private String optName;
-
-    private int period_latency;        // Wait between 2 periods of deployment  (def 1 sec)
-    private int cycle_latency;        // Wait between 2 cycles (def 60 sec )
-    private int frag_latency;        // Wait between 2 fragment download	( def. 10 sec )
-    private int timeout;            // Validity of a package from 1st consideration
-    private int periode_length;        // Nombre de cycle dans la periode def 10
-    private int execution_timeout;
-    private boolean on;
-
-
-    ArrayList<OCSDownloadIdParams> idList;
-
-    public OCSPrologReply() {
-        idList = new ArrayList<OCSDownloadIdParams>();
-        optName = null;
-        response = "";
-    }
-
-    public String log() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("OPTION: ").append(optName).append("\n");
-        sb.append("prologFreq: ").append(prologFreq).append("\n");
-        sb.append("period_latency: ").append(period_latency).append("\n");
-        sb.append("cycle_latency: ").append(cycle_latency).append("\n");
-        for (OCSDownloadIdParams dip : idList) {
-            sb.append("PARAM ID: ").append(dip.getId()).append("TYPE:").append(dip.getType()).append("\n");
-        }
-        return sb.toString();
     }
 }

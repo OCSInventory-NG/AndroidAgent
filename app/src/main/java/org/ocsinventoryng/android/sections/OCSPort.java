@@ -20,12 +20,12 @@ package org.ocsinventoryng.android.sections;
 
 
 public class OCSPort {
-    String type;
-    String manufacturer;
-    String caption;
-    String description;
-    String interf;
-    String pointtype;
+    private String type;
+    private String manufacturer;
+    private String caption;
+    private String description;
+    private String interf;
+    private String pointtype;
 
     public OCSPort() {
 

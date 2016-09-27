@@ -30,7 +30,7 @@ import java.util.ArrayList;
 
 public class OCSPorts implements OCSSectionInterface {
     final private String sectionTag = "PORTS";
-    public ArrayList<OCSPort> ports;
+    private ArrayList<OCSPort> ports;
 
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)

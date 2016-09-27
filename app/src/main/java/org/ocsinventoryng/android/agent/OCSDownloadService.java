@@ -66,10 +66,7 @@ public class OCSDownloadService extends Service {
     private OCSLog mOcslog;
     private OCSProtocol mOcsproto;
     private OCSFiles mOcsfiles;
-    boolean mIsForced = false;
-    OCSPrologReply mReply;
-    Context mAppCtx;
-    ArrayList<File> fileToInstall = null;
+    private OCSPrologReply mReply;
 
     /*
      * Binder juste pour verifier que le service tourne
@@ -99,7 +96,6 @@ public class OCSDownloadService extends Service {
         mOcslog.debug("mPeriod_latency   : " + mReply.getPeriod_latency());
         mOcslog.debug("mCycle_latency    : " + mReply.getCycle_latency());
         mOcslog.debug("mTimeout          : " + mReply.getTimeout());
-        mAppCtx = this.getApplicationContext();
         AsyncCall task = new AsyncCall(this.getApplicationContext());
         task.execute();
 
@@ -343,9 +339,5 @@ LINUX AGENT
         <QUERY> => 'DOWNLOAD',
         <ID> => $id,
         <ERR>' => $code
-
-
-
-
 	 */
 }

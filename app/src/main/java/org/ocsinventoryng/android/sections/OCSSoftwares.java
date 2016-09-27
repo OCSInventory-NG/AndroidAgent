@@ -40,12 +40,12 @@ import java.util.Properties;
 public class OCSSoftwares implements OCSSectionInterface {
     final private String sectionTag = "SOFTWARES";
 
-    public ArrayList<OCSSoftware> softs;
+    private ArrayList<OCSSoftware> softs;
     private OCSLog ocslog;
 
     public OCSSoftwares(Context ctx) {
         ocslog = OCSLog.getInstance();
-        this.softs = new ArrayList<OCSSoftware>();
+        softs = new ArrayList<OCSSoftware>();
 
         PackageManager pm = ctx.getPackageManager();
         List<PackageInfo> pis = ctx.getPackageManager().getInstalledPackages(
@@ -65,35 +65,35 @@ public class OCSSoftwares implements OCSSectionInterface {
                 ocslog.debug("PKG name         " + lpInfo.packageName);
                 ocslog.debug("PKG version      " + String.valueOf(lpInfo.versionCode));
                 ocslog.debug("PKG version name " + lpInfo.versionName);
-                oSoft.version = lpInfo.versionName;
-                oSoft.publisher = lpInfo.packageName;
+                oSoft.setVersion(lpInfo.versionName);
+                oSoft.setPublisher(lpInfo.packageName);
             } catch (NameNotFoundException e) {
                 ocslog.error("Error :" + e.getMessage());
             }
             PackageStats stats = new PackageStats(pi.packageName);
             ocslog.debug("PKG size    " + String.valueOf(stats.codeSize));
             ocslog.debug("PKG folder  " + pi.applicationInfo.dataDir);
-            oSoft.filesize = String.valueOf(stats.codeSize);
-            oSoft.folder = pi.applicationInfo.dataDir;
+            oSoft.setFilesize(String.valueOf(stats.codeSize));
+            oSoft.setFolder(pi.applicationInfo.dataDir);
 
             if (pi.applicationInfo.name != null) {
-                oSoft.name = pi.applicationInfo.name;
+                oSoft.setName(pi.applicationInfo.name);
             } else if (pi.applicationInfo.className != null) {
-                oSoft.name = pi.applicationInfo.className;
+                oSoft.setName(pi.applicationInfo.className);
             } else {
-                String v[] = oSoft.publisher.split("\\.");
+                String v[] = oSoft.getPublisher().split("\\.");
                 if (v.length > 0) {
-                    oSoft.name = v[v.length - 1];
+                    oSoft.setName(v[v.length - 1]);
                 } else {
-                    oSoft.name = oSoft.publisher;
+                    oSoft.setName(oSoft.getPublisher());
                 }
             }
-            ocslog.debug("PKG appname " + oSoft.name);
+            ocslog.debug("PKG appname " + oSoft.getName());
 
             if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO) {
                 String datei = (String) DateFormat.format("MM/dd/yy mm:ss", pi.firstInstallTime);
                 ocslog.debug("PKG INSTALL :" + datei);
-                oSoft.installDate = datei;
+                oSoft.setInstallDate(datei);
             }
             ProviderInfo[] provsi = pi.providers;
 
@@ -105,19 +105,19 @@ public class OCSSoftwares implements OCSSectionInterface {
                     }
                 }
                 if (provsi.length > 0) {
-                    oSoft.publisher = provsi[0].authority;
+                    oSoft.setPublisher(provsi[0].authority);
                 }
             }
             softs.add(oSoft);
         }
         Properties sp = System.getProperties();
         OCSSoftware jsoft = new OCSSoftware();
-        jsoft.name = sp.getProperty("java.vm.name");
-        jsoft.version = sp.getProperty("java.vm.version");
-        jsoft.folder = sp.getProperty("java.home");
-        jsoft.publisher = sp.getProperty("java.vm.vendor");
-        jsoft.filesize = "n.a";
-        jsoft.installDate = "n.a.";
+        jsoft.setName(sp.getProperty("java.vm.name"));
+        jsoft.setVersion(sp.getProperty("java.vm.version"));
+        jsoft.setFolder(sp.getProperty("java.home"));
+        jsoft.setPublisher(sp.getProperty("java.vm.vendor"));
+        jsoft.setFilesize("n.a");
+        jsoft.setInstallDate("n.a.");
         softs.add(jsoft);
     }
 

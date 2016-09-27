@@ -19,6 +19,57 @@
 package org.ocsinventoryng.android.agent;
 
 public class OCSDownloadInfos {
+    private String id;
+    private int pri;
+    private String act;
+    private String digest;
+    private String proto;
+    private int frags;
+    private String digest_algo;
+    private String digest_encode;
+    private String path;
+    private String notify_text;
+    private String notify_countdown;
+    private boolean notify_user;
+    private boolean notify_can_abort;
+    private boolean notify_can_delay;
+    private boolean need_done_action;
+    private String need_done_action_text;
+
+
+    OCSDownloadInfos(String strinfos) {
+        id = extrAttr(strinfos, "ID");
+        act = extrAttr(strinfos, "ACT");
+        digest = extrAttr(strinfos, "DIGEST");
+        proto = extrAttr(strinfos, "PROTO");
+        digest_algo = extrAttr(strinfos, "DIGEST_ALGO");
+        digest_encode = extrAttr(strinfos, "DIGEST_ENCODE");
+        path = extrAttr(strinfos, "PATH");
+        notify_countdown = extrAttr(strinfos, "NOTIFY_COUNTDOWN");
+        notify_can_abort = extrAttr(strinfos, "NOTIFY_CAN_ABORT").equals("1");
+        notify_can_delay = extrAttr(strinfos, "NOTIFY_CAN_DELAY").equals("1");
+        need_done_action = extrAttr(strinfos, "NEED_DONE_ACTION").equals("1");
+        need_done_action_text = extrAttr(strinfos, "NEED_DONE_ACTION_TEXT");
+        try {
+            pri = Integer.parseInt(extrAttr(strinfos, "PRI"));
+        } catch (NumberFormatException e) {
+        }
+
+        try {
+            frags = Integer.parseInt(extrAttr(strinfos, "FRAGS"));
+        } catch (NumberFormatException e) {
+        }
+    }
+
+    private String extrAttr(String doc, String attrName) {
+        int x, y;
+        x = doc.indexOf(attrName);
+        x = doc.indexOf("\"", x);
+        y = doc.indexOf("\"", x + 1);
+        android.util.Log.i("extrattr", attrName + ":" + doc.substring(x + 1, y));
+        return doc.substring(x + 1, y);
+    }
+
     public String getId() {
         return id;
     }
@@ -37,7 +88,6 @@ public class OCSDownloadInfos {
     /**
      * @return digest value as string
      */
-
     public String getDigest() {
         return digest;
     }
@@ -94,57 +144,5 @@ public class OCSDownloadInfos {
 
     public String getNeed_done_action_text() {
         return need_done_action_text;
-    }
-
-
-    private String id;
-    private int pri;
-    private String act;
-    private String digest;
-    private String proto;
-    private int frags;
-    private String digest_algo;
-    private String digest_encode;
-    private String path;
-    private String notify_text;
-    private String notify_countdown;
-    private boolean notify_user;
-    private boolean notify_can_abort;
-    private boolean notify_can_delay;
-    private boolean need_done_action;
-    private String need_done_action_text;
-
-
-    OCSDownloadInfos(String strinfos) {
-        id = extrAttr(strinfos, "ID");
-        act = extrAttr(strinfos, "ACT");
-        digest = extrAttr(strinfos, "DIGEST");
-        proto = extrAttr(strinfos, "PROTO");
-        digest_algo = extrAttr(strinfos, "DIGEST_ALGO");
-        digest_encode = extrAttr(strinfos, "DIGEST_ENCODE");
-        path = extrAttr(strinfos, "PATH");
-        notify_countdown = extrAttr(strinfos, "NOTIFY_COUNTDOWN");
-        notify_can_abort = extrAttr(strinfos, "NOTIFY_CAN_ABORT").equals("1");
-        notify_can_delay = extrAttr(strinfos, "NOTIFY_CAN_DELAY").equals("1");
-        need_done_action = extrAttr(strinfos, "NEED_DONE_ACTION").equals("1");
-        need_done_action_text = extrAttr(strinfos, "NEED_DONE_ACTION_TEXT");
-        try {
-            pri = Integer.parseInt(extrAttr(strinfos, "PRI"));
-        } catch (NumberFormatException e) {
-        }
-
-        try {
-            frags = Integer.parseInt(extrAttr(strinfos, "FRAGS"));
-        } catch (NumberFormatException e) {
-        }
-    }
-
-    private String extrAttr(String doc, String attrName) {
-        int x, y;
-        x = doc.indexOf(attrName);
-        x = doc.indexOf("\"", x);
-        y = doc.indexOf("\"", x + 1);
-        android.util.Log.i("extrattr", attrName + ":" + doc.substring(x + 1, y));
-        return doc.substring(x + 1, y);
     }
 }

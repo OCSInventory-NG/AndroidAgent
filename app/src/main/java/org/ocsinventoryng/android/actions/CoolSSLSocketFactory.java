@@ -35,7 +35,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
 public class CoolSSLSocketFactory extends SSLSocketFactory {
-    SSLContext sslContext = SSLContext.getInstance("TLS");
+    private SSLContext sslContext = SSLContext.getInstance("TLS");
 
     public CoolSSLSocketFactory(
             KeyStore truststore) throws NoSuchAlgorithmException, KeyManagementException, KeyStoreException,

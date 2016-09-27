@@ -20,28 +20,29 @@ package org.ocsinventoryng.android.sections;
 
 
 public class OCSNetwork {
+    public static String STATUS_UP = "Up";
+    public static String STATUS_DOWN = "Down";
 
-    public String description;
-    public String driver;
-    public String ipAdress;
-    public String ipDHCP;
-    public String ipGateway;
-    public String ipMask;
-    public String ipSubnet;
-    public String macaddr;
-    public String status;
-    public String type;
-    public String speed; // 0.9.7
-
-    public String dns1;
-    public String dns2;
+    private String description;
+    private String driver;
+    private String ipAdress;
+    private String ipDHCP;
+    private String ipGateway;
+    private String ipMask;
+    private String ipSubnet;
+    private String macaddr;
+    private String status;
+    private String type;
+    private String speed;
+    private String dns1;
+    private String dns2;
 
     public OCSNetwork(String desc) {
         this.description = desc;
     }
 
     /*
-     * NETWORKS><DESCRIPTION>eth0</DESCRIPTION> <DRIVER>atl1</DRIVER>
+     * <NETWORKS><DESCRIPTION>eth0</DESCRIPTION> <DRIVER>atl1</DRIVER>
      * <IPADDRESS>192.168.0.10</IPADDRESS> <IPDHCP/>
      * <IPGATEWAY>192.168.0.254</IPGATEWAY> <IPMASK>255.255.255.0</IPMASK>
      * <IPSUBNET>192.168.0.0</IPSUBNET> <MACADDR>00:1f:c6:b6:a1:1e</MACADDR>
@@ -53,14 +54,14 @@ public class OCSNetwork {
         s.setAttr("DESCRIPTION", description);
         s.setAttr("DRIVER", driver);
         s.setAttr("IPADDRESS", ipAdress);
-        // s.setAttr(strOut,"IPDHCP", ipdhcp);
+        s.setAttr("IPDHCP", ipDHCP);
         s.setAttr("IPGATEWAY", ipGateway);
         s.setAttr("IPMASK", ipMask);
         s.setAttr("IPSUBNET", ipSubnet);
         s.setAttr("MACADDR", macaddr);
         s.setAttr("STATUS", status);
         s.setAttr("TYPE", type);
-        s.setAttr("SPEED", speed); // 0.9.7
+        s.setAttr("SPEED", speed);
         s.setTitle(type);
         return s;
     }
