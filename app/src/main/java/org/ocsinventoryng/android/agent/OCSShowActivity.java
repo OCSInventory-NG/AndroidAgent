@@ -19,10 +19,10 @@
 package org.ocsinventoryng.android.agent;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
@@ -36,7 +36,7 @@ import org.ocsinventoryng.android.agent.util.SystemUiHider;
  *
  * @see SystemUiHider
  */
-public class OCSShowActivity extends Activity {
+public class OCSShowActivity extends ActionBarActivity {
     /**
      * Whether or not the system UI should be auto-hidden after {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
      */

@@ -18,12 +18,12 @@
  */
 package org.ocsinventoryng.android.agent;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.widget.TextView;
 
 import org.ocsinventoryng.android.actions.OCSLog;
@@ -35,7 +35,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class OCSLaunchActivity extends Activity {
+public class OCSLaunchActivity extends ActionBarActivity {
 
     private File[] mFiles;
     private String[] mPackageNames;

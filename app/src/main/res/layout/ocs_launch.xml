@@ -18,11 +18,10 @@
  * along with OCSInventory-NG/AndroidAgent. If not, see <http://www.gnu.org/licenses/>
  */
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".OCSLaunchActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <TextView
         android:id="@+id/textInstall"
@@ -32,4 +31,4 @@
         android:layout_centerVertical="true"
         android:text="@string/point"/>
 
-</RelativeLayout>
+</LinearLayout>

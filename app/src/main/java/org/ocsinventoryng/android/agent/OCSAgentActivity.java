@@ -18,7 +18,6 @@
  */
 package org.ocsinventoryng.android.agent;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,6 +26,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -45,7 +45,7 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class OCSAgentActivity extends Activity {
+public class OCSAgentActivity extends ActionBarActivity {
     public OCSSettings settings = null;
     private final static String IMPORT_CONFIG = "import_config";
 
@@ -96,7 +96,7 @@ public class OCSAgentActivity extends Activity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -114,7 +114,6 @@ public class OCSAgentActivity extends Activity {
                 return true;
             case R.id.menu_about:
                 AboutDialog about = new AboutDialog(this);
-                // about.setTitle("about this app");
                 about.show();
         }
         return false;

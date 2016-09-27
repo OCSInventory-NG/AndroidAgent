@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!--
 /*
  * Copyright 2013-2016, OCSInventory-NG/AndroidAgent contributors
@@ -18,25 +19,36 @@
  * along with OCSInventory-NG/AndroidAgent. If not, see <http://www.gnu.org/licenses/>
  */
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:yourapp="http://schemas.android.com/apk/res-auto">
+
+    <!-- Overflow (...) -->
     <item
-        android:id="@+id/menu_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/menu_settings"/>
-    <item
-        android:id="@+id/menu_about"
-        android:orderInCategory="101"
-        android:showAsAction="never"
-        android:title="@string/menu_about"/>
-    <item
-        android:id="@+id/menu_import"
-        android:orderInCategory="102"
-        android:showAsAction="never"
-        android:title="@string/menu_import"/>
-    <item
-        android:id="@+id/menu_export"
-        android:orderInCategory="103"
-        android:showAsAction="never"
-        android:title="@string/menu_export"/>
+        android:id="@+id/action_overflow"
+        android:icon="@drawable/ic_menu_moreoverflow_normal_holo_dark"
+        android:title="@string/menu_settings"
+        yourapp:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/menu_settings"
+                android:icon="@drawable/ic_sysbar_quicksettings"
+                android:title="@string/menu_settings"
+                yourapp:showAsAction="ifRoom"/>
+            <item
+                android:id="@+id/menu_about"
+                android:icon="@drawable/ic_menu_info_details"
+                android:title="@string/menu_about"
+                yourapp:showAsAction="ifRoom"/>
+            <item
+                android:id="@+id/menu_import"
+                android:icon="@drawable/ic_menu_goto"
+                android:title="@string/menu_import"
+                yourapp:showAsAction="ifRoom"/>
+            <item
+                android:id="@+id/menu_export"
+                android:icon="@drawable/ic_menu_set_as"
+                android:title="@string/menu_export"
+                yourapp:showAsAction="ifRoom"/>
+        </menu>
+    </item>
 </menu>

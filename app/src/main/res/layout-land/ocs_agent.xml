@@ -18,14 +18,12 @@
  * along with OCSInventory-NG/AndroidAgent. If not, see <http://www.gnu.org/licenses/>
  */
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/id_agent"
+<RelativeLayout android:id="@+id/id_agent"
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="fill_vertical"
-                android:orientation="vertical"
-                tools:context=".OCSLaunchActivity">
+                android:orientation="vertical">
 
     <TextView
         android:id="@+id/statusBar"

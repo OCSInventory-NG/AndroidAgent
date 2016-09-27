@@ -19,11 +19,9 @@
  */
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
-             android:background="#555555"
-             tools:context=".ShowInventoryActivity">
+             android:background="#555555">
 
     <!--
          The primary full-screen view. This can be replaced with whatever view
@@ -59,8 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:background="@color/black_overlay"
-            android:orientation="horizontal"
-            tools:ignore="UselessParent">
+            android:orientation="horizontal">
 
         </LinearLayout>
 
