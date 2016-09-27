@@ -44,10 +44,10 @@ public class SystemInfos {
 
     private static SystemInfos instance;
 
-    private static int processorNumber;
+    private static int processorNumber = 0;
     private static String processorName;
     private static String processorType;
-    private static int processorSpeed;
+    private static int processorSpeed = 0;
 
     private static String serial;
 
@@ -63,12 +63,15 @@ public class SystemInfos {
         return instance;
     }
 
+    /**
+     * Read Hardware informations
+     */
     public static void InitSystemInfos() {
         ocslog = OCSLog.getInstance();
         ocslog.debug("SYSTEMINFOS start");
+        readCpuFreq();
         readCpuinfo();
         readMeminfo();
-        readCpuFreq();
         ocslog.debug("SYSTEMINFOS end");
     }
 
@@ -78,7 +81,6 @@ public class SystemInfos {
             File f = new File(CPUINFOPATH);
             BufferedReader bReader = new BufferedReader(new FileReader(f), 8192);
             String line;
-            int nbProc = 0;
             while ((line = bReader.readLine()) != null) {
                 ocslog.debug(line);
                 Pattern p = Pattern.compile(".*Processor.*:(.*)");
@@ -89,7 +91,7 @@ public class SystemInfos {
                 p = Pattern.compile(".*BogoMIPS.*:(.*)");
                 m = p.matcher(line);
                 if (m.find()) {
-                    nbProc++;
+                    processorNumber++;
                 }
                 p = Pattern.compile(".*architecture.*:(.*)\\s.*", Pattern.CASE_INSENSITIVE);
                 m = p.matcher(line);
@@ -101,8 +103,15 @@ public class SystemInfos {
                 if (m.find()) {
                     serial = m.group(1);
                 }
+                // CPU frequency (in case of error on CpuFreq) - Android v7.0
+                p = Pattern.compile(".*cpu MHz.*:(.*)");
+                m = p.matcher(line);
+                if (m.find() && processorSpeed == 0) {
+                    float value = Float.valueOf(m.group(1).trim());
+                    // value * 1000 due to OCSHardware where /1000
+                    processorSpeed = Integer.valueOf(Math.round(value * 1000));
+                }
             }
-            processorNumber = nbProc;
             bReader.close();
         } catch (FileNotFoundException e) {
             ocslog.error("File notfound : " + CPUINFOPATH);
