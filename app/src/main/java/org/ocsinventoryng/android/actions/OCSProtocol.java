@@ -88,7 +88,6 @@ public class OCSProtocol {
             OCSSettings.getInstance().setFreqMaj(freq);
         }
         PrologReplyParser prp = new PrologReplyParser();
-        // reponse = extractResponse(repMsg);
         // Save reply
         ocsfile.savePrologReply(repMsg);
         return prp.parseDocument(repMsg);
@@ -198,11 +197,6 @@ public class OCSProtocol {
         }
         if (ocssettings.isAuth()) {
             ocslog.debug("Use AUTH : " + ocssettings.getLogin() + "/*****");
-            /*
-            CredentialsProvider credProvider = new BasicCredentialsProvider();
-	        credProvider.setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
-	            new UsernamePasswordCredentials(ocssettings.getLogin(), ocssettings.getPasswd()));
-	        */
             UsernamePasswordCredentials creds = new UsernamePasswordCredentials(ocssettings.getLogin(), ocssettings.getPasswd());
             ocslog.debug(creds.toString());
             httpClient.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT), creds);
@@ -341,47 +335,6 @@ public class OCSProtocol {
         return resp;
     }
 
-    /*
-     * Function called on main start to verify il a new verion is installed
-     * Then send success status and delete package
-     * Operation done in  Installereceiver for othet package but INSTALL event is
-     * not send to then application itself
-
-    public void verifyNewVersion(int pvcode) {
-        File uptdflag = appCtx.getFileStreamPath("update.flag");
-        String id="";
-        if ( uptdflag.exists() ) {
-            try {
-                String uctx= Utils.readShortFile(uptdflag);
-                OCSLog.getInstance().debug("uctx :"+uctx);
-                String[]str = uctx.split(":");
-                if ( str.length > 1  ) {
-                    id=str[0];
-                    int vcode=Integer.parseInt(str[1]);
-                    ocslog.debug("Test version code :"+vcode+"="+pvcode);
-                    if ( vcode == pvcode)
-                            sendRequestMessage("DOWNLOAD", id, "SUCCESS");
-                    // else
-                    //	ocsproto.sendRequestMessage("DOWNLOAD", id, "ERR_ABORT");
-                    }
-            } catch (IOException e) {
-                ocslog.error("Cant read update.flag");
-            } catch (OCSProtocolException e) {
-                ocslog.error(e.getMessage());
-            }
-            if ( ! uptdflag.delete() )
-                ocslog.error("Cant delete update.flag");
-
-            // Clean download files
-            File fapk = new File(appCtx.getExternalCacheDir(),id+".apk");
-            fapk.delete();
-            File finst = new File(appCtx.getFilesDir(),appCtx.getPackageName()+".inst");
-            finst.delete();
-            File finfo = new File(appCtx.getFilesDir(),id+".info");
-            finfo.delete();
-        }
-    }
-         */
     /*
 	 * Function called on main start to verify if a new version is installed 
 	 * Then send success status and delete package

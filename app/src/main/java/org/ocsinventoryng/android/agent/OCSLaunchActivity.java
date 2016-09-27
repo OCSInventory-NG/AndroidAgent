@@ -151,8 +151,9 @@ public class OCSLaunchActivity extends Activity {
         InputStreamReader isr = new InputStreamReader(fis);
         BufferedReader br = new BufferedReader(isr);
         String ligne;
-        while ((ligne = br.readLine()) != null)
+        while ((ligne = br.readLine()) != null) {
             sb.append(ligne);
+        }
         br.close();
         isr.close();
         return new OCSDownloadInfos(sb.toString());
