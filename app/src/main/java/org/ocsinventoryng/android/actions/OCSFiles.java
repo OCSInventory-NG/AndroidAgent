@@ -31,17 +31,10 @@ public class OCSFiles {
     public OCSFiles(Context ctx) {
         ocslog = OCSLog.getInstance();
         appCtx = ctx;
-        StringBuilder filename = new StringBuilder();
-
-        filename.append(Utils.getHostname());
-        filename.append("-");
 
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.US);
-        filename.append(dt.format(new Date()));
 
-        filename.append(".ocs");
-
-        inventoryFileName = filename.toString();
+        inventoryFileName = Utils.getHostname() + "-" + dt.format(new Date()) + ".ocs";
     }
 
     public File getGzipedFile(File inFile) {
@@ -75,7 +68,7 @@ public class OCSFiles {
     }
 
     public File getInventoryFileXML(Inventory pInventory) {
-        StringBuffer strOut = new StringBuffer("<?xml version =\"1.0\" encoding=\"UTF-8\"?>\n");
+        StringBuilder strOut = new StringBuilder("<?xml version =\"1.0\" encoding=\"UTF-8\"?>\n");
         strOut.append(pInventory.toXML());
 
         FileOutputStream fOutputStream;
@@ -104,7 +97,7 @@ public class OCSFiles {
     public File getPrologFileXML() {
         String deviceId = OCSSettings.getInstance().getDeviceUid();
 
-        StringBuffer strBuf = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
+        StringBuilder strBuf = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
         // strBuf.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<!DOCTYPE REQUEST>\r\n");
         strBuf.append("<REQUEST>\n");
         strBuf.append("  <QUERY>PROLOG</QUERY>\n");
@@ -131,7 +124,7 @@ public class OCSFiles {
         String deviceId = OCSSettings.getInstance().getDeviceUid();
         String queryFileName = query + ".xml";
 
-        StringBuffer strBuf = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
+        StringBuilder strBuf = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
         // strBuf.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<!DOCTYPE REQUEST>\r\n");
         strBuf.append("<REQUEST>\n");
         strBuf.append("  <QUERY>").append(query).append("</QUERY>\n");

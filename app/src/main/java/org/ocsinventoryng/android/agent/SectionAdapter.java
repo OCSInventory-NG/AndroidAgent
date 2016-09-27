@@ -53,7 +53,7 @@ public class SectionAdapter extends BaseAdapter {
         TextView tvTitre = (TextView) layoutItem.findViewById(R.id.titre);
         TextView tvDetail = (TextView) layoutItem.findViewById(R.id.detail);
 
-        OCSSection s = (OCSSection) mListe.get(position);
+        OCSSection s = mListe.get(position);
         tvTitre.setText(s.getTitle());
         tvDetail.setText(s.toString());
 

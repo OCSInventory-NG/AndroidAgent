@@ -20,7 +20,7 @@ public class OCSStorages implements OCSSectionInterface {
     }
 
     public String toXML() {
-        StringBuffer strOut = new StringBuffer();
+        StringBuilder strOut = new StringBuilder();
         for (OCSStorage o : storages) {
             strOut.append(o.toXml());
         }
@@ -28,7 +28,7 @@ public class OCSStorages implements OCSSectionInterface {
     }
 
     public String toString() {
-        StringBuffer strOut = new StringBuffer();
+        StringBuilder strOut = new StringBuilder();
         for (OCSStorage o : storages) {
             strOut.append(o.toString());
         }

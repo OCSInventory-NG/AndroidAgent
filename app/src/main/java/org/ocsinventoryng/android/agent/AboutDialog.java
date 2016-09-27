@@ -20,12 +20,6 @@ public class AboutDialog extends Dialog {
         mContext = context;
     }
 
-    @Override
-    protected void onStart() {
-        // TODO Auto-generated method stub
-        super.onStart();
-    }
-
     /**
      * Standard Android on create method that gets called when the activity initialized.
      */
@@ -37,7 +31,7 @@ public class AboutDialog extends Dialog {
 
         long lastUpdt = ocssettings.getLastUpdt();
 
-        StringBuffer sb = new StringBuffer("OCS Inventory NG android Agent \n");
+        StringBuilder sb = new StringBuilder("OCS Inventory NG android Agent \n");
         sb.append("Version :");
         try {
             sb.append(mContext.getPackageManager().

@@ -78,7 +78,7 @@ public class OCSLog {
         String strDate = DateFormat.getInstance().format(localDate);
         try {
             FileWriter fileWriter = new FileWriter(logFile, true);
-            fileWriter.append(strDate + ":" + paramString).append("\n");
+            fileWriter.append(strDate).append(":").append(paramString).append("\n");
             fileWriter.close();
         } catch (IOException e) {
         }

@@ -46,9 +46,6 @@ public class OCSSettings {
         this.ctx = ctx;
     }
 
-    public void setDefault() {
-    }
-
     public void logSettings() {
         OCSLog ocslog = OCSLog.getInstance();
         if (ocslog == null) {
@@ -77,19 +74,19 @@ public class OCSSettings {
     public void setDeviceUid(String uid) {
         Editor e = prefs.edit();
         e.putString(KDEVICEUID, uid);
-        e.commit();
+        e.apply();
     }
 
     public void setLastUpdt(long l) {
         Editor e = prefs.edit();
         e.putLong(KLASTUPDT, l);
-        e.commit();
+        e.apply();
     }
 
     public void setFreqMaj(String f) {
         Editor e = prefs.edit();
         e.putString(KFREQMAJ, f);
-        e.commit();
+        e.apply();
     }
 
 

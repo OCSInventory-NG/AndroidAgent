@@ -224,17 +224,16 @@ public class Inventory {
 
     public String toString() {
 
-        StringBuffer strOut = new StringBuffer();
-        strOut.append(this.getDeviceUid()).append('\n');
-        strOut.append(this.bios);
-        strOut.append(this.drives);
-        strOut.append(this.storages);
-        strOut.append(this.hardware);
-        strOut.append(this.networks);
-        strOut.append(this.videos);
-        strOut.append(this.softwares);
+        String strOut = this.getDeviceUid() + '\n' +
+                        this.bios +
+                        this.drives +
+                        this.storages +
+                        this.hardware +
+                        this.networks +
+                        this.videos +
+                        this.softwares;
 
-        return strOut.toString();
+        return strOut;
     }
 
     public List<OCSSection> getSections(String sName) {
@@ -307,13 +306,13 @@ public class Inventory {
     }
 
     public void saveSectionsFP() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
 
         for (String k : currentFP.keySet()) {
             sb.append(k).append("|").append(currentFP.get(k)).append("\n");
             ocslog.debug(String.format("save FP %s %s", k, currentFP.get(k)));
         }
-        FileOutputStream fos = null;
+        FileOutputStream fos;
         try {
             fos = mCtx.openFileOutput(sectionsFPFile, 0);
             fos.write(sb.toString().getBytes());

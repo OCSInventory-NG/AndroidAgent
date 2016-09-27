@@ -75,14 +75,14 @@ public class OCSNetworks implements OCSSectionInterface {
             return;
         }
         while (listeNI.hasMoreElements()) {
-            NetworkInterface ni = (NetworkInterface) listeNI.nextElement();
+            NetworkInterface ni = listeNI.nextElement();
             Enumeration<InetAddress> listeIPAdr = ni.getInetAddresses();
             String name = ni.getName();
 
             ocslog.debug("OCSNET Name :" + ni.getName());
             // android.util.Log.d("OCSNET HAdr", ni.getHardwareAddress());
             while (listeIPAdr.hasMoreElements()) {
-                InetAddress ipAdr = (InetAddress) listeIPAdr.nextElement();
+                InetAddress ipAdr = listeIPAdr.nextElement();
                 if (!ipAdr.isLoopbackAddress() && !ipAdr.isLinkLocalAddress()) {
                     OCSNetwork netw = new OCSNetwork(name);
                     String ipadr = ipAdr.getHostAddress();
@@ -101,7 +101,7 @@ public class OCSNetworks implements OCSSectionInterface {
                             break;
                         }
                     }
-                    if (isWifi == false) {
+                    if (!isWifi) {
                         networks.add(netw);
                     }
                 }
@@ -127,7 +127,7 @@ public class OCSNetworks implements OCSSectionInterface {
         </NETWORKS>
      */
     public String toXML() {
-        StringBuffer strOut = new StringBuffer();
+        StringBuilder strOut = new StringBuilder();
         for (OCSNetwork o : networks) {
             strOut.append(o.toXml());
         }
@@ -135,7 +135,7 @@ public class OCSNetworks implements OCSSectionInterface {
     }
 
     public String toString() {
-        StringBuffer strOut = new StringBuffer();
+        StringBuilder strOut = new StringBuilder();
         for (OCSNetwork o : networks) {
             strOut.append(o.toString());
         }

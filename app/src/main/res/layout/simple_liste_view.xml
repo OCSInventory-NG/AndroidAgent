@@ -4,6 +4,6 @@
           android:textColor="@color/violet_fonce"
           android:padding="10sp"
           android:layout_width="fill_parent"
-          android:singleLine="true"
+          android:maxLines="1"
           android:textStyle="bold"
           android:layout_height="fill_parent"/>

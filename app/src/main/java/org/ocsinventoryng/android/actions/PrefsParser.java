@@ -19,13 +19,6 @@ public class PrefsParser extends DefaultHandler {
     private String keyName;
     private String keyValue;
     private Editor edit;
-    /*
-     *
-	 * <map> <boolean name="k_automode" value="true" /> <string
-	 * name="k_freqmaj">24</string> <string name="k_freqwake">60</string>
-	 * <string name="k_serverurl">http://localhost/ocsinventory</string>
-	 * <boolean name="k_sslstrict" value="true" /> </map>
-	 */
 
     public void parseDocument(File paramFile, SharedPreferences prefs) {
         android.util.Log.d("PARSE", "Start parseDocument ");
@@ -57,7 +50,7 @@ public class PrefsParser extends DefaultHandler {
         android.util.Log.d("PARSE", "lName : " + localName);
         android.util.Log.d("PARSE", "qName : " + qName);
         if (qName.equals("map")) {
-            edit.commit();
+            edit.apply();
         } else if (qName.equals("string")) {
             if (!keyName.equals("k_deviceUid")) {
                 android.util.Log.d("PARSE", keyName + "/" + keyValue);

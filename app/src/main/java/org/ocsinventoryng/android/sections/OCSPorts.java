@@ -25,17 +25,11 @@ public class OCSPorts implements OCSSectionInterface {
 
         usbMgr.getDeviceList();
 
-
         ocslog.debug("OCSInputs");
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
-
-        } else {
-
-        }
     }
 
     public String toXML() {
-        StringBuffer strOut = new StringBuffer();
+        StringBuilder strOut = new StringBuilder();
         for (OCSPort o : ports) {
             strOut.append(o.toXml());
         }
@@ -43,7 +37,7 @@ public class OCSPorts implements OCSSectionInterface {
     }
 
     public String toString() {
-        StringBuffer strOut = new StringBuffer();
+        StringBuilder strOut = new StringBuilder();
         for (OCSPort o : ports) {
             strOut.append(o.toString());
         }

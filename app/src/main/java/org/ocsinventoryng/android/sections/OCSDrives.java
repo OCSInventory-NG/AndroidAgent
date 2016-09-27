@@ -79,9 +79,8 @@ public class OCSDrives implements OCSSectionInterface {
                     ocslog.debug("Volumename :" + dev);
                     ocslog.debug("type       :" + type);
                     ocslog.debug("filesystem :" + fs);
-                    int i = 0;
 
-                    for (i = 0; i < drives.size(); i++) {
+                    for (int i = 0; i < drives.size(); i++) {
                         OCSDrive d = drives.get(i);
                         if (type.matches(d.getType())) {
                             ocslog.debug("MATCH       :" + type);
@@ -102,7 +101,7 @@ public class OCSDrives implements OCSSectionInterface {
     }
 
     public String toXML() {
-        StringBuffer strOut = new StringBuffer();
+        StringBuilder strOut = new StringBuilder();
         for (OCSDrive o : drives) {
             strOut.append(o.toXml());
         }
@@ -110,7 +109,7 @@ public class OCSDrives implements OCSSectionInterface {
     }
 
     public String toString() {
-        StringBuffer strOut = new StringBuffer();
+        StringBuilder strOut = new StringBuilder();
         for (OCSDrive o : drives) {
             strOut.append(o.toString());
         }

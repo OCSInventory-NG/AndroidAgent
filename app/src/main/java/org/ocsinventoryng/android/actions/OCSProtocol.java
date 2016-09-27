@@ -81,7 +81,6 @@ public class OCSProtocol {
         String repMsg;
         File localFile = ocsfile.getRequestFileXML(query, id, err);
         String sURL = OCSSettings.getInstance().getServerUrl();
-        // boolean gz = OCSSettings.getInstance().getGzip();
 
         repMsg = sendmethod(localFile, sURL, false);
         ocslog.debug("Finnish Sending Request...");
@@ -93,8 +92,7 @@ public class OCSProtocol {
 
     public String sendInventoryMessage(Inventory inventory) throws OCSProtocolException {
         ocslog.debug("Start Sending Inventory...");
-        String retour = null;
-        // boolean gz = OCSSettings.getInstance().getGzip();
+        String retour;
 
         File invFile = ocsfile.getInventoryFileXML(inventory);
         String sURL = OCSSettings.getInstance().getServerUrl();
@@ -145,7 +143,7 @@ public class OCSProtocol {
         ocslog.debug("Start send method");
         String retour;
 
-        HttpPost httppost = null;
+        HttpPost httppost;
 
         try {
             httppost = new HttpPost(server);
@@ -153,8 +151,6 @@ public class OCSProtocol {
             ocslog.error(e.getMessage());
             throw new OCSProtocolException("Incorect serveur URL");
         }
-
-        // FileEntity localFileEntity = new FileEntity(paramFile, "application/x-compress; charset=\"UTF-8\"");
 
         File fileToPost;
         if (gziped) {
@@ -196,7 +192,7 @@ public class OCSProtocol {
 
 
         ocslog.debug("Call : " + server);
-        HttpResponse localHttpResponse = null;
+        HttpResponse localHttpResponse;
         try {
             localHttpResponse = httpClient.execute(httppost);
             ocslog.debug("Message sent");
@@ -246,7 +242,7 @@ public class OCSProtocol {
         HttpGet httpget = new HttpGet(url);
         httpget.setHeader("User-Agent", http_agent);
 
-        HttpResponse httpResponse = null;
+        HttpResponse httpResponse;
         try {
             httpResponse = httpClient.execute(httpget);
         } catch (Exception e) {
@@ -260,7 +256,7 @@ public class OCSProtocol {
                 InputStream is = httpResponse.getEntity().getContent();
                 File fout = new File(appCtx.getFilesDir(), fileName);
                 FileOutputStream fos = new FileOutputStream(fout);
-                int n = 0;
+                int n;
                 while ((n = is.read(buff)) > -1) {
                     fos.write(buff, 0, n);
                 }
@@ -280,7 +276,7 @@ public class OCSProtocol {
         HttpGet httpget = new HttpGet(url);
         httpget.setHeader("User-Agent", http_agent);
 
-        HttpResponse httpResponse = null;
+        HttpResponse httpResponse;
         try {
             httpResponse = httpClient.execute(httpget);
         } catch (Exception e) {
@@ -293,7 +289,7 @@ public class OCSProtocol {
             try {
                 InputStream is = httpResponse.getEntity().getContent();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                int n = 0;
+                int n;
                 while ((n = is.read(buff)) > -1) {
                     baos.write(buff, 0, n);
                 }

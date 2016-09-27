@@ -21,9 +21,7 @@ public class OCSSectionListActivity extends ListActivity {
             return;
         }
         CharSequence section = b.getCharSequence("ocsinventory.section").toString();
-        if (section == null) {
-            return;
-        }
+
         this.setTitle(section);
 
         // recuperation de la section

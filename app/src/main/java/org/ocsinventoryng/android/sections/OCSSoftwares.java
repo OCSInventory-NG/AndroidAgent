@@ -80,10 +80,10 @@ public class OCSSoftwares implements OCSSectionInterface {
             ProviderInfo[] provsi = pi.providers;
 
             if (provsi != null) {
-                for (int i = 0; i < provsi.length; i++) {
-                    ocslog.debug("PKG Provider " + provsi[i].authority);
-                    if (provsi[i].descriptionRes != 0) {
-                        ocslog.debug("PKG Desc " + String.valueOf(provsi[i].descriptionRes));
+                for (ProviderInfo aProvsi : provsi) {
+                    ocslog.debug("PKG Provider " + aProvsi.authority);
+                    if (aProvsi.descriptionRes != 0) {
+                        ocslog.debug("PKG Desc " + String.valueOf(aProvsi.descriptionRes));
                     }
                 }
                 if (provsi.length > 0) {
@@ -104,7 +104,7 @@ public class OCSSoftwares implements OCSSectionInterface {
     }
 
     public String toXML() {
-        StringBuffer strOut = new StringBuffer();
+        StringBuilder strOut = new StringBuilder();
         for (OCSSoftware o : softs) {
             strOut.append(o.toXml());
         }
@@ -112,7 +112,7 @@ public class OCSSoftwares implements OCSSectionInterface {
     }
 
     public String toString() {
-        StringBuffer strOut = new StringBuffer();
+        StringBuilder strOut = new StringBuilder();
         for (OCSSoftware o : softs) {
             strOut.append(o.toString());
         }

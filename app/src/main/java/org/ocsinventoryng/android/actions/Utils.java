@@ -75,7 +75,7 @@ public class Utils {
         if (array == null) {
             return "";
         }
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < array.length; i++) {
             if (i > 0) {
                 sb.append(':');
@@ -86,10 +86,9 @@ public class Utils {
     }
 
     public static String intToIp(int i) {
-        StringBuffer sb = new StringBuffer(String.valueOf(i & 0xFF));
-        sb.append(".").append(String.valueOf(((i >> 8) & 0xFF))).append(".").append(String.valueOf(((i >> 16) & 0xFF))).append(
-                ".").append(String.valueOf(((i >> 24) & 0xFF)));
-        return sb.toString();
+        String sb = String.valueOf(i & 0xFF) + "." + String.valueOf(((i >> 8) & 0xFF)) + "." + String.valueOf(((i >> 16) & 0xFF))
+                    + "." + String.valueOf(((i >> 24) & 0xFF));
+        return sb;
     }
 
 	/*
@@ -125,7 +124,7 @@ public class Utils {
     }
 
     public static String readShortFile(File infile) throws IOException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         byte[] buf = new byte[1024];
         int len;
         FileInputStream fis = new FileInputStream(infile);
@@ -143,9 +142,9 @@ public class Utils {
             byte messageDigest[] = digest.digest();
 
             // Create Hex String
-            StringBuffer hexString = new StringBuffer();
-            for (int i = 0; i < messageDigest.length; i++)
-                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            StringBuilder hexString = new StringBuilder();
+            for (byte aMessageDigest : messageDigest)
+                hexString.append(Integer.toHexString(0xFF & aMessageDigest));
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -188,9 +187,9 @@ public class Utils {
 
             if (format.equalsIgnoreCase("hexa")) {
                 // Create Hex String
-                StringBuffer hexString = new StringBuffer();
-                for (int i = 0; i < messageDigest.length; i++) {
-                    String b = String.format("%02x", (0xFF & messageDigest[i]));
+                StringBuilder hexString = new StringBuilder();
+                for (byte aMessageDigest : messageDigest) {
+                    String b = String.format("%02x", (0xFF & aMessageDigest));
                     hexString.append(b);
                 }
                 strDigest = hexString.toString();
@@ -332,7 +331,7 @@ public class Utils {
         }
 
         boolean ret;
-        Process proc = null;
+        Process proc;
         try {
             // Lancement de la commande
             ProcessBuilder pb = new ProcessBuilder(commande);
@@ -350,7 +349,6 @@ public class Utils {
     /**
      * @param zipFile
      * @param destination
-     * @throws IOException
      */
     public static boolean unZip(String zipFile, String destination) {
         InputStream is;

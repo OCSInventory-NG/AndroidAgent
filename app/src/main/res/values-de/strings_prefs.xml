@@ -52,7 +52,6 @@
     <string name="pref_title_cachelen">Interval</string>
     <string name="pref_description_cachelen">Haltbarkeit des Cache</string>
 
-    <string name="pref_list_freq_zero">0</string>
     <string name="pref_list_freq_5mn">5 Minuten</string>
     <string name="pref_list_freq_15mn">15 Minuten</string>
     <string name="pref_list_freq_30mn">30 Minuten</string>

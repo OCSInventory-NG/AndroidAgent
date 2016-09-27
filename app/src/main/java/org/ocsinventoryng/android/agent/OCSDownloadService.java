@@ -88,12 +88,12 @@ public class OCSDownloadService extends Service {
         return Service.START_NOT_STICKY;
     }
 
-    private int doDownloads() {
+    private void doDownloads() {
         mOcsproto = new OCSProtocol(getApplicationContext());
 
         // Load index files
         for (OCSDownloadIdParams dip : mReply.getIdList()) {
-            StringBuffer sbUrl = new StringBuffer("https://");
+            StringBuilder sbUrl = new StringBuilder("https://");
             sbUrl.append(dip.getInfoLoc()).append("/").append(dip.getId()).append("/info");
             File fileInfo = new File(getApplicationContext().getFilesDir(), dip.getId() + ".info");
             try {
@@ -181,7 +181,7 @@ public class OCSDownloadService extends Service {
                             todo--;
                         } else {
                             // Get next fragment
-                            StringBuffer sbUrl = new StringBuffer("http://");
+                            StringBuilder sbUrl = new StringBuilder("http://");
                             String fileName = dip.getId() + "-" + nofrag;
                             sbUrl.append(dip.getPackLoc()).append("/").append(dip.getId()).append("/").append(fileName);
                             try {
@@ -212,7 +212,6 @@ public class OCSDownloadService extends Service {
             iPeriod++;
         }
         mOcslog.debug("End cycles");
-        return 0;
     }
 
     private void notifyServer(String id, String code) {

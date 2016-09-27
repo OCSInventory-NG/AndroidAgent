@@ -4,7 +4,6 @@ import org.apache.http.conn.ssl.SSLSocketFactory;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.net.UnknownHostException;
 import java.security.KeyManagementException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -31,9 +30,8 @@ public class CoolSSLSocketFactory extends SSLSocketFactory {
             }
 
             public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-                int n = chain.length;
-                for (int i = 0; i < n; i++) {
-                    android.util.Log.d("X509", chain[i].getSubjectDN().toString());
+                for (X509Certificate aChain : chain) {
+                    android.util.Log.d("X509", aChain.getSubjectDN().toString());
                 }
             }
 
@@ -47,7 +45,7 @@ public class CoolSSLSocketFactory extends SSLSocketFactory {
     }
 
     @Override
-    public Socket createSocket(Socket socket, String host, int port, boolean autoClose) throws IOException, UnknownHostException {
+    public Socket createSocket(Socket socket, String host, int port, boolean autoClose) throws IOException {
         return sslContext.getSocketFactory().createSocket(socket, host, port, autoClose);
     }
 

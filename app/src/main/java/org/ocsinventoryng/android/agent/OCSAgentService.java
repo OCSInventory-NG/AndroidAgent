@@ -127,10 +127,9 @@ public class OCSAgentService extends Service {
         return 0;
     }
 
-    private int saveInventory() {
+    private void saveInventory() {
         Inventory inventory = Inventory.getInstance(getApplicationContext());
         new OCSFiles(getApplicationContext()).copyToExternal(inventory);
-        return 0;
     }
 
     private class AsyncCall extends AsyncTask<Void, Void, Void> {

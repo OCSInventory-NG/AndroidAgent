@@ -136,7 +136,7 @@ public class OCSInputs implements OCSSectionInterface {
     }
 
     public String toXML() {
-        StringBuffer strOut = new StringBuffer();
+        StringBuilder strOut = new StringBuilder();
         for (OCSInput o : inputs) {
             strOut.append(o.toXml());
         }
@@ -144,7 +144,7 @@ public class OCSInputs implements OCSSectionInterface {
     }
 
     public String toString() {
-        StringBuffer strOut = new StringBuffer();
+        StringBuilder strOut = new StringBuilder();
         for (OCSInput o : inputs) {
             strOut.append(o.toString());
         }

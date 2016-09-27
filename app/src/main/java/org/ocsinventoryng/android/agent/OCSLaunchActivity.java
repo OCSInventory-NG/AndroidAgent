@@ -39,7 +39,7 @@ public class OCSLaunchActivity extends Activity {
         mIdOCS = new String[mFiles.length];
         mVersionCode = new int[mFiles.length];
 
-        StringBuffer sb = new StringBuffer("OCS installations :\n\n");
+        StringBuilder sb = new StringBuilder("OCS installations :\n\n");
         for (int i = 0; i < mFiles.length; ++i) {
             String filename = mFiles[i].getName();
             mIdOCS[i] = filename.substring(0, filename.indexOf(".apk"));
@@ -58,7 +58,8 @@ public class OCSLaunchActivity extends Activity {
                 infos = getInfos(mIdOCS[i]);
                 if (infos != null) {
                     if (infos.getNotify_text() != null) {
-                        sb.append("\n" + infos.getNotify_text());
+                        sb.append("\n");
+                        sb.append(infos.getNotify_text());
                     }
                 }
             } catch (IOException e) {

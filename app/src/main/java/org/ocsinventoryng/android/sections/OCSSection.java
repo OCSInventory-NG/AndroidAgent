@@ -35,7 +35,7 @@ public class OCSSection {
     }
 
     public String toString() {
-        StringBuffer strOut = new StringBuffer("");
+        StringBuilder strOut = new StringBuilder("");
         for (String k : attrs.keySet()) {
             ocslog.debug("Key : " + k);
             String v = attrs.get(k);

@@ -58,7 +58,6 @@
         android:scrollbarAlwaysDrawVerticalTrack="false"
         android:scrollbarStyle="insideOverlay"
         android:scrollbars="vertical"
-        android:text="Essai dfsd sdg sgdg"
         android:textColor="#FFFFFF"
         android:textSize="12sp"/>
 
