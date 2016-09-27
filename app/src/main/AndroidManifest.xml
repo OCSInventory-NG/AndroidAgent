@@ -37,13 +37,7 @@
             android:process=":ocs_process">
         </activity>
 
-        <activity
-            android:name="org.ocsinventoryng.android.agent.OCSShowActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_show_inventory"
-            android:theme="@style/FullscreenTheme">
-        </activity>
-        <activity
+         <activity
             android:name="org.ocsinventoryng.android.agent.OCSListActivity"
             android:label="@string/title_activity_show_inventory"
             android:process=":ocs_process">
