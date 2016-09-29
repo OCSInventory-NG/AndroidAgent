@@ -18,6 +18,8 @@
  */
 package org.ocsinventoryng.android.actions;
 
+import android.util.Log;
+
 import org.apache.http.conn.ssl.SSLSocketFactory;
 
 import java.io.IOException;
@@ -49,7 +51,7 @@ public class CoolSSLSocketFactory extends SSLSocketFactory {
 
             public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
                 for (X509Certificate aChain : chain) {
-                    android.util.Log.d("X509", aChain.getSubjectDN().toString());
+                    Log.d("X509", aChain.getSubjectDN().toString());
                 }
             }
 
@@ -57,7 +59,7 @@ public class CoolSSLSocketFactory extends SSLSocketFactory {
                 return null;
             }
         };
-        android.util.Log.d("X509", "CoolSSLSocketFactory");
+        Log.d("X509", "CoolSSLSocketFactory");
         sslContext.init(null, new TrustManager[]{ tm }, null);
         this.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
     }

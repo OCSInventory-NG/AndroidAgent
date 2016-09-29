@@ -20,6 +20,7 @@ package org.ocsinventoryng.android.actions;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 import org.ocsinventoryng.android.agent.OCSPrologReply;
 
@@ -193,16 +194,16 @@ public class OCSFiles {
      */
     public File getSDWorkDirectory() {
         File rep = Environment.getExternalStoragePublicDirectory("ocs");
-        android.util.Log.d("OCSAgent", Environment.getExternalStorageDirectory().getPath());
+        Log.d("OCSAgent", Environment.getExternalStorageDirectory().getPath());
         if (!rep.isDirectory()) {
             rep.delete();
         }
         if (!rep.exists()) {
             if (!rep.mkdir()) {
-                android.util.Log.e("OCSAgent", "Cannot create directory : " + rep.getPath());
+                Log.e("OCSAgent", "Cannot create directory : " + rep.getPath());
                 return null;
             } else {
-                android.util.Log.d("OCSAgent", rep.getPath() + " created");
+                Log.d("OCSAgent", rep.getPath() + " created");
             }
         }
         return rep;

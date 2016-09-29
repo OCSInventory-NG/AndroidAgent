@@ -22,6 +22,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.provider.Settings.Secure;
+import android.util.Log;
 
 import org.ocsinventoryng.android.sections.OCSBios;
 import org.ocsinventoryng.android.sections.OCSDrives;
@@ -78,10 +79,6 @@ public class Inventory {
     private OCSSims sims;
 
     private OCSLog ocslog;
-
-    public Inventory(Context act) {
-        BuildInventory(act);
-    }
 
     public void BuildInventory(Context ctx) {
 
@@ -171,14 +168,16 @@ public class Inventory {
 
     public static Inventory getInstance(Context ctx) {
         if (instance == null) {
-            instance = new Inventory(ctx);
+            instance = new Inventory();
+            instance.BuildInventory(ctx);
         } else {
             Date now = new Date();
             long d = (now.getTime() - lastDate.getTime());
-            android.util.Log.d("OCS", "Age du cache (mn) = " + d / 60000L);
+            Log.d("OCS", "Age du cache (mn) = " + d / 60000L);
             if (d > dureeCache) {
-                android.util.Log.d("OCS", "REFRESH");
-                instance = new Inventory(ctx);
+                Log.d("OCS", "REFRESH");
+                instance = new Inventory();
+                instance.BuildInventory(ctx);
             }
         }
         return instance;
@@ -241,7 +240,6 @@ public class Inventory {
     }
 
     public String toString() {
-
         String strOut = this.getDeviceUid() + '\n' +
                         this.bios +
                         this.drives +
@@ -255,37 +253,37 @@ public class Inventory {
     }
 
     public List<OCSSection> getSections(String sName) {
-        if (sName.equals("BIOS")) {
+        if ("BIOS".equals(sName)) {
             return bios.getSections();
         }
-        if (sName.equals("DRIVES")) {
+        if ("DRIVES".equals(sName)) {
             return drives.getSections();
         }
-        if (sName.equals("HARDWARE")) {
+        if ("HARDWARE".equals(sName)) {
             return hardware.getSections();
         }
-        if (sName.equals("INPUTS")) {
+        if ("INPUTS".equals(sName)) {
             return inputs.getSections();
         }
-        if (sName.equals("NETWORKS")) {
+        if ("NETWORKS".equals(sName)) {
             return networks.getSections();
         }
-        if (sName.equals("DRIVES")) {
+        if ("DRIVES".equals(sName)) {
             return drives.getSections();
         }
-        if (sName.equals("SOFTWARES")) {
+        if ("SOFTWARES".equals(sName)) {
             return softwares.getSections();
         }
-        if (sName.equals("STORAGES")) {
+        if ("STORAGES".equals(sName)) {
             return storages.getSections();
         }
-        if (sName.equals("VIDEOS")) {
+        if ("VIDEOS".equals(sName)) {
             return videos.getSections();
         }
-        if (sName.equals("JAVAINFOS")) {
+        if ("JAVAINFOS".equals(sName)) {
             return javainfos.getSections();
         }
-        if (sName.equals("SIM")) {
+        if ("SIM".equals(sName)) {
             return sims.getSections();
         }
 

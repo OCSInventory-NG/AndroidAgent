@@ -19,6 +19,7 @@
 package org.ocsinventoryng.android.actions;
 
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -34,17 +35,17 @@ public class OCSLog {
     public OCSLog() {
         File rep = Environment.getExternalStoragePublicDirectory("ocs");
 
-        android.util.Log.d(TAG, Environment.getExternalStorageDirectory().getPath());
+        Log.d(TAG, Environment.getExternalStorageDirectory().getPath());
 
         if (!rep.isDirectory()) {
             rep.delete();
         }
         if (!rep.exists()) {
             if (!rep.mkdir()) {
-                android.util.Log.e(TAG, "Cannot create directory : " + rep.getPath());
+                Log.e(TAG, "Cannot create directory : " + rep.getPath());
                 return;
             } else {
-                android.util.Log.d(TAG, rep.getPath() + " created");
+                Log.d(TAG, rep.getPath() + " created");
             }
         }
         logFile = new File(rep, "ocslog.txt");
@@ -70,7 +71,7 @@ public class OCSLog {
         if (!OCSSettings.getInstance().getDebug()) {
             return;
         }
-        android.util.Log.d("OCSLOG", paramString);
+        Log.d("OCSLOG", paramString);
         if (logFile == null) {
             return;
         }
@@ -84,7 +85,7 @@ public class OCSLog {
         if (OCSSettings.getInstance() == null) {
             return;
         }
-        android.util.Log.e("OCSLOG", paramString);
+        Log.e("OCSLOG", paramString);
         log(paramString);
     }
 

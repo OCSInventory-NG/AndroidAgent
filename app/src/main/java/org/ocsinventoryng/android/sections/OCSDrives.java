@@ -18,6 +18,8 @@
  */
 package org.ocsinventoryng.android.sections;
 
+import android.util.Log;
+
 import org.ocsinventoryng.android.actions.OCSLog;
 
 import java.io.BufferedReader;
@@ -51,21 +53,10 @@ public class OCSDrives implements OCSSectionInterface {
             BufferedReader br = new BufferedReader(new InputStreamReader(is), 8192);
             String ligne;
             while ((ligne = br.readLine()) != null) {
-                android.util.Log.i("df : ", ligne);
+                Log.i("df : ", ligne);
                 // Parsing the df line
-                /*
-                String strPattern=null;
-				int rUnit=1;
-				if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO) {
-					strPattern="(.*):\\s*(\\d*)K.*?(\\d*)K.*?(\\d*)K.*";
-				}
-				else
-					rUnit=1024;
-					strPattern="(.*)\\s*(\\d*)M.*?(\\d*)M.*?(\\d*)M.*";
-				*/
                 String strPattern = "^(/.*?):*\\s.*";
                 Pattern p = Pattern.compile(strPattern, Pattern.CASE_INSENSITIVE);
-                // Pattern p = Pattern.compile("(.*):.*", Pattern.CASE_INSENSITIVE);
                 Matcher m = p.matcher(ligne);
                 if (m.find()) {
                     if (m.group(1) != null) {
@@ -73,19 +64,18 @@ public class OCSDrives implements OCSSectionInterface {
                         try {
                             OCSDrive drive = new OCSDrive(m.group(1).trim());
                             drives.add(drive);
-                        }
-                        catch (IllegalArgumentException e) {
+                        } catch (IllegalArgumentException e) {
                             ocslog.debug("Error - adding drive " + m.group(1) + e.toString());
                         }
-                     }
+                    }
                 }
             }
             is.close();
         } catch (IOException localIOException) {
-            android.util.Log.e("ERREUR", "Message :" + localIOException.getMessage());
+            Log.e("ERREUR", "Message :" + localIOException.getMessage());
         }
         /*
-		* Complement avec le fichier /proc/mounts
+        * Complement avec le fichier /proc/mounts
 		*/
         try {
             File f = new File(MOUNTSPATH);
@@ -115,8 +105,6 @@ public class OCSDrives implements OCSSectionInterface {
                 }
             }
             bReader.close();
-        } catch (FileNotFoundException e) {
-            //ocslog.appendLog("File not found : "+MOUNTSPATH);
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

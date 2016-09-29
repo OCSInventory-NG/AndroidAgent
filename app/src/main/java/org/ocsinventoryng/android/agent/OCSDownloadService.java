@@ -39,7 +39,6 @@ import org.ocsinventoryng.android.actions.Utils;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class OCSDownloadService extends Service {
@@ -61,18 +60,16 @@ public class OCSDownloadService extends Service {
     private final long MILLE = 1000L;    // To change time scale on tests
     private boolean mLaunch = false;            // One package(s) downloaded for install
 
-    private NotificationManager mNM;
     private OCSSettings mOcssetting;
     private OCSLog mOcslog;
     private OCSProtocol mOcsproto;
-    private OCSFiles mOcsfiles;
     private OCSPrologReply mReply;
 
     /*
      * Binder juste pour verifier que le service tourne
      */
     public class LocalBinder extends Binder {
-        OCSDownloadService getService() {
+       public OCSDownloadService getService() {
             return OCSDownloadService.this;
         }
     }
@@ -89,12 +86,12 @@ public class OCSDownloadService extends Service {
         mOcssetting = OCSSettings.getInstance(getApplicationContext());
         mOcslog = OCSLog.getInstance();
         // Read the prolog reply file describing the jobs
-        mOcsfiles = new OCSFiles(getApplicationContext());
+        OCSFiles mOcsfiles = new OCSFiles(getApplicationContext());
         mReply = mOcsfiles.loadPrologReply();
 
-        mOcslog.debug("mFrag_latency     : " + mReply.getFrag_latency());
-        mOcslog.debug("mPeriod_latency   : " + mReply.getPeriod_latency());
-        mOcslog.debug("mCycle_latency    : " + mReply.getCycle_latency());
+        mOcslog.debug("mFragLatency     : " + mReply.getFragLatency());
+        mOcslog.debug("mPeriodLatency   : " + mReply.getPeriodLatency());
+        mOcslog.debug("mCycleLatency    : " + mReply.getCycleLatency());
         mOcslog.debug("mTimeout          : " + mReply.getTimeout());
         AsyncCall task = new AsyncCall(this.getApplicationContext());
         task.execute();
@@ -129,7 +126,7 @@ public class OCSDownloadService extends Service {
         int iPeriod = 0;
         int todo = mReply.getIdList().size();
         while (todo > 0) {
-            for (int iCycle = 1; iCycle <= mReply.getPeriode_length(); iCycle++) {
+            for (int iCycle = 1; iCycle <= mReply.getPeriodeLength(); iCycle++) {
                 mOcslog.debug("Period " + iPeriod + " cycle " + iCycle + " todo " + todo);
                 for (OCSDownloadIdParams dip : mReply.getIdList()) {
                     if (dip.getInfos() == null) {
@@ -160,8 +157,8 @@ public class OCSDownloadService extends Service {
                             }
                             // Now frag_1 contains all data
                             // Verify integrity
-                            String dgst = Utils.digestFile(fileOut, dip.getInfos().getDigest_algo(),
-                                                           dip.getInfos().getDigest_encode());
+                            String dgst = Utils.digestFile(fileOut, dip.getInfos().getDigestAlgo(),
+                                                           dip.getInfos().getDigestEncode());
                             if (!dgst.equalsIgnoreCase(dip.getInfos().getDigest())) {
                                 mOcslog.debug("Calculated digest  : " + dgst);
                                 mOcslog.debug("Package    digest  : " + dip.getInfos().getDigest());
@@ -210,17 +207,17 @@ public class OCSDownloadService extends Service {
                         }
                     }
                     try {
-                        Thread.sleep(MILLE * mReply.getFrag_latency());
+                        Thread.sleep(MILLE * mReply.getFragLatency());
                     } catch (InterruptedException e) {
                     }
                 }
                 try {
-                    Thread.sleep(MILLE * mReply.getCycle_latency());
+                    Thread.sleep(MILLE * mReply.getCycleLatency());
                 } catch (InterruptedException e) {
                 }
             }
             try {
-                Thread.sleep(MILLE * mReply.getPeriod_latency());
+                Thread.sleep(MILLE * mReply.getPeriodLatency());
             } catch (InterruptedException e) {
             }
             iPeriod++;
@@ -273,7 +270,7 @@ public class OCSDownloadService extends Service {
                 return;
             }
 
-            mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            NotificationManager mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext).setSmallIcon(
                     R.drawable.ic_notification).setContentTitle(getText(R.string.nty_title)).setContentText(

@@ -37,9 +37,7 @@ import java.io.InputStreamReader;
 
 public class OCSLaunchActivity extends ActionBarActivity {
 
-    private File[] mFiles;
     private String[] mPackageNames;
-    private String[] mPackageVersions;
     private String[] mIdOCS;
     private int[] mVersionCode;
     private OCSLog mOcslog;
@@ -51,9 +49,9 @@ public class OCSLaunchActivity extends ActionBarActivity {
         mOcslog = OCSLog.getInstance();
 
         File dirSofts = getExternalCacheDir();
-        mFiles = dirSofts.listFiles();
+        File[] mFiles = dirSofts.listFiles();
         mPackageNames = new String[mFiles.length];
-        mPackageVersions = new String[mFiles.length];
+        String[] mPackageVersions = new String[mFiles.length];
         mIdOCS = new String[mFiles.length];
         mVersionCode = new int[mFiles.length];
 
@@ -75,9 +73,9 @@ public class OCSLaunchActivity extends ActionBarActivity {
             try {
                 infos = getInfos(mIdOCS[i]);
                 if (infos != null) {
-                    if (infos.getNotify_text() != null) {
+                    if (infos.getNotifyText() != null) {
                         sb.append("\n");
-                        sb.append(infos.getNotify_text());
+                        sb.append(infos.getNotifyText());
                     }
                 }
             } catch (IOException e) {

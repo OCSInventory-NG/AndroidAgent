@@ -20,6 +20,7 @@ package org.ocsinventoryng.android.actions;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -39,7 +40,7 @@ public class PrefsParser extends DefaultHandler {
     private Editor edit;
 
     public void parseDocument(File paramFile, SharedPreferences prefs) {
-        android.util.Log.d("PARSE", "Start parseDocument ");
+        Log.d("PARSE", "Start parseDocument ");
         edit = prefs.edit();
 
         SAXParserFactory localSAXParserFactory = SAXParserFactory.newInstance();
@@ -59,21 +60,19 @@ public class PrefsParser extends DefaultHandler {
 
         String str = new String(paramArrayOfChar, paramInt1, paramInt2);
         this.keyValue = str;
-        android.util.Log.d("PARSE", "characters" + str);
+        Log.d("PARSE", "characters" + str);
     }
 
     public void endElement(String uri, String localName, String qName) throws SAXException {
-        android.util.Log.d("PARSE", "endElement");
-        android.util.Log.d("PARSE", "uri   : " + uri);
-        android.util.Log.d("PARSE", "lName : " + localName);
-        android.util.Log.d("PARSE", "qName : " + qName);
-        if (qName.equals("map")) {
+        Log.d("PARSE", "endElement");
+        Log.d("PARSE", "uri   : " + uri);
+        Log.d("PARSE", "lName : " + localName);
+        Log.d("PARSE", "qName : " + qName);
+        if ("map".equals(qName)) {
             edit.apply();
-        } else if (qName.equals("string")) {
-            if (!keyName.equals("k_deviceUid")) {
-                android.util.Log.d("PARSE", keyName + "/" + keyValue);
-                edit.putString(keyName, keyValue);
-            }
+        } else if ("string".equals(qName) && !keyName.equals("k_deviceUid")) {
+            Log.d("PARSE", keyName + "/" + keyValue);
+            edit.putString(keyName, keyValue);
         }
     }
 
@@ -89,12 +88,12 @@ public class PrefsParser extends DefaultHandler {
 
         keyName = attributes.getValue("", "name");
         keyValue = attributes.getValue("", "value");
-        android.util.Log.d("PARSE", "startElement");
-        android.util.Log.d("PARSE", "uri     : " + uri);
-        android.util.Log.d("PARSE", "local   : " + local);
-        android.util.Log.d("PARSE", "qName : " + qName);
+        Log.d("PARSE", "startElement");
+        Log.d("PARSE", "uri     : " + uri);
+        Log.d("PARSE", "local   : " + local);
+        Log.d("PARSE", "qName : " + qName);
         if (qName.equalsIgnoreCase("boolean")) {
-            android.util.Log.d("PARSE", keyName + "/" + keyValue);
+            Log.d("PARSE", keyName + "/" + keyValue);
             edit.putBoolean(keyName, keyValue.equals("true"));
         }
     }

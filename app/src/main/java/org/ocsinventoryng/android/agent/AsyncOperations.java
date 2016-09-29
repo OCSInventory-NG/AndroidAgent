@@ -79,7 +79,7 @@ public class AsyncOperations extends AsyncTask<Void, Integer, String> {
 
         if (!mSend) {
             String status = new OCSFiles(mAppCtx).copyToExternal(inventory);
-            if (status.equals("OK")) {
+            if ("OK".equals(status)) {
                 status = mAppCtx.getString(R.string.state_saved);
             }
             return status;
@@ -95,7 +95,7 @@ public class AsyncOperations extends AsyncTask<Void, Integer, String> {
         }
         OCSLog.getInstance().debug("Retour send prolog [" + reply.getResponse() + "]");
         OCSLog.getInstance().debug(reply.log());
-        if (reply.getResponse().equals("ERROR")) {
+        if ("ERROR".equals(reply.getResponse())) {
             return (reply.getResponse());
         } else {
             publishProgress(R.string.state_send_inventory);

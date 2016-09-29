@@ -30,6 +30,7 @@ import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.Toast;
 
 import org.ocsinventoryng.android.actions.OCSSettings;
@@ -80,11 +81,11 @@ public class OCSPrefsActivity extends PreferenceActivity {
 
     public void onStop() {
         super.onStop();
-        android.util.Log.d("DEBUG", "onStop");
+        Log.d("DEBUG", "onStop");
         Context ctx = this.getApplicationContext();
 
         if (mAutoMode_chg || mfreqwake_chg) {
-            android.util.Log.d("DEBUG", "mAutoMode_chg");
+            Log.d("DEBUG", "mAutoMode_chg");
             if (mPrefs.getBoolean("k_automode", false)) {
                 // Setup service
                 if (mAutoMode_chg) {
@@ -116,25 +117,16 @@ public class OCSPrefsActivity extends PreferenceActivity {
         mAutoMode_chg = false;
     }
 
-    private void cancelTimer(final Context ctx) {
-
-        Intent i = new Intent(ctx, OCSEventReceiver.class);
-        PendingIntent intentExecuted = PendingIntent.getBroadcast(ctx, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);
-        AlarmManager alarmManager = (AlarmManager) ctx.getSystemService(Context.ALARM_SERVICE);
-        alarmManager.cancel(intentExecuted);
-    }
-
     private class MyPreferenceChangeListener implements OnSharedPreferenceChangeListener {
-
         @Override
         public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
-            android.util.Log.v("PreferenceChange", key);
-            if (key.equals("k_automode")) {
+            Log.v("PreferenceChange", key);
+            if ("k_automode".equals(key)) {
                 mAutoMode_chg = true;
             }
 
-            if (key.equals("k_freqwake")) {
-                android.util.Log.v("PreferenceChange", "**** KEY test_preference_key modified ****");
+            if ("k_freqwake".equals(key)) {
+                Log.v("PreferenceChange", "**** KEY test_preference_key modified ****");
                 mfreqwake_chg = true;
             }
         }
@@ -144,8 +136,7 @@ public class OCSPrefsActivity extends PreferenceActivity {
         // Set the listener to watch for value changes.
         pref.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
 
-        // Trigger the listener immediately with the preference's
-        // current value.
+        // Trigger the listener immediately with the preference's current value.
         sBindPreferenceSummaryToValueListener.onPreferenceChange(pref, PreferenceManager.getDefaultSharedPreferences(
                 pref.getContext()).getString(pref.getKey(), ""));
     }
@@ -158,7 +149,7 @@ public class OCSPrefsActivity extends PreferenceActivity {
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
             String stringValue = value.toString();
-            android.util.Log.v("onPreferenceChange : ", value.toString());
+            Log.v("onPreferenceChange : ", value.toString());
             if (preference instanceof ListPreference) {
                 // For list preferences, look up the correct display value in
                 // the preference's 'entries' list.
@@ -168,10 +159,10 @@ public class OCSPrefsActivity extends PreferenceActivity {
                 // Set the summary to reflect the new value.
                 preference.setSummary(index >= 0 ? listPreference.getEntries()[index] : null);
             } else if (preference instanceof EditTextPreference) {
-                if (preference.getKey().equals("k_freqmaj")) {
+                if ("k_freqmaj".equals(preference.getKey())) {
                     stringValue = stringValue + " " + uHour;
                 }
-                if (preference.getKey().equals("k_freqwake")) {
+                if ("k_freqwake".equals(preference.getKey())) {
                     stringValue = stringValue + " " + uMn;
                 }
 

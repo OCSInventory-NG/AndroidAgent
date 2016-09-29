@@ -23,6 +23,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import org.ocsinventoryng.android.actions.OCSLog;
 import org.ocsinventoryng.android.actions.OCSSettings;
@@ -33,7 +34,7 @@ public class OCSBootReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context ctx, final Intent intent) {
-        android.util.Log.d("OCSBOOT", "on Receive called");
+        Log.d("OCSBOOT", "on Receive called");
         OCSSettings ocssetting = OCSSettings.getInstance(ctx);
         OCSLog ocslog = OCSLog.getInstance();
         ocslog.debug("OCSBootReceiver : " + intent.getAction());

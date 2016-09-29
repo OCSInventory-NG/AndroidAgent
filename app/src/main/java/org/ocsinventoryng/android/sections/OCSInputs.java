@@ -24,6 +24,7 @@ import android.content.res.Configuration;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
 import android.os.Build;
+import android.util.Log;
 
 import org.ocsinventoryng.android.actions.OCSLog;
 
@@ -58,6 +59,7 @@ public class OCSInputs implements OCSSectionInterface {
                     break;
                 case Configuration.KEYBOARD_NOKEYS:
                     inkb.setCaption("No hardware keys");
+                    break;
                 default:
                     break;
             }
@@ -113,7 +115,7 @@ public class OCSInputs implements OCSSectionInterface {
         Size max_sz = null;
         for (Size sz : params.getSupportedPictureSizes()) {
             long v = sz.height * sz.width;
-            android.util.Log.d("OCSINPUT", String.valueOf(v));
+            Log.d("OCSINPUT", String.valueOf(v));
             if (v > max_v) {
                 max_v = v;
                 max_sz = sz;

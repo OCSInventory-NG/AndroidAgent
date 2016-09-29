@@ -27,6 +27,7 @@ import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -89,7 +90,7 @@ public class OCSAgentActivity extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        android.util.Log.d("OCSAgentActivity", "onStart()");
+        Log.d("OCSAgentActivity", "onStart()");
     }
 
     @Override
@@ -173,7 +174,7 @@ public class OCSAgentActivity extends ActionBarActivity {
         File repOut = Environment.getExternalStoragePublicDirectory("ocs");
         File ficOut = new File(repOut, filePrefs);
         File ficIn = new File(pathPrefs);
-        android.util.Log.d("COPY", pathPrefs + " TO " + ficOut.getPath());
+        Log.d("COPY", pathPrefs + " TO " + ficOut.getPath());
         try {
             Utils.copyFile(ficIn, ficOut);
         } catch (IOException e) {

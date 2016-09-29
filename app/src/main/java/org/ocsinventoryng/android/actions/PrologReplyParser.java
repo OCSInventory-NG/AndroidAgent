@@ -18,6 +18,8 @@
  */
 package org.ocsinventoryng.android.actions;
 
+import android.util.Log;
+
 import org.ocsinventoryng.android.agent.OCSDownloadIdParams;
 import org.ocsinventoryng.android.agent.OCSPrologReply;
 import org.xml.sax.Attributes;
@@ -33,7 +35,7 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 public class PrologReplyParser extends DefaultHandler {
-    private String curentTag;
+    private String currentTag;
     private OCSPrologReply reply;
 
     PrologReplyParser() {
@@ -42,7 +44,7 @@ public class PrologReplyParser extends DefaultHandler {
 
     public OCSPrologReply parseDocument(String strReply) {
 
-        android.util.Log.d("PrologReplyParser", strReply);
+        Log.d("PrologReplyParser", strReply);
         ByteArrayInputStream bais = new ByteArrayInputStream(strReply.getBytes());
 
         return parseDocument(bais);
@@ -50,7 +52,7 @@ public class PrologReplyParser extends DefaultHandler {
 
     public OCSPrologReply parseDocument(InputStream is) {
 
-        android.util.Log.d("PrologReplyParser", "");
+        Log.d("PrologReplyParser", "");
         SAXParserFactory localSAXParserFactory = SAXParserFactory.newInstance();
         try {
             SAXParser localSAXParser = localSAXParserFactory.newSAXParser();
@@ -67,7 +69,7 @@ public class PrologReplyParser extends DefaultHandler {
 
 
     public void startElement(String uri, String local, String qName, Attributes attributes) throws SAXException {
-        if (qName.equals("PARAM")) {
+        if ("PARAM".equals(qName)) {
             String id = attributes.getValue("", "ID");
             if (id != null) {
                 OCSDownloadIdParams dip = new OCSDownloadIdParams();
@@ -95,17 +97,17 @@ public class PrologReplyParser extends DefaultHandler {
                 }
             }
         }
-        curentTag = qName;
+        currentTag = qName;
     }
 
     public void characters(char[] paramArrayOfChar, int paramInt1, int paramInt2) throws SAXException {
 
         String str = new String(paramArrayOfChar, paramInt1, paramInt2);
-        if (curentTag.equals("RESPONSE")) {
+        if ("RESPONSE".equals(currentTag)) {
             reply.setResponse(str);
-        } else if (curentTag.equals("PROLOG_FREQ")) {
+        } else if ("PROLOG_FREQ".equals(currentTag)) {
             reply.setPrologFreq(str);
-        } else if (curentTag.equals("NAME")) {
+        } else if ("NAME".equals(currentTag)) {
             if (reply.getOptName() == null) {
                 reply.setOptName(str);
             }

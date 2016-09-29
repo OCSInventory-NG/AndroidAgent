@@ -155,7 +155,7 @@ public class Utils {
     public static String md5(String s) {
         try {
             // Create MD5 Hash
-            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            MessageDigest digest = MessageDigest.getInstance("MD5");
             digest.update(s.getBytes());
             byte messageDigest[] = digest.digest();
 
@@ -284,60 +284,47 @@ public class Utils {
         }
 
         // get from build info
-
         String buildTags = android.os.Build.TAGS;
         if (buildTags != null) {
-            android.util.Log.d("android.os.Build.TAGS", buildTags);
+            Log.d("android.os.Build.TAGS", buildTags);
         }
         if (buildTags != null && buildTags.contains("test-keys")) {
             isRooted = true;
             lastRootCheck = System.currentTimeMillis();
-            // return true;
         }
 
-        // check if /system/app/Superuser.apk is present
+
         try {
+            // check if /system/app/Superuser.apk is present
             File file = new File("/system/app/Superuser.apk");
             if (file.exists()) {
                 isRooted = true;
                 lastRootCheck = System.currentTimeMillis();
-                return true;
+                return isRooted;
             }
-        } catch (Throwable e1) {
-            // ignore
-        }
-        // Access to secrure file
-        try {
-            File file = new File("/mnt/secure");
+
+            // Access to secure file
+            file = new File("/mnt/secure");
             if (file.canRead()) {
                 isRooted = true;
                 lastRootCheck = System.currentTimeMillis();
-                return true;
+                return isRooted;
             }
         } catch (Throwable e1) {
             // ignore
         }
 
         // Access to su
+        if (checkCommande("/bin/su") || checkCommande("/xbin/su") || checkCommande("/sbin/su")) {
+            isRooted = true;
+            lastRootCheck = System.currentTimeMillis();
+            return isRooted;
+        }
 
-        if (checkCommande("/bin/su")) {
-            isRooted = true;
-            lastRootCheck = System.currentTimeMillis();
-            return true;
-        }
-        if (checkCommande("/xbin/su")) {
-            isRooted = true;
-            lastRootCheck = System.currentTimeMillis();
-            return true;
-        }
-        if (checkCommande("/sbin/su")) {
-            isRooted = true;
-            lastRootCheck = System.currentTimeMillis();
-            return true;
-        }
+        // DEFAULT CASE
         isRooted = false;
         lastRootCheck = System.currentTimeMillis();
-        return false;
+        return isRooted;
     }
 
     private static boolean checkCommande(String pcmde) {
