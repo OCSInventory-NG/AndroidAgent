@@ -283,6 +283,9 @@ public class Utils {
             return isRooted;
         }
 
+        // Initialization
+        isRooted = false;
+
         // get from build info
         String buildTags = android.os.Build.TAGS;
         if (buildTags != null) {
@@ -290,39 +293,31 @@ public class Utils {
         }
         if (buildTags != null && buildTags.contains("test-keys")) {
             isRooted = true;
-            lastRootCheck = System.currentTimeMillis();
         }
 
 
         try {
             // check if /system/app/Superuser.apk is present
             File file = new File("/system/app/Superuser.apk");
-            if (file.exists()) {
+            if (!isRooted && file.exists()) {
                 isRooted = true;
-                lastRootCheck = System.currentTimeMillis();
-                return isRooted;
             }
 
             // Access to secure file
             file = new File("/mnt/secure");
-            if (file.canRead()) {
+            if (!isRooted &&  file.canRead()) {
                 isRooted = true;
-                lastRootCheck = System.currentTimeMillis();
-                return isRooted;
             }
         } catch (Throwable e1) {
             // ignore
         }
 
         // Access to su
-        if (checkCommande("/bin/su") || checkCommande("/xbin/su") || checkCommande("/sbin/su")) {
+        if (!isRooted && checkCommande("/bin/su") || checkCommande("/xbin/su") || checkCommande("/sbin/su")) {
             isRooted = true;
-            lastRootCheck = System.currentTimeMillis();
-            return isRooted;
         }
 
-        // DEFAULT CASE
-        isRooted = false;
+        // Return
         lastRootCheck = System.currentTimeMillis();
         return isRooted;
     }
