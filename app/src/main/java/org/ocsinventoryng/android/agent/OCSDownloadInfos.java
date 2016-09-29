@@ -64,10 +64,9 @@ public class OCSDownloadInfos {
     }
 
     private String extrAttr(String doc, String attrName) {
-        int x, y;
-        x = doc.indexOf(attrName);
+        int x = doc.indexOf(attrName);
         x = doc.indexOf("\"", x);
-        y = doc.indexOf("\"", x + 1);
+        int y = doc.indexOf("\"", x + 1);
         Log.i("extrattr", attrName + ":" + doc.substring(x + 1, y));
         return doc.substring(x + 1, y);
     }

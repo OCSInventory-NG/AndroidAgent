@@ -94,7 +94,7 @@ public class PrefsParser extends DefaultHandler {
         Log.d("PARSE", "qName : " + qName);
         if (qName.equalsIgnoreCase("boolean")) {
             Log.d("PARSE", keyName + "/" + keyValue);
-            edit.putBoolean(keyName, keyValue.equals("true"));
+            edit.putBoolean(keyName, "true".equals(keyValue));
         }
     }
 }

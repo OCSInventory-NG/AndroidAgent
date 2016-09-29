@@ -24,7 +24,6 @@ import org.ocsinventoryng.android.actions.OCSLog;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,7 +45,6 @@ public class OCSDrives implements OCSSectionInterface {
         OCSLog ocslog = OCSLog.getInstance();
         // Lecture des FS a partir de la commande df
         try {
-
             // Lancement de la commande
             InputStream is = new ProcessBuilder(DFPATH).start().getInputStream();
 
@@ -58,15 +56,13 @@ public class OCSDrives implements OCSSectionInterface {
                 String strPattern = "^(/.*?):*\\s.*";
                 Pattern p = Pattern.compile(strPattern, Pattern.CASE_INSENSITIVE);
                 Matcher m = p.matcher(ligne);
-                if (m.find()) {
-                    if (m.group(1) != null) {
-                        ocslog.debug("Add drive " + m.group(1));
-                        try {
-                            OCSDrive drive = new OCSDrive(m.group(1).trim());
-                            drives.add(drive);
-                        } catch (IllegalArgumentException e) {
-                            ocslog.debug("Error - adding drive " + m.group(1) + e.toString());
-                        }
+                if (m.find() && m.group(1) != null) {
+                    ocslog.debug("Add drive " + m.group(1));
+                    try {
+                        OCSDrive drive = new OCSDrive(m.group(1).trim());
+                        drives.add(drive);
+                    } catch (IllegalArgumentException e) {
+                        ocslog.debug("Error - adding drive " + m.group(1) + e.toString());
                     }
                 }
             }

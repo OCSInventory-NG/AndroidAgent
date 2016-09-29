@@ -59,12 +59,10 @@ public class OCSAgentService extends Service {
     private final int AUTOMODE_ANY = 1;
     private final int AUTOMODE_WIFI = 2;
 
-
     private NotificationManager mNM;
     private OCSSettings mOcssetting;
-    boolean mIsForced = false;
-    boolean mSaveInventory = false;
-
+    private boolean mIsForced = false;
+    private boolean mSaveInventory = false;
 
     /*
      * Binder juste pour verifier que le service tourne
@@ -151,8 +149,8 @@ public class OCSAgentService extends Service {
     }
 
     private class AsyncCall extends AsyncTask<Void, Void, Void> {
-        int status;
-        Context mContext;
+        private int status;
+        private Context mContext;
 
         AsyncCall(Context ctx) {
             mContext = ctx;
@@ -174,14 +172,6 @@ public class OCSAgentService extends Service {
                 notify(R.string.nty_inventory_sent);
                 mOcssetting.setLastUpdt(System.currentTimeMillis());
             }
-        }
-
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
         }
 
         @TargetApi(Build.VERSION_CODES.JELLY_BEAN)

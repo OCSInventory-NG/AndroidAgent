@@ -123,7 +123,7 @@ public class SystemInfos {
         // contains 0 or 0-x
         try {
             String cpupresent = Utils.readShortFile(new File(CPUPRESENT));
-            processorNumber = parse_cpu_present(cpupresent) + 1;
+            processorNumber = parseCpuPresent(cpupresent) + 1;
         } catch (IOException e) {
             ocslog.error("IO error reading " + CPUPRESENT);
         }
@@ -225,7 +225,7 @@ public class SystemInfos {
         return speed;
     }
 
-    private static int parse_cpu_present(String ligne) {
+    private static int parseCpuPresent(String ligne) {
         String ls = System.getProperty("line.separator");
         ligne = ligne.replaceAll(ls, "");
         Log.w("SCANCPU", ligne);

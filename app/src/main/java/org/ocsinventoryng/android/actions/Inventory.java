@@ -80,7 +80,7 @@ public class Inventory {
 
     private OCSLog ocslog;
 
-    public void BuildInventory(Context ctx) {
+    public void buildInventory(Context ctx) {
 
         ocslog = OCSLog.getInstance();
         ocslog.debug("SystemInfos.InitSystemInfos...");
@@ -169,7 +169,7 @@ public class Inventory {
     public static Inventory getInstance(Context ctx) {
         if (instance == null) {
             instance = new Inventory();
-            instance.BuildInventory(ctx);
+            instance.buildInventory(ctx);
         } else {
             Date now = new Date();
             long d = (now.getTime() - lastDate.getTime());
@@ -177,7 +177,7 @@ public class Inventory {
             if (d > dureeCache) {
                 Log.d("OCS", "REFRESH");
                 instance = new Inventory();
-                instance.BuildInventory(ctx);
+                instance.buildInventory(ctx);
             }
         }
         return instance;

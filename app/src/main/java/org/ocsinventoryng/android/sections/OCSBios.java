@@ -18,7 +18,6 @@
  */
 package org.ocsinventoryng.android.sections;
 
-import android.annotation.TargetApi;
 import android.os.Build;
 import android.text.format.DateFormat;
 

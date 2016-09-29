@@ -254,14 +254,6 @@ public class OCSDownloadService extends Service {
             }
         }
 
-        @Override
-        protected void onPreExecute() {
-        }
-
-        @Override
-        protected void onProgressUpdate(Void... values) {
-        }
-
         @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
         private void notify(int id) {
 

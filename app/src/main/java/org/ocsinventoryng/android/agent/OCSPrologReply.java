@@ -198,7 +198,7 @@ public class OCSPrologReply {
         if (str == null) {
             return;
         }
-        this.on = str.equals("1");
+        this.on = "1".equals(str);
     }
 
     public String getType() {
