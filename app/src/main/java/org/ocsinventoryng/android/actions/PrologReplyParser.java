@@ -86,14 +86,14 @@ public class PrologReplyParser extends DefaultHandler {
             } else {
                 String frag_lat = attributes.getValue("", "FRAG_LATENCY");
                 if (frag_lat != null) {
-                    reply.setFrag_latency(frag_lat);
-                    reply.setPeriod_latency(attributes.getValue("", "PERIOD_LATENCY"));
+                    reply.setFragLatency(frag_lat);
+                    reply.setPeriodLatency(attributes.getValue("", "PERIOD_LATENCY"));
                     reply.setOn(attributes.getValue("", "ON"));
                     reply.setType(attributes.getValue("", "TYPE"));
-                    reply.setCycle_latency(attributes.getValue("", "CYCLE_LATENCY"));
+                    reply.setCycleLatency(attributes.getValue("", "CYCLE_LATENCY"));
                     reply.setTimeout(attributes.getValue("", "TIMEOUT"));
-                    reply.setPeriode_length(attributes.getValue("", "PERIOD_LENGTH"));
-                    reply.setExecution_timeout(attributes.getValue("", "EXECUTION_TIMEOUT"));
+                    reply.setPeriodeLength(attributes.getValue("", "PERIOD_LENGTH"));
+                    reply.setExecutionTimeout(attributes.getValue("", "EXECUTION_TIMEOUT"));
                 }
             }
         }

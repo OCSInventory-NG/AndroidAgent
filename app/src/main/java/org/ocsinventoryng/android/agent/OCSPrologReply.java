@@ -97,7 +97,7 @@ public class OCSPrologReply {
         this.fragLatency = fragLatency;
     }
 
-    public void setFrag_latency(String str) {
+    public void setFragLatency(String str) {
         try {
             setFragLatency(Integer.parseInt(str));
         } catch (NumberFormatException e) {
@@ -115,7 +115,7 @@ public class OCSPrologReply {
         this.periodLatency = periodLatency;
     }
 
-    public void setPeriod_latency(String str) {
+    public void setPeriodLatency(String str) {
         try {
             setPeriodLatency(Integer.parseInt(str));
         } catch (NumberFormatException e) {
@@ -133,7 +133,7 @@ public class OCSPrologReply {
         this.cycleLatency = cycleLatency;
     }
 
-    public void setCycle_latency(String str) {
+    public void setCycleLatency(String str) {
         try {
             setCycleLatency(Integer.parseInt(str));
         } catch (NumberFormatException e) {
@@ -163,7 +163,7 @@ public class OCSPrologReply {
         this.periodeLength = periodeLength;
     }
 
-    public void setPeriode_length(String str) {
+    public void setPeriodeLength(String str) {
         try {
             setPeriodeLength(Integer.parseInt(str));
         } catch (NumberFormatException e) {
@@ -179,7 +179,7 @@ public class OCSPrologReply {
         this.executionTimeout = executionTimeout;
     }
 
-    public void setExecution_timeout(String str) {
+    public void setExecutionTimeout(String str) {
         try {
             setExecutionTimeout(Integer.parseInt(str));
         } catch (NumberFormatException e) {

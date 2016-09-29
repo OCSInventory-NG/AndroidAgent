@@ -35,13 +35,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.SequenceInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class Utils {
+    private static boolean isRooted = false;
+    private static long lastRootCheck = 0;
+
 
     public static void xmlLine(StringBuffer sbOut, int n, String tag, String val) {
         for (int i = 0; i < n; i++)
@@ -109,11 +111,10 @@ public class Utils {
         return sb;
     }
 
-	/*
+    /*
      *
-	 * Simple copie de fichier
-	 */
-
+     * Simple copie de fichier
+     */
     public static void copyFile(File src, File dst) throws IOException {
         InputStream in = new FileInputStream(src);
         OutputStream out = new FileOutputStream(dst);
@@ -161,8 +162,9 @@ public class Utils {
 
             // Create Hex String
             StringBuilder hexString = new StringBuilder();
-            for (byte aMessageDigest : messageDigest)
+            for (byte aMessageDigest : messageDigest) {
                 hexString.append(Integer.toHexString(0xFF & aMessageDigest));
+            }
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -240,23 +242,6 @@ public class Utils {
         return hostname;
     }
 
-    public static void concateFiles(File f1, File f2, File fout) throws IOException {
-        FileInputStream fistream1 = new FileInputStream(f1);
-        FileInputStream fistream2 = new FileInputStream(f2);
-        SequenceInputStream sistream = new SequenceInputStream(fistream1, fistream2);
-        FileOutputStream fostream = new FileOutputStream(fout);
-
-        int temp;
-
-        while ((temp = sistream.read()) != -1) {
-            fostream.write(temp);   // to write to file
-        }
-        fostream.close();
-        sistream.close();
-        fistream1.close();
-        fistream2.close();
-    }
-
     public static void concateFiles(File f1, File fout) throws IOException {
         FileInputStream fis = new FileInputStream(f1);
         FileOutputStream fos = new FileOutputStream(fout, true);
@@ -269,22 +254,15 @@ public class Utils {
         fos.close();
     }
 
-    private static boolean isRooted;
-    private static long lastRootCheck = 0;
-
     /**
      * Check if the device is rooted
      *
      * @return true if device is rooted
      */
     public static boolean isDeviceRooted() {
-
         if (isRooted || (lastRootCheck != 0L && lastRootCheck > System.currentTimeMillis() - 5000)) {
             return isRooted;
         }
-
-        // Initialization
-        isRooted = false;
 
         // get from build info
         String buildTags = android.os.Build.TAGS;
@@ -295,7 +273,6 @@ public class Utils {
             isRooted = true;
         }
 
-
         try {
             // check if /system/app/Superuser.apk is present
             File file = new File("/system/app/Superuser.apk");
@@ -305,7 +282,7 @@ public class Utils {
 
             // Access to secure file
             file = new File("/mnt/secure");
-            if (!isRooted &&  file.canRead()) {
+            if (!isRooted && file.canRead()) {
                 isRooted = true;
             }
         } catch (Throwable e1) {
@@ -323,26 +300,26 @@ public class Utils {
     }
 
     private static boolean checkCommande(String pcmde) {
+        boolean ret = false;
+        Process proc;
+
         String commande[] = pcmde.split(" ");
 
         File file = new File(commande[0]);
-        if (!file.exists()) {
-            return false;
+        if (file.exists()) {
+            try {
+                // Lancement de la commande
+                ProcessBuilder pb = new ProcessBuilder(commande);
+                pb.redirectErrorStream(true);
+                proc = pb.start();
+                proc.waitFor();
+                int cr = proc.exitValue();
+                ret = (cr == 0);
+            } catch (Exception e) {
+                //
+            }
         }
 
-        boolean ret;
-        Process proc;
-        try {
-            // Lancement de la commande
-            ProcessBuilder pb = new ProcessBuilder(commande);
-            pb.redirectErrorStream(true);
-            proc = pb.start();
-            proc.waitFor();
-            int cr = proc.exitValue();
-            ret = (cr == 0);
-        } catch (Exception e) {
-            return false;
-        }
         return ret;
     }
 
@@ -395,15 +372,17 @@ public class Utils {
      * @return true if installed
      */
     public boolean isPkgInstalled(Context ctx, String pkg, int version) {
+        boolean isInstalled = false;
         PackageManager pm = ctx.getPackageManager();
 
         OCSLog.getInstance().debug("Check installation " + pkg + "/" + version);
         try {
             PackageInfo lpInfo = pm.getPackageInfo(pkg, PackageManager.GET_ACTIVITIES);
-            return (lpInfo.versionCode == version);
+            isInstalled = (lpInfo.versionCode == version);
         } catch (NameNotFoundException e) {
             OCSLog.getInstance().error("Package notfound");
-            return false;
         }
+
+        return isInstalled;
     }
 }
