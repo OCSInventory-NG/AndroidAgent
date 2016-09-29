@@ -211,7 +211,7 @@ public class OCSFiles {
 
     // Prolog reply is stored on file to be read py dowload service
     // This is more simple as sending  the object on intend .
-    void savePrologReply(String str) {
+    public void savePrologReply(String str) {
         FileOutputStream fos;
         try {
             fos = appCtx.openFileOutput(this.prologReplyFileName, Context.MODE_PRIVATE);

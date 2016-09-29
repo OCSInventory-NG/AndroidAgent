@@ -18,7 +18,6 @@
  */
 package org.ocsinventoryng.android.sections;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiInfo;
@@ -36,13 +35,10 @@ import java.util.Enumeration;
 
 public class OCSNetworks implements OCSSectionInterface {
     final private String sectionTag = "NETWORKS";
-    private OCSLog ocslog;
     private ArrayList<OCSNetwork> networks;
-    private int main = 0;
 
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
     public OCSNetworks(Context ctx) {
-        ocslog = OCSLog.getInstance();
+        OCSLog ocslog = OCSLog.getInstance();
 
         this.networks = new ArrayList<OCSNetwork>();
 
@@ -161,7 +157,7 @@ public class OCSNetworks implements OCSSectionInterface {
     }
 
     public int getMain() {
-        return main;
+        return 0;
     }
 
     public ArrayList<OCSNetwork> getNetworks() {

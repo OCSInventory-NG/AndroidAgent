@@ -34,12 +34,10 @@ public class SectionAdapter extends BaseAdapter {
 
     private List<OCSSection> mListe;
     private LayoutInflater mInflater;
-    private Context mContext;
 
     public SectionAdapter(Context context, List<OCSSection> aListP) {
-        mContext = context;
         mListe = aListP;
-        mInflater = LayoutInflater.from(mContext);
+        mInflater = LayoutInflater.from(context);
     }
 
     @Override

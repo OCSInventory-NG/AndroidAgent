@@ -32,7 +32,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:fontFamily="fonts/trebuchet"
         android:text="@string/status_init"
         android:textSize="@dimen/status_text"/>
 
@@ -43,7 +42,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="14dp"
-        android:fontFamily="fonts/trebuchet"
         android:onClick="sendInventoryClicked"
         android:text="@string/title_bt_launch"/>
 
@@ -53,7 +51,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/bt_launch"
-        android:fontFamily="fonts/trebuchet"
         android:onClick="showInventoryClicked"
         android:text="@string/title_bt_show"/>
 
@@ -63,7 +60,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/bt_show"
-        android:fontFamily="fonts/trebuchet"
         android:onClick="saveInventoryClicked"
         android:text="@string/title_bt_save"/>
 

@@ -66,7 +66,7 @@ public class OCSBios implements OCSSectionInterface {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO) {
             serial = Build.SERIAL;
         } else {
-            SystemInfos.getInstance().getSerial();
+            serial = SystemInfos.getInstance().getSerial();
         }
         ocslog.debug("OCSBIOS serial " + serial);
         smodel = Build.MODEL;

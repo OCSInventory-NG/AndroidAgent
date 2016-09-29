@@ -102,22 +102,24 @@ public class OCSAgentActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case R.id.menu_settings:
                 startActivity(new Intent(this, OCSPrefsActivity.class));
-                return true;
+                break;
             case R.id.menu_export:
                 exportConfig();
-                return true;
+                break;
             case R.id.menu_import:
                 importConfig();
-                return true;
+                break;
             case R.id.menu_about:
                 AboutDialog about = new AboutDialog(this);
                 about.show();
+                break;
+            default:
+                break;
         }
-        return false;
+        return true;
     }
 
     public void showInventoryClicked(View view) {

@@ -161,8 +161,7 @@ public class OCSSettings {
 
     public int getProxyPort() {
         String p = prefs.getString(KPROXYPORT, "");
-        int i = Integer.parseInt(p);
-        return i;
+        return Integer.parseInt(p);
     }
 
     public String getLogin() {

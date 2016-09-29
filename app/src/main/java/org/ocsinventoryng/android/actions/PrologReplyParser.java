@@ -107,10 +107,8 @@ public class PrologReplyParser extends DefaultHandler {
             reply.setResponse(str);
         } else if ("PROLOG_FREQ".equals(currentTag)) {
             reply.setPrologFreq(str);
-        } else if ("NAME".equals(currentTag)) {
-            if (reply.getOptName() == null) {
-                reply.setOptName(str);
-            }
+        } else if ("NAME".equals(currentTag) && reply.getOptName() == null) {
+            reply.setOptName(str);
         }
     }
 }

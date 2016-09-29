@@ -27,7 +27,6 @@ import java.util.ArrayList;
 
 
 public class OCSSims implements OCSSectionInterface {
-    private OCSLog ocslog;
     final private String sectionTag = "SIM";
     private String simcountry;
     private String simoperator;
@@ -36,7 +35,7 @@ public class OCSSims implements OCSSectionInterface {
     private String device_id;
 
     public OCSSims(Context ctx) {
-        ocslog = OCSLog.getInstance();
+        OCSLog ocslog = OCSLog.getInstance();
         TelephonyManager mng = (TelephonyManager) ctx.getSystemService(Context.TELEPHONY_SERVICE);
         ocslog.debug("Get TelephonyManager infos");
         if (mng == null) {

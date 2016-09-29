@@ -39,12 +39,10 @@ import java.util.Properties;
 @SuppressLint("NewApi")
 public class OCSSoftwares implements OCSSectionInterface {
     final private String sectionTag = "SOFTWARES";
-
     private ArrayList<OCSSoftware> softs;
-    private OCSLog ocslog;
 
     public OCSSoftwares(Context ctx) {
-        ocslog = OCSLog.getInstance();
+        OCSLog ocslog = OCSLog.getInstance();
         softs = new ArrayList<OCSSoftware>();
 
         PackageManager pm = ctx.getPackageManager();

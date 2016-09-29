@@ -102,9 +102,8 @@ public class OCSProtocol {
         repMsg = sendmethod(localFile, sURL, false);
         ocslog.debug("Finnish Sending Request...");
 
-        String reponse = extractResponse(repMsg);
         // Save reply
-        return (reponse);
+        return (extractResponse(repMsg));
     }
 
     public String sendInventoryMessage(Inventory inventory) throws OCSProtocolException {
@@ -336,7 +335,7 @@ public class OCSProtocol {
     }
 
     /*
-	 * Function called on main start to verify if a new version is installed 
+     * Function called on main start to verify if a new version is installed
 	 * Then send success status and delete package
 	 * Operation done in  Installereceiver for othet package but INSTALL event is 
 	 * not send to then application itself
@@ -379,7 +378,7 @@ public class OCSProtocol {
     }
 
     private class AsyncSend extends AsyncTask<String, Void, Void> {
-        Context mContext;
+        private Context mContext;
 
         AsyncSend(Context ctx) {
             mContext = ctx;

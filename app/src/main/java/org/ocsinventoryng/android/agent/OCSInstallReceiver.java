@@ -52,6 +52,7 @@ public class OCSInstallReceiver extends BroadcastReceiver {
         try {
             mOCSlog.debug("Lecture " + packageName + ".inst");
             FileInputStream fis = ctx.openFileInput(packageName + ".inst");
+            // TODO : buggy code
             fis.read(buffer);
             String s = new String(buffer);
             String t[] = s.split(":");

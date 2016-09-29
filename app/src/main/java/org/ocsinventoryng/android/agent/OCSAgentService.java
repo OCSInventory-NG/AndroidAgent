@@ -18,7 +18,6 @@
  */
 package org.ocsinventoryng.android.agent;
 
-import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -29,7 +28,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Binder;
-import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 
@@ -42,10 +40,7 @@ import org.ocsinventoryng.android.actions.OCSSettings;
 
 import java.util.Date;
 
-
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class OCSAgentService extends Service {
-
     public final static String FORCE_UPDATE = "force_update";
     public final static String SAVE_INVENTORY = "save_inventory";
 
@@ -174,9 +169,7 @@ public class OCSAgentService extends Service {
             }
         }
 
-        @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
         private void notify(int id) {
-
             if (mOcssetting.getHiddenNotif() == HIDE_NOTIF_INVENT || mOcssetting.getHiddenNotif() == HIDE_NOTIF_ALL) {
                 return;
             }
@@ -184,17 +177,12 @@ public class OCSAgentService extends Service {
             OCSLog.getInstance().debug("Notify inventory");
             mNM = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-
             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext).setSmallIcon(
                     R.drawable.ic_notification).setContentTitle(getText(R.string.nty_title)).setContentText(
                     getText(id)).setAutoCancel(true).setContentText(getText(id));
 
             Intent rIntent = new Intent(mContext, OCSAgentActivity.class);
-                /*
-                TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-	    		stackBuilder.addParentStack(OCSAgentActivity.class);
-	    		stackBuilder.addNextIntent(rIntent);
-	    		*/
+
             PendingIntent rpIntent = PendingIntent.getActivity(mContext, 0, rIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             mBuilder.setContentIntent(rpIntent);
 

@@ -31,7 +31,6 @@
         android:id="@+id/titre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="fonts/trebuchet"
         android:textColor="@color/violet_fonce"
         android:textStyle="bold"/>
 
@@ -39,6 +38,5 @@
         android:id="@+id/detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="fonts/trebuchet"
         android:textColor="@color/violet_clair"/>
 </LinearLayout>

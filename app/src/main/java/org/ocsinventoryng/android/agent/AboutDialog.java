@@ -31,7 +31,7 @@ import java.util.Date;
 import java.util.Locale;
 
 public class AboutDialog extends Dialog {
-    private static Context mContext = null;
+    private static Context mContext;
 
     public AboutDialog(Context context) {
         super(context);

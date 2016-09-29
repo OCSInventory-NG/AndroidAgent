@@ -18,13 +18,9 @@
  */
 package org.ocsinventoryng.android.sections;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.hardware.Camera;
-import android.hardware.Camera.Size;
 import android.os.Build;
-import android.util.Log;
 
 import org.ocsinventoryng.android.actions.OCSLog;
 
@@ -35,7 +31,6 @@ public class OCSInputs implements OCSSectionInterface {
     final private String sectionTag = "INPUTS";
     public ArrayList<OCSInput> inputs;
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public OCSInputs(Context ctx) {
         OCSLog ocslog = OCSLog.getInstance();
 
@@ -84,45 +79,6 @@ public class OCSInputs implements OCSSectionInterface {
         }
 
         ocslog.debug("OCSInputs done");
-    }
-
-    // Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
-    private Camera openCamera() {
-        try {
-            return Camera.open();
-        } catch (RuntimeException e) {
-            return null;
-        }
-    }
-
-    // Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
-    private Camera openCamera(int idx) {
-        try {
-            return Camera.open(idx);
-        } catch (RuntimeException e) {
-            return null;
-        }
-    }
-
-    private String getCameraMaxImgSize(Camera cam) {
-        if (cam == null) {
-            return "busy";
-        }
-        Camera.Parameters params = cam.getParameters();
-        long max_v = 0;
-        Size max_sz = null;
-        for (Size sz : params.getSupportedPictureSizes()) {
-            long v = sz.height * sz.width;
-            Log.d("OCSINPUT", String.valueOf(v));
-            if (v > max_v) {
-                max_v = v;
-                max_sz = sz;
-            }
-        }
-        cam.release();
-        return String.valueOf(max_sz.width) + "x" + String.valueOf(max_sz.height);
     }
 
     public String toXML() {

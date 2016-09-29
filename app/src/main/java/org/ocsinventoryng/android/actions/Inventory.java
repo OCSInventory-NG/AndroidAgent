@@ -18,9 +18,7 @@
  */
 package org.ocsinventoryng.android.actions;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
 import android.provider.Settings.Secure;
 import android.util.Log;
 
@@ -52,7 +50,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-@TargetApi(Build.VERSION_CODES.GINGERBREAD)
 public class Inventory {
     private static Inventory instance = null;
     private static String sectionsFPFile = "sectionsfp.txt";
@@ -81,7 +78,6 @@ public class Inventory {
     private OCSLog ocslog;
 
     public void buildInventory(Context ctx) {
-
         ocslog = OCSLog.getInstance();
         ocslog.debug("SystemInfos.InitSystemInfos...");
         OCSSettings settings = OCSSettings.getInstance();
@@ -209,7 +205,6 @@ public class Inventory {
     }
 
     public String toXML() {
-
         StringBuffer strOut = new StringBuffer("<REQUEST>\n");
         Utils.xmlLine(strOut, 2, "DEVICEID", this.getDeviceUid());
         // Utils.xmlLine(strOut,2,"DEVICEID",OCSSettings.getInstance().getDeviceUid());

@@ -18,7 +18,6 @@
  */
 package org.ocsinventoryng.android.agent;
 
-import android.annotation.TargetApi;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -26,7 +25,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Binder;
-import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 
@@ -40,7 +38,6 @@ import org.ocsinventoryng.android.actions.Utils;
 import java.io.File;
 import java.io.IOException;
 
-@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 public class OCSDownloadService extends Service {
 
     private final String ACTION_STORE = "STORE";
@@ -235,7 +232,7 @@ public class OCSDownloadService extends Service {
     }
 
     private class AsyncCall extends AsyncTask<Void, Void, Void> {
-        Context mContext;
+        private Context mContext;
 
         AsyncCall(Context ctx) {
             mContext = ctx;
@@ -254,9 +251,7 @@ public class OCSDownloadService extends Service {
             }
         }
 
-        @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
         private void notify(int id) {
-
             if (mOcssetting.getHiddenNotif() == OCSAgentService.HIDE_NOTIF_DOWNLOAD
                 || mOcssetting.getHiddenNotif() == OCSAgentService.HIDE_NOTIF_ALL) {
                 return;
@@ -269,11 +264,7 @@ public class OCSDownloadService extends Service {
                     getText(id)).setAutoCancel(true);
 
             Intent rIntent = new Intent(mContext, OCSLaunchActivity.class);
-            /*
-                TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-	    		stackBuilder.addParentStack(OCSAgentActivity.class);
-	    		stackBuilder.addNextIntent(rIntent);
-			 */
+
             PendingIntent rpIntent = PendingIntent.getActivity(mContext, 0, rIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             mBuilder.setContentIntent(rpIntent);
 

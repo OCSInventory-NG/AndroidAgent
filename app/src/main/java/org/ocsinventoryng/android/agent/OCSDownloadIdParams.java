@@ -123,7 +123,7 @@ public class OCSDownloadIdParams {
         if (str == null) {
             return;
         }
-        this.force = str.equals("1");
+        this.force = "1".equals(str);
     }
 
     public String getPostcmd() {

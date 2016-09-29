@@ -109,7 +109,7 @@ public class SystemInfos {
                 if (m.find() && processorSpeed == 0) {
                     float value = Float.valueOf(m.group(1).trim());
                     // value * 1000 due to OCSHardware where /1000
-                    processorSpeed = Integer.valueOf(Math.round(value * 1000));
+                    processorSpeed = Math.round(value * 1000);
                 }
             }
             bReader.close();
