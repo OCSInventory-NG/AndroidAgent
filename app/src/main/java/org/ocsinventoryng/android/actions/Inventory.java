@@ -54,15 +54,20 @@ import java.util.Map;
 
 public class Inventory {
     private static Inventory instance = null;
-    private static String sectionsFPFile = "sectionsfp.txt";
+    // Context
     private Context mCtx;
 
+    // Footprint (previous & current)
     private Map<String, String> lastFP;
     private Map<String, String> currentFP;
+    // Footprint storage file
+    private static String sectionsFPFile = "sectionsfp.txt";
 
+    // Las running time
     private static Date lastDate;
     private static long dureeCache = 300L;
 
+    // Sections of device inventory
     private String deviceUid;
     private OCSBios bios;
     private OCSHardware hardware;
@@ -75,15 +80,18 @@ public class Inventory {
     private OCSJavaInfos javainfos;
     private OCSSims sims;
 
+    // Log
     private OCSLog ocslog;
 
-    public void buildInventory(Context ctx) {
+    private void buildInventory(Context ctx) {
+        // Context
+        mCtx = ctx;
+
         ocslog = OCSLog.getInstance();
         ocslog.debug("SystemInfos.initSystemInfos...");
         OCSSettings settings = OCSSettings.getInstance();
 
         lastDate = new Date();
-
         dureeCache = settings.getCacheLen();
 
         SystemInfos.initSystemInfos();
@@ -92,10 +100,10 @@ public class Inventory {
         bios = new OCSBios();
         ocslog.debug("hardware...");
         hardware = new OCSHardware();
-        String sid = Secure.getString(ctx.getContentResolver(), Secure.ANDROID_ID);
+        String sid = Secure.getString(mCtx.getContentResolver(), Secure.ANDROID_ID);
         hardware.setName(hardware.getName() + "-" + sid);
         ocslog.debug("OCSNetworks...");
-        networks = new OCSNetworks(ctx);
+        networks = new OCSNetworks(mCtx);
         if (!networks.getNetworks().isEmpty()) {
             int m = networks.getMain();
             OCSNetwork pn = networks.getNetworks().get(m);
@@ -110,27 +118,26 @@ public class Inventory {
         if (settings.getDeviceUid() == null) {
             Date now = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.getDefault());
-            deviceUid = "android-" + Secure.getString(ctx.getContentResolver(), Secure.ANDROID_ID) + "-" + sdf.format(now);
+            deviceUid = "android-" + sid + "-" + sdf.format(now);
             settings.setDeviceUid(deviceUid);
         } else {
             deviceUid = settings.getDeviceUid();
         }
 
         ocslog.debug("OCSVideos...");
-        videos = new OCSVideos(ctx);
+        videos = new OCSVideos(mCtx);
         ocslog.debug("OCSSoftwares...");
-        softwares = new OCSSoftwares(ctx);
+        softwares = new OCSSoftwares(mCtx);
         ocslog.debug("OCSInputs...");
-        inputs = new OCSInputs(ctx.getApplicationContext());
+        inputs = new OCSInputs(mCtx);
         ocslog.debug("OCSJavaInfos...");
         javainfos = new OCSJavaInfos();
         ocslog.debug("OCSSims...");
-        sims = new OCSSims(ctx);
+        sims = new OCSSims(mCtx);
 
-        // Mise a jour du checksum
-        mCtx = ctx;
+        // Checksum update
         ocslog.debug("CHECKSUM update");
-        loadSectionsFP(ctx);
+        loadSectionsFP(mCtx);
         currentFP = new Hashtable<String, String>();
 
         long checksum = 0L;
@@ -149,6 +156,13 @@ public class Inventory {
         hardware.setChecksum(checksum);
     }
 
+    /**
+     * Does something change from last inventory ?
+     *
+     * @param s    An OCS section
+     * @param mask Mask to use if changes
+     * @return Mask
+     */
     private long getChange(OCSSectionInterface s, long mask) {
         long ret = 0;
 
@@ -162,23 +176,37 @@ public class Inventory {
         return ret;
     }
 
+    /**
+     * Get an instance of {@link Inventory}
+     *
+     * @param ctx context
+     * @return Inventory instance
+     */
     public static Inventory getInstance(Context ctx) {
+        // No running instance
         if (instance == null) {
             instance = new Inventory();
-            instance.buildInventory(ctx);
+            instance.buildInventory(ctx.getApplicationContext());
         } else {
+            // An instance already exist...
             Date now = new Date();
             long d = (now.getTime() - lastDate.getTime());
             Log.d("OCS", "Age du cache (mn) = " + d / 60000L);
+            // Is it obsolete ?
             if (d > dureeCache) {
                 Log.d("OCS", "REFRESH");
                 instance = new Inventory();
-                instance.buildInventory(ctx);
+                instance.buildInventory(ctx.getApplicationContext());
             }
         }
         return instance;
     }
 
+    /**
+     * XML values of the inventory
+     *
+     * @return
+     */
     public String toXML() {
         StringBuffer strOut = new StringBuffer("<REQUEST>\n");
         Utils.xmlLine(strOut, 2, "DEVICEID", deviceUid);
@@ -190,9 +218,6 @@ public class Inventory {
         strOut.append(javainfos.toXML());
         strOut.append(sims.toXML());
         strOut.append(networks.toXML());
-        // strOut.append("    <CONTROLLERS></CONTROLLERS>");
-        // strOut.append("    <SLOTS></SLOTS>");
-        // strOut.append("    <SOUNDS></SOUNDS>");
         strOut.append(softwares.toXML());
         strOut.append(storages.toXML());
         strOut.append(videos.toXML());
@@ -220,6 +245,12 @@ public class Inventory {
         return strOut;
     }
 
+    /**
+     * Get a named section
+     *
+     * @param sName section name
+     * @return Details from the requested section
+     */
     public List<OCSSection> getSections(String sName) {
         if ("BIOS".equals(sName)) {
             return bios.getSections();
@@ -259,14 +290,13 @@ public class Inventory {
     }
 
     /**
-     * Load sections checksum from file
+     * Load sections footprint from file
      *
      * @param ctx application context
      **/
     private void loadSectionsFP(Context ctx) {
         lastFP = new Hashtable<String, String>();
 
-        // Chargement des empreintes des dernieres sections validées
         FileInputStream fis;
         try {
             fis = ctx.openFileInput(sectionsFPFile);
@@ -289,6 +319,9 @@ public class Inventory {
         }
     }
 
+    /**
+     * Save sections footprint to disk
+     */
     public void saveSectionsFP() {
         StringBuilder sb = new StringBuilder();
 
