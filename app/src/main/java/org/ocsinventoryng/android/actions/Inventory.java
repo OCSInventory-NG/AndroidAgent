@@ -63,9 +63,7 @@ public class Inventory {
     private static Date lastDate;
     private static long dureeCache = 300L;
 
-
     private String deviceUid;
-
     private OCSBios bios;
     private OCSHardware hardware;
     private OCSNetworks networks;
@@ -91,13 +89,13 @@ public class Inventory {
         SystemInfos.initSystemInfos();
 
         ocslog.debug("OCSBios...");
-        this.bios = new OCSBios();
+        bios = new OCSBios();
         ocslog.debug("hardware...");
-        this.hardware = new OCSHardware();
+        hardware = new OCSHardware();
         String sid = Secure.getString(ctx.getContentResolver(), Secure.ANDROID_ID);
-        this.hardware.setName(this.hardware.getName() + "-" + sid);
+        hardware.setName(hardware.getName() + "-" + sid);
         ocslog.debug("OCSNetworks...");
-        this.networks = new OCSNetworks(ctx);
+        networks = new OCSNetworks(ctx);
         if (!networks.getNetworks().isEmpty()) {
             int m = networks.getMain();
             OCSNetwork pn = networks.getNetworks().get(m);
@@ -105,29 +103,29 @@ public class Inventory {
         }
 
         ocslog.debug("OCSdrives...");
-        this.drives = new OCSDrives();
+        drives = new OCSDrives();
         ocslog.debug("OCSStorages...");
-        this.storages = new OCSStorages();
+        storages = new OCSStorages();
 
         if (settings.getDeviceUid() == null) {
             Date now = new Date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.getDefault());
-            this.deviceUid = "android-" + Secure.getString(ctx.getContentResolver(), Secure.ANDROID_ID) + "-" + sdf.format(now);
-            settings.setDeviceUid(this.deviceUid);
+            deviceUid = "android-" + Secure.getString(ctx.getContentResolver(), Secure.ANDROID_ID) + "-" + sdf.format(now);
+            settings.setDeviceUid(deviceUid);
         } else {
-            this.deviceUid = settings.getDeviceUid();
+            deviceUid = settings.getDeviceUid();
         }
 
         ocslog.debug("OCSVideos...");
-        this.videos = new OCSVideos(ctx);
+        videos = new OCSVideos(ctx);
         ocslog.debug("OCSSoftwares...");
-        this.softwares = new OCSSoftwares(ctx);
+        softwares = new OCSSoftwares(ctx);
         ocslog.debug("OCSInputs...");
-        this.inputs = new OCSInputs(ctx.getApplicationContext());
+        inputs = new OCSInputs(ctx.getApplicationContext());
         ocslog.debug("OCSJavaInfos...");
-        this.javainfos = new OCSJavaInfos();
+        javainfos = new OCSJavaInfos();
         ocslog.debug("OCSSims...");
-        this.sims = new OCSSims(ctx);
+        sims = new OCSSims(ctx);
 
 	/* Mise a jour du checksum */
         mCtx = ctx;
@@ -136,16 +134,16 @@ public class Inventory {
         currentFP = new Hashtable<String, String>();
 
         long checksum = 0L;
-        checksum |= getChange(this.hardware, 1L);
-        checksum |= getChange(this.bios, 2L);
-        checksum |= getChange(this.storages, 0x100L);
-        checksum |= getChange(this.drives, 0x200L);
-        checksum |= getChange(this.inputs, 0x400L);
-        checksum |= getChange(this.networks, 0x1000L);
-        checksum |= getChange(this.videos, 0x8000L);
-        checksum |= getChange(this.softwares, 0x10000L);
-        checksum |= getChange(this.sims, 0x80000L);
-        checksum |= getChange(this.javainfos, 0L);
+        checksum |= getChange(hardware, 1L);
+        checksum |= getChange(bios, 2L);
+        checksum |= getChange(storages, 0x100L);
+        checksum |= getChange(drives, 0x200L);
+        checksum |= getChange(inputs, 0x400L);
+        checksum |= getChange(networks, 0x1000L);
+        checksum |= getChange(videos, 0x8000L);
+        checksum |= getChange(softwares, 0x10000L);
+        checksum |= getChange(sims, 0x80000L);
+        checksum |= getChange(javainfos, 0L);
         ocslog.debug(String.format("CK %x", checksum));
         ocslog.debug("CHECKSUM " + checksum);
         hardware.setChecksum(checksum);
@@ -181,50 +179,25 @@ public class Inventory {
         return instance;
     }
 
-    public void logInventory() {
-        ocslog.debug("****LOG INVENTORY****");
-        ocslog.debug(this.toString());
-    }
-
-    public String getDeviceUid() {
-        return this.deviceUid;
-    }
-
-    public void setDeviceUid(String paramString) {
-        this.deviceUid = paramString;
-    }
-
-    public OCSBios getBios() {
-        return bios;
-    }
-
-    public OCSHardware getHardware() {
-        return hardware;
-    }
-
-    public OCSDrives getDrives() {
-        return drives;
-    }
-
     public String toXML() {
         StringBuffer strOut = new StringBuffer("<REQUEST>\n");
-        Utils.xmlLine(strOut, 2, "DEVICEID", this.getDeviceUid());
+        Utils.xmlLine(strOut, 2, "DEVICEID", deviceUid);
         // Utils.xmlLine(strOut,2,"DEVICEID",OCSSettings.getInstance().getDeviceUid());
         strOut.append("  <CONTENT>\n");
         // strOut.append("    <DOWNLOAD><HISTORY /></DOWNLOAD>\n");
-        strOut.append(this.bios.toXML());
-        strOut.append(this.drives.toXML());
-        strOut.append(this.hardware.toXML());
-        strOut.append(this.inputs.toXML());
-        strOut.append(this.javainfos.toXML());
-        strOut.append(this.sims.toXML());
-        strOut.append(this.networks.toXML());
+        strOut.append(bios.toXML());
+        strOut.append(drives.toXML());
+        strOut.append(hardware.toXML());
+        strOut.append(inputs.toXML());
+        strOut.append(javainfos.toXML());
+        strOut.append(sims.toXML());
+        strOut.append(networks.toXML());
         // strOut.append("    <CONTROLLERS></CONTROLLERS>");
         // strOut.append("    <SLOTS></SLOTS>");
         // strOut.append("    <SOUNDS></SOUNDS>");
-        strOut.append(this.softwares.toXML());
-        strOut.append(this.storages.toXML());
-        strOut.append(this.videos.toXML());
+        strOut.append(softwares.toXML());
+        strOut.append(storages.toXML());
+        strOut.append(videos.toXML());
         strOut.append("    <ACCOUNTINFO>\n");
         strOut.append("      <KEYNAME>TAG</KEYNAME>\n");
         Utils.xmlLine(strOut, "KEYVALUE", OCSSettings.getInstance().getDeviceTag());
@@ -237,14 +210,14 @@ public class Inventory {
     }
 
     public String toString() {
-        String strOut = this.getDeviceUid() + '\n' +
-                        this.bios +
-                        this.drives +
-                        this.storages +
-                        this.hardware +
-                        this.networks +
-                        this.videos +
-                        this.softwares;
+        String strOut = deviceUid.toString() + '\n' +
+                        bios.toString() +
+                        drives.toString() +
+                        storages.toString() +
+                        hardware.toString() +
+                        networks.toString() +
+                        videos.toString() +
+                        softwares.toString();
 
         return strOut;
     }

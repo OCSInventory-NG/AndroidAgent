@@ -84,7 +84,7 @@ public class OCSPrefsActivity extends PreferenceActivity {
     public void onStop() {
         super.onStop();
         Log.d("DEBUG", "onStop");
-        Context ctx = this.getApplicationContext();
+        Context ctx = getApplicationContext();
 
         if (mAutoMode_chg || mfreqwake_chg) {
             Log.d("DEBUG", "mAutoMode_chg");

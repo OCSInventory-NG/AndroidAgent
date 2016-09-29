@@ -61,10 +61,6 @@ public class Utils {
         xmlLine(sbOut, 6, tag, val);
     }
 
-    public static void strLine(StringBuffer sbOut, String tag, String val) {
-        sbOut.append(tag).append(':').append(val).append("\n");
-    }
-
     private static String readSysCommand(String commande0, String arg1) {
         OCSLog localLog = OCSLog.getInstance();
         String reponse = "";
@@ -366,25 +362,4 @@ public class Utils {
         return true;
     }
 
-    /**
-     * Check if a package is installed whith a given version code
-     *
-     * @param pkg     Package name
-     * @param version Version code
-     * @return true if installed
-     */
-    public boolean isPkgInstalled(Context ctx, String pkg, int version) {
-        boolean isInstalled = false;
-        PackageManager pm = ctx.getPackageManager();
-
-        OCSLog.getInstance().debug("Check installation " + pkg + "/" + version);
-        try {
-            PackageInfo lpInfo = pm.getPackageInfo(pkg, PackageManager.GET_ACTIVITIES);
-            isInstalled = (lpInfo.versionCode == version);
-        } catch (NameNotFoundException e) {
-            OCSLog.getInstance().error("Package notfound");
-        }
-
-        return isInstalled;
-    }
 }

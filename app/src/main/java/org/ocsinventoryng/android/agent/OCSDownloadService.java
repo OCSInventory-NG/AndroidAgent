@@ -92,7 +92,7 @@ public class OCSDownloadService extends Service {
         mOcslog.debug("mPeriodLatency   : " + mReply.getPeriodLatency());
         mOcslog.debug("mCycleLatency    : " + mReply.getCycleLatency());
         mOcslog.debug("mTimeout          : " + mReply.getTimeout());
-        AsyncCall task = new AsyncCall(this.getApplicationContext());
+        AsyncCall task = new AsyncCall(getApplicationContext());
         task.execute();
 
         return Service.START_NOT_STICKY;

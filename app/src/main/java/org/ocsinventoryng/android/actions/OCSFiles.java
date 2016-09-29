@@ -75,19 +75,6 @@ public class OCSFiles {
         return appCtx.getFileStreamPath(gzipedFileName);
     }
 
-    public void getUnGzipedFile(File inFile, String fileOutName) throws IOException {
-        FileInputStream fis = new FileInputStream(inFile);
-
-        GZIPInputStream gzis = new GZIPInputStream(new BufferedInputStream(fis));
-        FileOutputStream fos = appCtx.openFileOutput(fileOutName, Context.MODE_PRIVATE);
-        byte[] buff = new byte[1024];
-        int n;
-        while ((n = fis.read(buff)) != -1)
-            fos.write(buff, 0, n);
-        gzis.close();
-        fos.close();
-    }
-
     public File getInventoryFileXML(Inventory pInventory) {
         StringBuilder strOut = new StringBuilder("<?xml version =\"1.0\" encoding=\"UTF-8\"?>\n");
         strOut.append(pInventory.toXML());
@@ -129,7 +116,7 @@ public class OCSFiles {
 
         FileOutputStream prologFileOStream;
         try {
-            prologFileOStream = appCtx.openFileOutput(this.prologFileName, Context.MODE_PRIVATE);
+            prologFileOStream = appCtx.openFileOutput(prologFileName, Context.MODE_PRIVATE);
             BufferedOutputStream prologFileBOS = new BufferedOutputStream(prologFileOStream);
             byte[] arrayOfByte = strBuf.toString().getBytes();
             prologFileBOS.write(arrayOfByte);
@@ -216,7 +203,7 @@ public class OCSFiles {
     public void savePrologReply(String str) {
         FileOutputStream fos;
         try {
-            fos = appCtx.openFileOutput(this.prologReplyFileName, Context.MODE_PRIVATE);
+            fos = appCtx.openFileOutput(prologReplyFileName, Context.MODE_PRIVATE);
             fos.write(str.getBytes());
         } catch (Exception e) {
             ocslog.error("Erreur during prolog replay file creation");
@@ -228,7 +215,7 @@ public class OCSFiles {
         OCSPrologReply reply = null;
         FileInputStream fis;
         try {
-            fis = appCtx.openFileInput(this.prologReplyFileName);
+            fis = appCtx.openFileInput(prologReplyFileName);
             PrologReplyParser prp = new PrologReplyParser();
             reply = prp.parseDocument(fis);
         } catch (Exception e) {

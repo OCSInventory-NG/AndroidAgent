@@ -89,8 +89,8 @@ public class OCSLaunchActivity extends ActionBarActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.setDataAndType(Uri.fromFile(finst), "application/vnd.android.package-archive");
             // Special case of agent itself
-            if (mPackageNames[i].equals(this.getPackageName())) {
-                mOcslog.debug(this.getPackageName() + " detected");
+            if (mPackageNames[i].equals(getPackageName())) {
+                mOcslog.debug(getPackageName() + " detected");
                 // Save id;version code for asynchrone check later
                 String idctx = mIdOCS[i] + ":" + pkgInfo.versionCode;
                 try {
@@ -102,7 +102,7 @@ public class OCSLaunchActivity extends ActionBarActivity {
 
                 startActivity(intent);
                 mOcslog.debug("stop activity");
-                this.finish();
+                finish();
             } else {
                 startActivityForResult(intent, i + 1);
             }

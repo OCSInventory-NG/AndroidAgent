@@ -46,7 +46,6 @@ public class OCSAgentService extends Service {
     public final static String FORCE_UPDATE = "force_update";
     public final static String SAVE_INVENTORY = "save_inventory";
 
-    public final static int HIDE_NOTIF_NONE = 0;
     public final static int HIDE_NOTIF_INVENT = 1;
     public final static int HIDE_NOTIF_DOWNLOAD = 2;
     public final static int HIDE_NOTIF_ALL = 3;
@@ -97,8 +96,6 @@ public class OCSAgentService extends Service {
         } catch (NameNotFoundException e) {
         }
 
-        // notify(R.string.not_start_service);
-
         int freq = mOcssetting.getFreqMaj();
         long lastUpdt = mOcssetting.getLastUpdt();
         long delta = System.currentTimeMillis() - lastUpdt;
@@ -111,20 +108,19 @@ public class OCSAgentService extends Service {
         if ((delta > freq * HOUR_IN_MILLIS && isOnline()) || mIsForced) {
             ocslog.debug("mIsForced  : " + mIsForced);
             ocslog.debug("bool date  : " + (delta > freq * HOUR_IN_MILLIS));
-            AsyncCall task = new AsyncCall(this.getApplicationContext());
+            AsyncCall task = new AsyncCall(getApplicationContext());
             task.execute();
         }
 
         return Service.START_NOT_STICKY;
     }
 
-    private int sendInventory() {
+    private boolean sendInventory() {
         OCSPrologReply reply;
         Inventory inventory = Inventory.getInstance(getApplicationContext());
-        // OCSFiles.getInstance().getInventoryFileXML(inventory);
         OCSProtocol ocsproto = new OCSProtocol(getApplicationContext());
         try {
-            reply = ocsproto.sendPrologueMessage(inventory);
+            reply = ocsproto.sendPrologueMessage();
             if (!reply.getIdList().isEmpty()) {
                 OCSLog.getInstance().debug(getApplicationContext().getString(R.string.start_download_service));
                 // Some downlowds requiered invoke download service
@@ -134,10 +130,10 @@ public class OCSAgentService extends Service {
 
             ocsproto.sendInventoryMessage(inventory);
         } catch (OCSProtocolException e) {
-            return (1);
+            return false;
         }
 
-        return 0;
+        return true;
     }
 
     private void saveInventory() {
@@ -146,7 +142,7 @@ public class OCSAgentService extends Service {
     }
 
     private class AsyncCall extends AsyncTask<Void, Void, Void> {
-        private int status;
+        private boolean status;
         private Context mContext;
 
         AsyncCall(Context ctx) {
@@ -165,7 +161,7 @@ public class OCSAgentService extends Service {
 
         @Override
         protected void onPostExecute(Void result) {
-            if (status == 0) {
+            if (status) {
                 notify(R.string.nty_inventory_sent);
                 mOcssetting.setLastUpdt(System.currentTimeMillis());
             }

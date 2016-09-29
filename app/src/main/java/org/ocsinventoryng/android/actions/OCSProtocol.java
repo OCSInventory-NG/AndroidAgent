@@ -76,12 +76,11 @@ public class OCSProtocol {
         ocslog.debug("USERAGENT " + http_agent);
     }
 
-    public OCSPrologReply sendPrologueMessage(Inventory inv) throws OCSProtocolException {
+    public OCSPrologReply sendPrologueMessage() throws OCSProtocolException {
         ocslog.debug("Start Sending Prolog...");
         String repMsg;
         File localFile = ocsfile.getPrologFileXML();
         String sURL = OCSSettings.getInstance().getServerUrl();
-        // boolean gz = OCSSettings.getInstance().getGzip();
 
         repMsg = sendmethod(localFile, sURL, true);
         ocslog.debug("Finnish Sending Prolog...");

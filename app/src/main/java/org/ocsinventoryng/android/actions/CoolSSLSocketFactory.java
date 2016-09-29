@@ -63,7 +63,7 @@ public class CoolSSLSocketFactory extends SSLSocketFactory {
         };
         Log.d("X509", "CoolSSLSocketFactory");
         sslContext.init(null, new TrustManager[]{ tm }, null);
-        this.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+        setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
     }
 
     @Override

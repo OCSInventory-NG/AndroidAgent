@@ -131,11 +131,11 @@ public class OCSAgentActivity extends ActionBarActivity {
 
     public void sendInventoryClicked(View view) {
         setStatus(R.string.title_bt_launch);
-        this.spawnTask(true);
+        spawnTask(true);
     }
 
     public void saveInventoryClicked(View view) {
-        this.spawnTask(false);
+        spawnTask(false);
     }
 
 

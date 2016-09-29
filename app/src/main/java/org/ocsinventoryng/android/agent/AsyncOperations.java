@@ -44,12 +44,12 @@ public class AsyncOperations extends AsyncTask<Void, Integer, String> {
     private boolean mDownload;
 
     public AsyncOperations(boolean send, ProgressDialog progressDialog, TextView status, Activity act, Context ctx) {
-        this.mSend = send;
-        this.mProgressDialog = progressDialog;
-        this.mTvStatus = status;
-        this.mAppCtx = ctx;
-        this.mActivity = act;
-        this.mDownload = false;
+        mSend = send;
+        mProgressDialog = progressDialog;
+        mTvStatus = status;
+        mAppCtx = ctx;
+        mActivity = act;
+        mDownload = false;
     }
 
     @Override
@@ -89,7 +89,7 @@ public class AsyncOperations extends AsyncTask<Void, Integer, String> {
         OCSPrologReply reply;
         String rep;
         try {
-            reply = ocsproto.sendPrologueMessage(inventory);
+            reply = ocsproto.sendPrologueMessage();
         } catch (OCSProtocolException e1) {
             return (e1.getMessage());
         }

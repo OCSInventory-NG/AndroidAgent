@@ -42,7 +42,7 @@ public class OCSSectionListActivity extends ListActivity {
         }
         CharSequence section = b.getCharSequence("ocsinventory.section").toString();
 
-        this.setTitle(section);
+        setTitle(section);
 
         // recuperation de la section
         ArrayList<OCSSection> asl = (ArrayList<OCSSection>) Inventory.getInstance(this).

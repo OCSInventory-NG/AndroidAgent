@@ -59,9 +59,8 @@ public class PrefsParser extends DefaultHandler {
     }
 
     public void characters(char[] paramArrayOfChar, int paramInt1, int paramInt2) throws SAXException {
-
         String str = new String(paramArrayOfChar, paramInt1, paramInt2);
-        this.keyValue = str;
+        keyValue = str;
         Log.d("PARSE", "characters" + str);
     }
 
@@ -78,16 +77,7 @@ public class PrefsParser extends DefaultHandler {
         }
     }
 
-    public String getResponseText() {
-        return this.responseText;
-    }
-
-    public void setResponseText(String paramString) {
-        this.responseText = paramString;
-    }
-
     public void startElement(String uri, String local, String qName, Attributes attributes) throws SAXException {
-
         keyName = attributes.getValue("", "name");
         keyValue = attributes.getValue("", "value");
         Log.d("PARSE", "startElement");

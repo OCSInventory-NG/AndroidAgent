@@ -26,15 +26,14 @@ import android.text.format.DateFormat;
 import java.io.File;
 
 public class OCSDrive {
-
     private String createdate;
-    private String filesystem;
+    private String filesystem = null;
     private String type;
     private long free;
-    private String label;
+    private String label = null;
     private String serial;
     private long total;
-    private String volumName;
+    private String volumName = null;
 
     public OCSDrive(String fs) {
         File d = new File(fs);
@@ -43,13 +42,10 @@ public class OCSDrive {
         long bc = statfs.getBlockCount();
         long fb = statfs.getFreeBlocks();
 
-        this.volumName = null;
-        this.label = null;
-        this.total = bs * bc / 1048576L;
-        this.free = bs * fb / 1048576L;
-        this.type = fs;
-        this.filesystem = null;
-        this.createdate = (String) DateFormat.format("MM/dd/yy mm:ss", d.lastModified());
+        total = bs * bc / 1048576L;
+        free = bs * fb / 1048576L;
+        type = fs;
+        createdate = (String) DateFormat.format("MM/dd/yy mm:ss", d.lastModified());
     }
 
     /*
