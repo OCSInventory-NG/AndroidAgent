@@ -1,6 +1,27 @@
+/*
+ * Copyright 2013-2016 OCSInventory-NG/AndroidAgent contributors : mortheres, cdpointpoint,
+ * Cédric Cabessa, Nicolas Ricquemaque, Anael Mobilia
+ *
+ * This file is part of OCSInventory-NG/AndroidAgent.
+ *
+ * OCSInventory-NG/AndroidAgent is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * OCSInventory-NG/AndroidAgent is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
 package org.ocsinventoryng.android.actions;
 
 import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -16,17 +37,17 @@ public class OCSLog {
     public OCSLog() {
         File rep = Environment.getExternalStoragePublicDirectory("ocs");
 
-        android.util.Log.d(TAG, Environment.getExternalStorageDirectory().getPath());
+        Log.d(TAG, Environment.getExternalStorageDirectory().getPath());
 
         if (!rep.isDirectory()) {
             rep.delete();
         }
         if (!rep.exists()) {
             if (!rep.mkdir()) {
-                android.util.Log.e(TAG, "Cannot create directory : " + rep.getPath());
+                Log.e(TAG, "Cannot create directory : " + rep.getPath());
                 return;
             } else {
-                android.util.Log.d(TAG, rep.getPath() + " created");
+                Log.d(TAG, rep.getPath() + " created");
             }
         }
         logFile = new File(rep, "ocslog.txt");
@@ -52,7 +73,7 @@ public class OCSLog {
         if (!OCSSettings.getInstance().getDebug()) {
             return;
         }
-        android.util.Log.d("OCSLOG", paramString);
+        Log.d("OCSLOG", paramString);
         if (logFile == null) {
             return;
         }
@@ -66,7 +87,7 @@ public class OCSLog {
         if (OCSSettings.getInstance() == null) {
             return;
         }
-        android.util.Log.e("OCSLOG", paramString);
+        Log.e("OCSLOG", paramString);
         log(paramString);
     }
 
@@ -78,7 +99,7 @@ public class OCSLog {
         String strDate = DateFormat.getInstance().format(localDate);
         try {
             FileWriter fileWriter = new FileWriter(logFile, true);
-            fileWriter.append(strDate + ":" + paramString).append("\n");
+            fileWriter.append(strDate).append(":").append(paramString).append("\n");
             fileWriter.close();
         } catch (IOException e) {
         }

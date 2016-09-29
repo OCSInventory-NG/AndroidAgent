@@ -1,3 +1,23 @@
+/*
+ * Copyright 2013-2016 OCSInventory-NG/AndroidAgent contributors : mortheres, cdpointpoint,
+ * Cédric Cabessa, Nicolas Ricquemaque, Anael Mobilia
+ *
+ * This file is part of OCSInventory-NG/AndroidAgent.
+ *
+ * OCSInventory-NG/AndroidAgent is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * OCSInventory-NG/AndroidAgent is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
 package org.ocsinventoryng.android.sections;
 
 import android.os.StatFs;
@@ -6,15 +26,14 @@ import android.text.format.DateFormat;
 import java.io.File;
 
 public class OCSDrive {
-
     private String createdate;
-    private String filesystem;
+    private String filesystem = null;
     private String type;
     private long free;
-    private String label;
+    private String label = null;
     private String serial;
     private long total;
-    private String volumName;
+    private String volumName = null;
 
     public OCSDrive(String fs) {
         File d = new File(fs);
@@ -23,20 +42,12 @@ public class OCSDrive {
         long bc = statfs.getBlockCount();
         long fb = statfs.getFreeBlocks();
 
-        this.volumName = null;
-        this.label = null;
-        this.total = bs * bc / 1048576L;
-        this.free = bs * fb / 1048576L;
-        this.type = fs;
-        this.filesystem = null;
-        this.createdate = (String) DateFormat.format("MM/dd/yy mm:ss", d.lastModified());
+        total = bs * bc / 1048576L;
+        free = bs * fb / 1048576L;
+        type = fs;
+        createdate = (String) DateFormat.format("MM/dd/yy mm:ss", d.lastModified());
     }
 
-    /*
-    public OCSDrive(String type) {
-        this.type = type;
-    }
-    */
     /*
      * <CREATEDATE>2011/11/17 20:47:06</CREATEDATE>
 	 * <FILESYSTEM>ext4</FILESYSTEM> <FREE>29584</FREE> <LABEL/>

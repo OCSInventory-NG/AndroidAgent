@@ -1,3 +1,23 @@
+/*
+ * Copyright 2013-2016 OCSInventory-NG/AndroidAgent contributors : mortheres, cdpointpoint,
+ * Cédric Cabessa, Nicolas Ricquemaque, Anael Mobilia
+ *
+ * This file is part of OCSInventory-NG/AndroidAgent.
+ *
+ * OCSInventory-NG/AndroidAgent is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * OCSInventory-NG/AndroidAgent is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
 package org.ocsinventoryng.android.agent;
 
 import java.util.ArrayList;
@@ -11,6 +31,38 @@ import java.util.ArrayList;
  */
 public class OCSPrologReply {
     final private int DEF_PERIODE_LENGTH = 10;
+
+    private String type;
+    private String response;
+    private String prologFreq;
+    private String optName;
+
+    private int periodLatency;        // Wait between 2 periods of deployment  (def 1 sec)
+    private int cycleLatency;        // Wait between 2 cycles (def 60 sec )
+    private int fragLatency;        // Wait between 2 fragment download	( def. 10 sec )
+    private int timeout;            // Validity of a package from 1st consideration
+    private int periodeLength;        // Nombre de cycle dans la periode def 10
+    private int executionTimeout;
+    private boolean on;
+    private ArrayList<OCSDownloadIdParams> idList;
+
+    public OCSPrologReply() {
+        idList = new ArrayList<OCSDownloadIdParams>();
+        optName = null;
+        response = "";
+    }
+
+    public String log() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("OPTION: ").append(getOptName()).append("\n");
+        sb.append("prologFreq: ").append(getPrologFreq()).append("\n");
+        sb.append("periodLatency: ").append(getPeriodLatency()).append("\n");
+        sb.append("cycleLatency: ").append(getCycleLatency()).append("\n");
+        for (OCSDownloadIdParams dip : getIdList()) {
+            sb.append("PARAM ID: ").append(dip.getId()).append("TYPE:").append(dip.getType()).append("\n");
+        }
+        return sb.toString();
+    }
 
     public String getResponse() {
         return response;
@@ -39,17 +91,17 @@ public class OCSPrologReply {
     /**
      * Wait between 2 fragment download	( def. 10 sec )
      */
-    public int getFrag_latency() {
-        return frag_latency;
+    public int getFragLatency() {
+        return fragLatency;
     }
 
-    public void setFrag_latency(int frag_latency) {
-        this.frag_latency = frag_latency;
+    public void setFragLatency(int fragLatency) {
+        this.fragLatency = fragLatency;
     }
 
-    public void setFrag_latency(String str) {
+    public void setFragLatency(String str) {
         try {
-            this.frag_latency = Integer.parseInt(str);
+            setFragLatency(Integer.parseInt(str));
         } catch (NumberFormatException e) {
         }
     }
@@ -57,17 +109,17 @@ public class OCSPrologReply {
     /**
      * Wait between 2 periods of deployment  (def 1 sec)
      */
-    public int getPeriod_latency() {
-        return period_latency;
+    public int getPeriodLatency() {
+        return periodLatency;
     }
 
-    public void setPeriod_latency(int period_latency) {
-        this.period_latency = period_latency;
+    public void setPeriodLatency(int periodLatency) {
+        this.periodLatency = periodLatency;
     }
 
-    public void setPeriod_latency(String str) {
+    public void setPeriodLatency(String str) {
         try {
-            this.period_latency = Integer.parseInt(str);
+            setPeriodLatency(Integer.parseInt(str));
         } catch (NumberFormatException e) {
         }
     }
@@ -75,17 +127,17 @@ public class OCSPrologReply {
     /**
      * Wait between 2 cycles (def 60 sec )
      */
-    public int getCycle_latency() {
-        return cycle_latency;
+    public int getCycleLatency() {
+        return cycleLatency;
     }
 
-    public void setCycle_latency(int cycle_latency) {
-        this.cycle_latency = cycle_latency;
+    public void setCycleLatency(int cycleLatency) {
+        this.cycleLatency = cycleLatency;
     }
 
-    public void setCycle_latency(String str) {
+    public void setCycleLatency(String str) {
         try {
-            this.cycle_latency = Integer.parseInt(str);
+            setCycleLatency(Integer.parseInt(str));
         } catch (NumberFormatException e) {
         }
     }
@@ -105,36 +157,33 @@ public class OCSPrologReply {
         }
     }
 
-    public int getPeriode_length() {
-        return periode_length;
+    public int getPeriodeLength() {
+        return periodeLength;
     }
 
-    public void setPeriode_length(int periode_length) {
-        this.periode_length = periode_length;
+    public void setPeriodeLength(int periodeLength) {
+        this.periodeLength = periodeLength;
     }
 
-    public void setPeriode_length(String str) {
+    public void setPeriodeLength(String str) {
         try {
-            this.periode_length = Integer.parseInt(str);
+            setPeriodeLength(Integer.parseInt(str));
         } catch (NumberFormatException e) {
-            this.periode_length = DEF_PERIODE_LENGTH;
+            setPeriodeLength(DEF_PERIODE_LENGTH);
         }
     }
 
-    public int getExecution_timeout() {
-        return execution_timeout;
+    public int getExecutionTimeout() {
+        return executionTimeout;
     }
 
-    public void setExecution_timeout(int execution_timeout) {
-        this.execution_timeout = execution_timeout;
+    public void setExecutionTimeout(int executionTimeout) {
+        this.executionTimeout = executionTimeout;
     }
 
-    public void setExecution_timeout(String str) {
-        if (str == null) {
-            return;
-        }
+    public void setExecutionTimeout(String str) {
         try {
-            this.execution_timeout = Integer.parseInt(str);
+            setExecutionTimeout(Integer.parseInt(str));
         } catch (NumberFormatException e) {
         }
     }
@@ -151,7 +200,7 @@ public class OCSPrologReply {
         if (str == null) {
             return;
         }
-        this.on = str.equals("1");
+        this.on = "1".equals(str);
     }
 
     public String getType() {
@@ -162,46 +211,11 @@ public class OCSPrologReply {
         this.type = type;
     }
 
-    private String type;
-
     public ArrayList<OCSDownloadIdParams> getIdList() {
         return idList;
     }
 
     public void setIdList(ArrayList<OCSDownloadIdParams> idList) {
         this.idList = idList;
-    }
-
-    private String response;
-    private String prologFreq;
-    private String optName;
-
-    private int period_latency;        // Wait between 2 periods of deployment  (def 1 sec)
-    private int cycle_latency;        // Wait between 2 cycles (def 60 sec )
-    private int frag_latency;        // Wait between 2 fragment download	( def. 10 sec )
-    private int timeout;            // Validity of a package from 1st consideration
-    private int periode_length;        // Nombre de cycle dans la periode def 10
-    private int execution_timeout;
-    private boolean on;
-
-
-    ArrayList<OCSDownloadIdParams> idList;
-
-    public OCSPrologReply() {
-        idList = new ArrayList<OCSDownloadIdParams>();
-        optName = null;
-        response = "";
-    }
-
-    public String log() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("OPTION: ").append(optName).append("\n");
-        sb.append("prologFreq: ").append(prologFreq).append("\n");
-        sb.append("period_latency: ").append(period_latency).append("\n");
-        sb.append("cycle_latency: ").append(cycle_latency).append("\n");
-        for (OCSDownloadIdParams dip : idList) {
-            sb.append("PARAM ID: ").append(dip.getId()).append("TYPE:").append(dip.getType()).append("\n");
-        }
-        return sb.toString();
     }
 }

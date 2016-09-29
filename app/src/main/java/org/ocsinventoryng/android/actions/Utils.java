@@ -1,9 +1,25 @@
+/*
+ * Copyright 2013-2016 OCSInventory-NG/AndroidAgent contributors : mortheres, cdpointpoint,
+ * Cédric Cabessa, Nicolas Ricquemaque, Anael Mobilia
+ *
+ * This file is part of OCSInventory-NG/AndroidAgent.
+ *
+ * OCSInventory-NG/AndroidAgent is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * OCSInventory-NG/AndroidAgent is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
 package org.ocsinventoryng.android.actions;
 
-import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.util.Base64;
 import android.util.Log;
 
@@ -17,13 +33,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.SequenceInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class Utils {
+    private static boolean isRooted = false;
+    private static long lastRootCheck = 0;
+
 
     public static void xmlLine(StringBuffer sbOut, int n, String tag, String val) {
         for (int i = 0; i < n; i++)
@@ -37,10 +55,6 @@ public class Utils {
 
     public static void xmlLine(StringBuffer sbOut, String tag, String val) {
         xmlLine(sbOut, 6, tag, val);
-    }
-
-    public static void strLine(StringBuffer sbOut, String tag, String val) {
-        sbOut.append(tag).append(':').append(val).append("\n");
     }
 
     private static String readSysCommand(String commande0, String arg1) {
@@ -75,7 +89,7 @@ public class Utils {
         if (array == null) {
             return "";
         }
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < array.length; i++) {
             if (i > 0) {
                 sb.append(':');
@@ -86,17 +100,15 @@ public class Utils {
     }
 
     public static String intToIp(int i) {
-        StringBuffer sb = new StringBuffer(String.valueOf(i & 0xFF));
-        sb.append(".").append(String.valueOf(((i >> 8) & 0xFF))).append(".").append(String.valueOf(((i >> 16) & 0xFF))).append(
-                ".").append(String.valueOf(((i >> 24) & 0xFF)));
-        return sb.toString();
+        String sb = String.valueOf(i & 0xFF) + "." + String.valueOf(((i >> 8) & 0xFF)) + "." + String.valueOf(((i >> 16) & 0xFF))
+                    + "." + String.valueOf(((i >> 24) & 0xFF));
+        return sb;
     }
 
-	/*
+    /*
      *
-	 * Simple copie de fichier
-	 */
-
+     * Simple copie de fichier
+     */
     public static void copyFile(File src, File dst) throws IOException {
         InputStream in = new FileInputStream(src);
         OutputStream out = new FileOutputStream(dst);
@@ -125,7 +137,7 @@ public class Utils {
     }
 
     public static String readShortFile(File infile) throws IOException {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         byte[] buf = new byte[1024];
         int len;
         FileInputStream fis = new FileInputStream(infile);
@@ -138,14 +150,15 @@ public class Utils {
     public static String md5(String s) {
         try {
             // Create MD5 Hash
-            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            MessageDigest digest = MessageDigest.getInstance("MD5");
             digest.update(s.getBytes());
             byte messageDigest[] = digest.digest();
 
             // Create Hex String
-            StringBuffer hexString = new StringBuffer();
-            for (int i = 0; i < messageDigest.length; i++)
-                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+            StringBuilder hexString = new StringBuilder();
+            for (byte aMessageDigest : messageDigest) {
+                hexString.append(Integer.toHexString(0xFF & aMessageDigest));
+            }
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -188,9 +201,9 @@ public class Utils {
 
             if (format.equalsIgnoreCase("hexa")) {
                 // Create Hex String
-                StringBuffer hexString = new StringBuffer();
-                for (int i = 0; i < messageDigest.length; i++) {
-                    String b = String.format("%02x", (0xFF & messageDigest[i]));
+                StringBuilder hexString = new StringBuilder();
+                for (byte aMessageDigest : messageDigest) {
+                    String b = String.format("%02x", (0xFF & aMessageDigest));
                     hexString.append(b);
                 }
                 strDigest = hexString.toString();
@@ -223,23 +236,6 @@ public class Utils {
         return hostname;
     }
 
-    public static void concateFiles(File f1, File f2, File fout) throws IOException {
-        FileInputStream fistream1 = new FileInputStream(f1);
-        FileInputStream fistream2 = new FileInputStream(f2);
-        SequenceInputStream sistream = new SequenceInputStream(fistream1, fistream2);
-        FileOutputStream fostream = new FileOutputStream(fout);
-
-        int temp;
-
-        while ((temp = sistream.read()) != -1) {
-            fostream.write(temp);   // to write to file
-        }
-        fostream.close();
-        sistream.close();
-        fistream1.close();
-        fistream2.close();
-    }
-
     public static void concateFiles(File f1, File fout) throws IOException {
         FileInputStream fis = new FileInputStream(f1);
         FileOutputStream fos = new FileOutputStream(fout, true);
@@ -252,105 +248,78 @@ public class Utils {
         fos.close();
     }
 
-    private static boolean isRooted;
-    private static long lastRootCheck = 0;
-
     /**
      * Check if the device is rooted
      *
      * @return true if device is rooted
      */
     public static boolean isDeviceRooted() {
-
         if (isRooted || (lastRootCheck != 0L && lastRootCheck > System.currentTimeMillis() - 5000)) {
             return isRooted;
         }
 
         // get from build info
-
         String buildTags = android.os.Build.TAGS;
         if (buildTags != null) {
-            android.util.Log.d("android.os.Build.TAGS", buildTags);
+            Log.d("android.os.Build.TAGS", buildTags);
         }
         if (buildTags != null && buildTags.contains("test-keys")) {
             isRooted = true;
-            lastRootCheck = System.currentTimeMillis();
-            // return true;
         }
 
-        // check if /system/app/Superuser.apk is present
         try {
+            // check if /system/app/Superuser.apk is present
             File file = new File("/system/app/Superuser.apk");
-            if (file.exists()) {
+            if (!isRooted && file.exists()) {
                 isRooted = true;
-                lastRootCheck = System.currentTimeMillis();
-                return true;
             }
-        } catch (Throwable e1) {
-            // ignore
-        }
-        // Access to secrure file
-        try {
-            File file = new File("/mnt/secure");
-            if (file.canRead()) {
+
+            // Access to secure file
+            file = new File("/mnt/secure");
+            if (!isRooted && file.canRead()) {
                 isRooted = true;
-                lastRootCheck = System.currentTimeMillis();
-                return true;
             }
         } catch (Throwable e1) {
             // ignore
         }
 
         // Access to su
+        if (!isRooted && checkCommande("/bin/su") || checkCommande("/xbin/su") || checkCommande("/sbin/su")) {
+            isRooted = true;
+        }
 
-        if (checkCommande("/bin/su")) {
-            isRooted = true;
-            lastRootCheck = System.currentTimeMillis();
-            return true;
-        }
-        if (checkCommande("/xbin/su")) {
-            isRooted = true;
-            lastRootCheck = System.currentTimeMillis();
-            return true;
-        }
-        if (checkCommande("/sbin/su")) {
-            isRooted = true;
-            lastRootCheck = System.currentTimeMillis();
-            return true;
-        }
-        isRooted = false;
+        // Return
         lastRootCheck = System.currentTimeMillis();
-        return false;
+        return isRooted;
     }
 
     private static boolean checkCommande(String pcmde) {
+        boolean ret = false;
+        Process proc;
+
         String commande[] = pcmde.split(" ");
 
         File file = new File(commande[0]);
-        if (!file.exists()) {
-            return false;
+        if (file.exists()) {
+            try {
+                // Lancement de la commande
+                ProcessBuilder pb = new ProcessBuilder(commande);
+                pb.redirectErrorStream(true);
+                proc = pb.start();
+                proc.waitFor();
+                int cr = proc.exitValue();
+                ret = (cr == 0);
+            } catch (Exception e) {
+                //
+            }
         }
 
-        boolean ret;
-        Process proc = null;
-        try {
-            // Lancement de la commande
-            ProcessBuilder pb = new ProcessBuilder(commande);
-            pb.redirectErrorStream(true);
-            proc = pb.start();
-            proc.waitFor();
-            int cr = proc.exitValue();
-            ret = (cr == 0);
-        } catch (Exception e) {
-            return false;
-        }
         return ret;
     }
 
     /**
      * @param zipFile
      * @param destination
-     * @throws IOException
      */
     public static boolean unZip(String zipFile, String destination) {
         InputStream is;
@@ -389,23 +358,4 @@ public class Utils {
         return true;
     }
 
-    /**
-     * Check if a package is installed whith a given version code
-     *
-     * @param pkg     Package name
-     * @param version Version code
-     * @return true if installed
-     */
-    public boolean isPkgInstalled(Context ctx, String pkg, int version) {
-        PackageManager pm = ctx.getPackageManager();
-
-        OCSLog.getInstance().debug("Check installation " + pkg + "/" + version);
-        try {
-            PackageInfo lpInfo = pm.getPackageInfo(pkg, PackageManager.GET_ACTIVITIES);
-            return (lpInfo.versionCode == version);
-        } catch (NameNotFoundException e) {
-            OCSLog.getInstance().error("Package notfound");
-            return false;
-        }
-    }
 }

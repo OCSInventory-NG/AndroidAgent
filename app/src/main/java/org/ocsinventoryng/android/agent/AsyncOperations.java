@@ -1,6 +1,25 @@
+/*
+ * Copyright 2013-2016 OCSInventory-NG/AndroidAgent contributors : mortheres, cdpointpoint,
+ * Cédric Cabessa, Nicolas Ricquemaque, Anael Mobilia
+ *
+ * This file is part of OCSInventory-NG/AndroidAgent.
+ *
+ * OCSInventory-NG/AndroidAgent is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * OCSInventory-NG/AndroidAgent is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
 package org.ocsinventoryng.android.agent;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -14,24 +33,22 @@ import org.ocsinventoryng.android.actions.OCSFiles;
 import org.ocsinventoryng.android.actions.OCSLog;
 import org.ocsinventoryng.android.actions.OCSProtocol;
 import org.ocsinventoryng.android.actions.OCSProtocolException;
+import org.ocsinventoryng.android.agent.service.OCSDownloadService;
 
-@SuppressLint("NewApi")
 public class AsyncOperations extends AsyncTask<Void, Integer, String> {
-    //private final View root;
     private final Activity mActivity;
     private ProgressDialog mProgressDialog;
     private TextView mTvStatus;
     private Context mAppCtx;
     private boolean mSend;
-    private boolean mDownload;
+    private boolean mDownload = false;
 
     public AsyncOperations(boolean send, ProgressDialog progressDialog, TextView status, Activity act, Context ctx) {
-        this.mSend = send;
-        this.mProgressDialog = progressDialog;
-        this.mTvStatus = status;
-        this.mAppCtx = ctx;
-        this.mActivity = act;
-        this.mDownload = false;
+        mSend = send;
+        mProgressDialog = progressDialog;
+        mTvStatus = status;
+        mAppCtx = ctx;
+        mActivity = act;
     }
 
     @Override
@@ -54,14 +71,13 @@ public class AsyncOperations extends AsyncTask<Void, Integer, String> {
 
     @Override
     protected String doInBackground(Void... params) {
-
         Inventory inventory = Inventory.getInstance(mActivity);
 
         OCSProtocol ocsproto = new OCSProtocol(mAppCtx);
 
         if (!mSend) {
             String status = new OCSFiles(mAppCtx).copyToExternal(inventory);
-            if (status.equals("OK")) {
+            if ("OK".equals(status)) {
                 status = mAppCtx.getString(R.string.state_saved);
             }
             return status;
@@ -71,13 +87,13 @@ public class AsyncOperations extends AsyncTask<Void, Integer, String> {
         OCSPrologReply reply;
         String rep;
         try {
-            reply = ocsproto.sendPrologueMessage(inventory);
+            reply = ocsproto.sendPrologueMessage();
         } catch (OCSProtocolException e1) {
             return (e1.getMessage());
         }
         OCSLog.getInstance().debug("Retour send prolog [" + reply.getResponse() + "]");
         OCSLog.getInstance().debug(reply.log());
-        if (reply.getResponse().equals("ERROR")) {
+        if ("ERROR".equals(reply.getResponse())) {
             return (reply.getResponse());
         } else {
             publishProgress(R.string.state_send_inventory);

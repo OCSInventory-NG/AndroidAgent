@@ -1,10 +1,28 @@
+/*
+ * Copyright 2013-2016 OCSInventory-NG/AndroidAgent contributors : mortheres, cdpointpoint,
+ * Cédric Cabessa, Nicolas Ricquemaque, Anael Mobilia
+ *
+ * This file is part of OCSInventory-NG/AndroidAgent.
+ *
+ * OCSInventory-NG/AndroidAgent is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * OCSInventory-NG/AndroidAgent is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
 package org.ocsinventoryng.android.sections;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.hardware.Camera;
-import android.hardware.Camera.Size;
 import android.os.Build;
 
 import org.ocsinventoryng.android.actions.OCSLog;
@@ -16,9 +34,6 @@ public class OCSInputs implements OCSSectionInterface {
     final private String sectionTag = "INPUTS";
     public ArrayList<OCSInput> inputs;
 
-
-    @SuppressWarnings("deprecation")
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     public OCSInputs(Context ctx) {
         OCSLog ocslog = OCSLog.getInstance();
 
@@ -42,6 +57,7 @@ public class OCSInputs implements OCSSectionInterface {
                     break;
                 case Configuration.KEYBOARD_NOKEYS:
                     inkb.setCaption("No hardware keys");
+                    break;
                 default:
                     break;
             }
@@ -64,50 +80,31 @@ public class OCSInputs implements OCSSectionInterface {
             }
             inputs.add(ocsin);
         }
-/*
+
+
         // About cameras
-		ocslog.debug("Search camera infos on build : "+Build.VERSION.SDK_INT );
-		// Test if build < GINGERBREAD November 2010: Android 2.3
-		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-	    	OCSInput ocsci = new  OCSInput ();
-	    	ocsci.setType("Camera");
-	    	ocsci.setCaption("facing unknown");
-	    	String sSz = getCameraMaxImgSize(openCamera());
-	    	ocsci.setDescription("Image size "+sSz);
-	    	inputs.add(ocsci);
-		} else {
-		    int numberOfCameras = Camera.getNumberOfCameras();
-			ocslog.debug("Number of cameras : "+numberOfCameras);
-		    CameraInfo cameraInfo = new CameraInfo();
-		    for (int i = 0; i < numberOfCameras; i++) {
-		    	OCSInput ocsci = new  OCSInput ();
-		    	String sSz = getCameraMaxImgSize(openCamera(i));
-		    	ocsci.setType("Camera");
-		        Camera.getCameraInfo(i, cameraInfo);
-		        if (cameraInfo.facing == CameraInfo.CAMERA_FACING_BACK)
-		        	ocsci.setCaption("facing back");
-		        else 
-		        	ocsci.setCaption("facing front");
-			    ocsci.setDescription("Image size "+sSz);
-		    	inputs.add(ocsci);
-		    }
-		}
-*/
+        ocslog.debug("Search camera infos on build : " + Build.VERSION.SDK_INT);
+
+        int numberOfCameras = Camera.getNumberOfCameras();
+        ocslog.debug("Number of cameras : " + numberOfCameras);
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        for (int i = 0; i < numberOfCameras; i++) {
+            OCSInput ocsci = new OCSInput();
+            String sSz = getCameraMaxImgSize(openCamera(i));
+            ocsci.setType("Camera");
+            Camera.getCameraInfo(i, cameraInfo);
+            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+                ocsci.setCaption("facing back");
+            } else {
+                ocsci.setCaption("facing front");
+            }
+            ocsci.setDescription("Image size " + sSz);
+            inputs.add(ocsci);
+        }
+
         ocslog.debug("OCSInputs done");
     }
 
-    // Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
-    private Camera openCamera() {
-        try {
-            return Camera.open();
-        } catch (RuntimeException e) {
-            return null;
-        }
-    }
-
-    // Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
     private Camera openCamera(int idx) {
         try {
             return Camera.open(idx);
@@ -116,14 +113,15 @@ public class OCSInputs implements OCSSectionInterface {
         }
     }
 
+
     private String getCameraMaxImgSize(Camera cam) {
         if (cam == null) {
             return "busy";
         }
         Camera.Parameters params = cam.getParameters();
         long max_v = 0;
-        Size max_sz = null;
-        for (Size sz : params.getSupportedPictureSizes()) {
+        Camera.Size max_sz = null;
+        for (Camera.Size sz : params.getSupportedPictureSizes()) {
             long v = sz.height * sz.width;
             android.util.Log.d("OCSINPUT", String.valueOf(v));
             if (v > max_v) {
@@ -136,7 +134,7 @@ public class OCSInputs implements OCSSectionInterface {
     }
 
     public String toXML() {
-        StringBuffer strOut = new StringBuffer();
+        StringBuilder strOut = new StringBuilder();
         for (OCSInput o : inputs) {
             strOut.append(o.toXml());
         }
@@ -144,7 +142,7 @@ public class OCSInputs implements OCSSectionInterface {
     }
 
     public String toString() {
-        StringBuffer strOut = new StringBuffer();
+        StringBuilder strOut = new StringBuilder();
         for (OCSInput o : inputs) {
             strOut.append(o.toString());
         }

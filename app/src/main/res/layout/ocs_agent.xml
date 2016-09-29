@@ -1,11 +1,31 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:id="@+id/id_agent"
+<?xml version="1.0" encoding="utf-8"?><!--
+/*
+ * Copyright 2013-2016 OCSInventory-NG/AndroidAgent contributors : mortheres, cdpointpoint,
+ * Cédric Cabessa, Nicolas Ricquemaque, Anael Mobilia
+ *
+ * This file is part of OCSInventory-NG/AndroidAgent.
+ *
+ * OCSInventory-NG/AndroidAgent is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * OCSInventory-NG/AndroidAgent is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+-->
+<RelativeLayout android:id="@+id/id_agent"
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center|fill"
-                android:orientation="vertical"
-                tools:context=".MainActivity">
+                android:orientation="vertical">
 
     <TextView
         android:id="@+id/statusBar"
@@ -14,48 +34,41 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:text="@string/status_init"
-        android:fontFamily="fonts/trebuchet"
         android:textSize="@dimen/status_text"/>
 
     <Button
-        android:id="@+id/bt_launch"
+        android:id="@+id/btSendInventory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="14dp"
-        android:onClick="sendInventoryClicked"
-        android:fontFamily="fonts/trebuchet"
         android:text="@string/title_bt_launch"/>
 
     <Button
-        android:id="@+id/bt_show"
+        android:id="@+id/btShowInventory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/bt_launch"
-        android:fontFamily="fonts/trebuchet"
-        android:onClick="showInventoryClicked"
+        android:layout_below="@+id/btSendInventory"
         android:text="@string/title_bt_show"/>
 
     <Button
-        android:id="@+id/bt_save"
+        android:id="@+id/btSaveInventory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/bt_show"
-        android:onClick="saveInventoryClicked"
-        android:fontFamily="fonts/trebuchet"
+        android:layout_below="@+id/btShowInventory"
         android:text="@string/title_bt_save"/>
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/bt_save"
+        android:layout_below="@+id/btSaveInventory"
         android:src="@drawable/ocs_landscape"/>
 
 </RelativeLayout>

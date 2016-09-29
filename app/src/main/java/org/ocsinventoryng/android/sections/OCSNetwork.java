@@ -1,29 +1,50 @@
+/*
+ * Copyright 2013-2016 OCSInventory-NG/AndroidAgent contributors : mortheres, cdpointpoint,
+ * Cédric Cabessa, Nicolas Ricquemaque, Anael Mobilia
+ *
+ * This file is part of OCSInventory-NG/AndroidAgent.
+ *
+ * OCSInventory-NG/AndroidAgent is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * OCSInventory-NG/AndroidAgent is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
 package org.ocsinventoryng.android.sections;
 
 
 public class OCSNetwork {
+    public static String STATUS_UP = "Up";
+    public static String STATUS_DOWN = "Down";
 
-    public String description;
-    public String driver;
-    public String ipAdress;
-    public String ipDHCP;
-    public String ipGateway;
-    public String ipMask;
-    public String ipSubnet;
-    public String macaddr;
-    public String status;
-    public String type;
-    public String speed; // 0.9.7
-
-    public String dns1;
-    public String dns2;
+    private String description;
+    private String driver;
+    private String ipAdress;
+    private String ipDHCP;
+    private String ipGateway;
+    private String ipMask;
+    private String ipSubnet;
+    private String macaddr;
+    private String status;
+    private String type;
+    private String speed;
+    private String dns1;
+    private String dns2;
 
     public OCSNetwork(String desc) {
         this.description = desc;
     }
 
     /*
-     * NETWORKS><DESCRIPTION>eth0</DESCRIPTION> <DRIVER>atl1</DRIVER>
+     * <NETWORKS><DESCRIPTION>eth0</DESCRIPTION> <DRIVER>atl1</DRIVER>
      * <IPADDRESS>192.168.0.10</IPADDRESS> <IPDHCP/>
      * <IPGATEWAY>192.168.0.254</IPGATEWAY> <IPMASK>255.255.255.0</IPMASK>
      * <IPSUBNET>192.168.0.0</IPSUBNET> <MACADDR>00:1f:c6:b6:a1:1e</MACADDR>
@@ -35,14 +56,14 @@ public class OCSNetwork {
         s.setAttr("DESCRIPTION", description);
         s.setAttr("DRIVER", driver);
         s.setAttr("IPADDRESS", ipAdress);
-        // s.setAttr(strOut,"IPDHCP", ipdhcp);
+        s.setAttr("IPDHCP", ipDHCP);
         s.setAttr("IPGATEWAY", ipGateway);
         s.setAttr("IPMASK", ipMask);
         s.setAttr("IPSUBNET", ipSubnet);
         s.setAttr("MACADDR", macaddr);
         s.setAttr("STATUS", status);
         s.setAttr("TYPE", type);
-        s.setAttr("SPEED", speed); // 0.9.7
+        s.setAttr("SPEED", speed);
         s.setTitle(type);
         return s;
     }

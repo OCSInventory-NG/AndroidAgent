@@ -1,3 +1,23 @@
+/*
+ * Copyright 2013-2016 OCSInventory-NG/AndroidAgent contributors : mortheres, cdpointpoint,
+ * Cédric Cabessa, Nicolas Ricquemaque, Anael Mobilia
+ *
+ * This file is part of OCSInventory-NG/AndroidAgent.
+ *
+ * OCSInventory-NG/AndroidAgent is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * OCSInventory-NG/AndroidAgent is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
 package org.ocsinventoryng.android.sections;
 
 import android.os.StatFs;
@@ -5,15 +25,14 @@ import android.os.StatFs;
 import java.io.File;
 
 public class OCSStorage {
-
     private String description;
     private long disksize;
-    private String firmware;
-    private String manufacturer;
-    private String model;
-    private String name;
-    private String serialnumber;
-    private String type;
+    private String firmware = null;
+    private String manufacturer = "NA";
+    private String model = "NA";
+    private String name = "NA";
+    private String serialnumber = null;
+    private String type = "ROM";
 
     public OCSStorage(File d, String description) {
         String pathESD = d.getPath();
@@ -23,13 +42,6 @@ public class OCSStorage {
 
         this.description = description;
         this.disksize = bs * bc / 1048576L;
-
-        this.firmware = null;
-        this.manufacturer = "NA";
-        this.model = "NA";
-        this.name = "NA";
-        this.serialnumber = null;
-        this.type = "ROM";
     }
 
     /*

@@ -1,6 +1,25 @@
+/*
+ * Copyright 2013-2016 OCSInventory-NG/AndroidAgent contributors : mortheres, cdpointpoint,
+ * Cédric Cabessa, Nicolas Ricquemaque, Anael Mobilia
+ *
+ * This file is part of OCSInventory-NG/AndroidAgent.
+ *
+ * OCSInventory-NG/AndroidAgent is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * OCSInventory-NG/AndroidAgent is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
 package org.ocsinventoryng.android.actions;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -8,45 +27,40 @@ import android.preference.PreferenceManager;
 
 import org.ocsinventoryng.android.agent.R;
 
-@SuppressLint("NewApi")
 public class OCSSettings {
     private static OCSSettings instance = null;
 
     private Context ctx;
     private SharedPreferences prefs;
 
-    final String KLASTUPDT = "k_lastupdt";
-    final String KDEVICEUID = "k_deviceUid";
+    private final String KLASTUPDT = "k_lastupdt";
+    private final String KDEVICEUID = "k_deviceUid";
 
-    final String KSERVERURL = "k_serverurl";
-    final String KDEVICETAG = "k_devicetag";
-    final String KAUTOMODE = "k_automode";
-    final String KAUTOMODENETWORK = "k_automodeNetwork";
-    final String KFREQMAJ = "k_freqmaj";
-    final String KFREQWAKE = "k_freqwake";
-    final String KDEBUG = "k_debug";
-    final String KGZIP = "k_gzip";
-    final String KSTRICTSSL = "k_strictssl";
-    final String KPROXY = "k_proxy";
-    final String KPROXYADR = "k_proxyadr";
-    final String KPROXYPORT = "k_proxyport";
-    final String KCACHE = "k_cache";
-    final String KCACHELEN = "k_cachelen";
+    private final String KSERVERURL = "k_serverurl";
+    private final String KDEVICETAG = "k_devicetag";
+    private final String KAUTOMODE = "k_automode";
+    private final String KAUTOMODENETWORK = "k_automodeNetwork";
+    private final String KFREQMAJ = "k_freqmaj";
+    private final String KFREQWAKE = "k_freqwake";
+    private final String KDEBUG = "k_debug";
+    private final String KGZIP = "k_gzip";
+    private final String KSTRICTSSL = "k_strictssl";
+    private final String KPROXY = "k_proxy";
+    private final String KPROXYADR = "k_proxyadr";
+    private final String KPROXYPORT = "k_proxyport";
+    private final String KCACHE = "k_cache";
+    private final String KCACHELEN = "k_cachelen";
 
-    final String KAUTH = "k_auth";
-    final String KLOGIN = "k_login";
-    final String KPASSWD = "k_passwd";
-    final String KSYSHIDE = "k_syshide";
-    final String KCOMPUA = "k_compua";
-    final String KHIDENOTIF = "k_hideNotif";
+    private final String KAUTH = "k_auth";
+    private final String KLOGIN = "k_login";
+    private final String KPASSWD = "k_passwd";
+    private final String KSYSHIDE = "k_syshide";
+    private final String KCOMPUA = "k_compua";
+    private final String KHIDENOTIF = "k_hideNotif";
 
     public OCSSettings(Context ctx) {
-        //prefs = act.getSharedPreferences(LOGTAG, Context.MODE_PRIVATE);
         prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         this.ctx = ctx;
-    }
-
-    public void setDefault() {
     }
 
     public void logSettings() {
@@ -77,19 +91,19 @@ public class OCSSettings {
     public void setDeviceUid(String uid) {
         Editor e = prefs.edit();
         e.putString(KDEVICEUID, uid);
-        e.commit();
+        e.apply();
     }
 
     public void setLastUpdt(long l) {
         Editor e = prefs.edit();
         e.putLong(KLASTUPDT, l);
-        e.commit();
+        e.apply();
     }
 
     public void setFreqMaj(String f) {
         Editor e = prefs.edit();
         e.putString(KFREQMAJ, f);
-        e.commit();
+        e.apply();
     }
 
 
@@ -99,14 +113,12 @@ public class OCSSettings {
 
     public int getAutoModeNetwork() {
         String p = prefs.getString(KAUTOMODENETWORK, "");
-        int i = Integer.parseInt(p);
-        return i;
+        return Integer.parseInt(p);
     }
 
     public int getHiddenNotif() {
         String p = prefs.getString(KHIDENOTIF, "");
-        int i = Integer.parseInt(p);
-        return i;
+        return Integer.parseInt(p);
     }
 
     public String getDeviceUid() {
@@ -148,8 +160,7 @@ public class OCSSettings {
 
     public int getProxyPort() {
         String p = prefs.getString(KPROXYPORT, "");
-        int i = Integer.parseInt(p);
-        return i;
+        return Integer.parseInt(p);
     }
 
     public String getLogin() {

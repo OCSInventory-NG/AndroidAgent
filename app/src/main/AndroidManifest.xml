@@ -1,13 +1,30 @@
-<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.ocsinventoryng.android.agent"
+<?xml version="1.0" encoding="utf-8"?><!--
+/*
+ * Copyright 2013-2016 OCSInventory-NG/AndroidAgent contributors : mortheres, cdpointpoint,
+ * Cédric Cabessa, Nicolas Ricquemaque, Anael Mobilia
+ *
+ * This file is part of OCSInventory-NG/AndroidAgent.
+ *
+ * OCSInventory-NG/AndroidAgent is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * OCSInventory-NG/AndroidAgent is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+-->
+<manifest package="org.ocsinventoryng.android.agent"
+          xmlns:android="http://schemas.android.com/apk/res/android"
           android:installLocation="auto"
-          android:versionCode="25"
+          android:versionCode="217"
           android:versionName="2.1.7">
-
-    <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="19"/>
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -27,7 +44,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
         <activity
-            android:name="org.ocsinventoryng.android.agent.OCSAgentActivity"
+            android:name=".activity.OCSAgentActivity"
             android:label="@string/app_name"
             android:process=":ocs_process">
             <intent-filter>
@@ -36,50 +53,45 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.ocsinventoryng.android.agent.OCSLaunchActivity"
+            android:name=".activity.OCSInstallPackageActivity"
             android:label="@string/title_activity_ocslaunch"
             android:process=":ocs_process">
         </activity>
-
         <activity
-            android:name="org.ocsinventoryng.android.agent.OCSShowActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:name=".activity.OCSShowInventory"
             android:label="@string/title_activity_show_inventory"
-            android:theme="@style/FullscreenTheme">
-        </activity>
-        <activity
-            android:name="org.ocsinventoryng.android.agent.OCSListActivity"
-            android:label="@string/title_activity_show_inventory"
+            android:parentActivityName=".activity.OCSAgentActivity"
             android:process=":ocs_process">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.OCSAgentActivity"/>
         </activity>
         <activity
-            android:name="org.ocsinventoryng.android.agent.OCSSectionListActivity"
-            android:label="@string/title_activity_show_inventory"
-            android:process=":ocs_process">
-        </activity>
-        <activity
-            android:name="org.ocsinventoryng.android.agent.OCSPrefsActivity"
+            android:name=".activity.OCSPrefsActivity"
             android:label="@string/title_activity_ocsconfig"
-            android:process=":ocs_process"
-            android:theme="@android:style/Theme.Black">
+            android:parentActivityName=".activity.OCSAgentActivity"
+            android:process=":ocs_process">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".activity.OCSAgentActivity"/>
         </activity>
 
         <service
-            android:name="org.ocsinventoryng.android.agent.OCSAgentService"
+            android:name=".service.OCSAgentService"
             android:process=":ocs_process">
         </service>
         <service
-            android:name="org.ocsinventoryng.android.agent.OCSDownloadService"
+            android:name=".service.OCSDownloadService"
             android:process=":ocs_process">
         </service>
 
         <receiver
-            android:name="org.ocsinventoryng.android.agent.OCSEventReceiver"
+            android:name=".receiver.OCSEventReceiver"
             android:exported="true"
             android:process=":ocs_process">
         </receiver>
         <receiver
-            android:name="org.ocsinventoryng.android.agent.OCSBootReceiver"
+            android:name=".receiver.OCSBootReceiver"
             android:process=":ocs_process">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
@@ -87,7 +99,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name="org.ocsinventoryng.android.agent.OCSInstallReceiver"
+            android:name=".receiver.OCSInstallReceiver"
             android:process=":ocs_process">
             <intent-filter android:priority="10000">
                 <action android:name="android.intent.action.PACKAGE_ADDED"/>

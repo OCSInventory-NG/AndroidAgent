@@ -1,22 +1,55 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<?xml version="1.0" encoding="utf-8"?><!--
+/*
+ * Copyright 2013-2016 OCSInventory-NG/AndroidAgent contributors : mortheres, cdpointpoint,
+ * Cédric Cabessa, Nicolas Ricquemaque, Anael Mobilia
+ *
+ * This file is part of OCSInventory-NG/AndroidAgent.
+ *
+ * OCSInventory-NG/AndroidAgent is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * OCSInventory-NG/AndroidAgent is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
+-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:yourapp="http://schemas.android.com/apk/res-auto">
+
+    <!-- Overflow (...) -->
     <item
-        android:id="@+id/menu_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never"
-        android:title="@string/menu_settings"/>
-    <item
-        android:id="@+id/menu_about"
-        android:orderInCategory="101"
-        android:showAsAction="never"
-        android:title="@string/menu_about"/>
-    <item
-        android:id="@+id/menu_import"
-        android:orderInCategory="102"
-        android:showAsAction="never"
-        android:title="@string/menu_import"/>
-    <item
-        android:id="@+id/menu_export"
-        android:orderInCategory="103"
-        android:showAsAction="never"
-        android:title="@string/menu_export"/>
+        android:id="@+id/action_overflow"
+        android:icon="@drawable/ic_menu_moreoverflow_normal_holo_dark"
+        android:title="@string/menu_settings"
+        yourapp:showAsAction="ifRoom">
+        <menu>
+            <item
+                android:id="@+id/menu_settings"
+                android:icon="@drawable/ic_sysbar_quicksettings"
+                android:title="@string/menu_settings"
+                yourapp:showAsAction="ifRoom"/>
+            <item
+                android:id="@+id/menu_about"
+                android:icon="@drawable/ic_menu_info_details"
+                android:title="@string/menu_about"
+                yourapp:showAsAction="ifRoom"/>
+            <item
+                android:id="@+id/menu_import"
+                android:icon="@drawable/ic_menu_goto"
+                android:title="@string/menu_import"
+                yourapp:showAsAction="ifRoom"/>
+            <item
+                android:id="@+id/menu_export"
+                android:icon="@drawable/ic_menu_set_as"
+                android:title="@string/menu_export"
+                yourapp:showAsAction="ifRoom"/>
+        </menu>
+    </item>
 </menu>

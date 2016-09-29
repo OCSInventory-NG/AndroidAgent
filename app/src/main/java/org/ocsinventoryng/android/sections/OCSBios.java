@@ -1,6 +1,25 @@
+/*
+ * Copyright 2013-2016 OCSInventory-NG/AndroidAgent contributors : mortheres, cdpointpoint,
+ * Cédric Cabessa, Nicolas Ricquemaque, Anael Mobilia
+ *
+ * This file is part of OCSInventory-NG/AndroidAgent.
+ *
+ * OCSInventory-NG/AndroidAgent is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * OCSInventory-NG/AndroidAgent is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
 package org.ocsinventoryng.android.sections;
 
-import android.annotation.TargetApi;
 import android.os.Build;
 import android.text.format.DateFormat;
 
@@ -32,19 +51,14 @@ public class OCSBios implements OCSSectionInterface {
     private String assettag;
     private String date;
     private String manufacturer;
-    //private String smanufacturer;
     private String version;
     private String serial;
     private String type;
     private String smodel;
 
-    private OCSLog ocslog;
-
-
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
     public OCSBios() {
         type = "Mobile";
-        ocslog = OCSLog.getInstance();
+        OCSLog ocslog = OCSLog.getInstance();
         assettag = Build.ID + "-0123456789";
         date = (String) DateFormat.format("MM/dd/yy", Build.TIME);
         manufacturer = Build.MANUFACTURER;
@@ -53,7 +67,7 @@ public class OCSBios implements OCSSectionInterface {
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO) {
             serial = Build.SERIAL;
         } else {
-            SystemInfos.getInstance().getSerial();
+            serial = SystemInfos.getInstance().getSerial();
         }
         ocslog.debug("OCSBIOS serial " + serial);
         smodel = Build.MODEL;

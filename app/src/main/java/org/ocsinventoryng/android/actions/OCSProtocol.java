@@ -1,3 +1,23 @@
+/*
+ * Copyright 2013-2016 OCSInventory-NG/AndroidAgent contributors : mortheres, cdpointpoint,
+ * Cédric Cabessa, Nicolas Ricquemaque, Anael Mobilia
+ *
+ * This file is part of OCSInventory-NG/AndroidAgent.
+ *
+ * OCSInventory-NG/AndroidAgent is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * OCSInventory-NG/AndroidAgent is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
 package org.ocsinventoryng.android.actions;
 
 import android.content.Context;
@@ -56,12 +76,11 @@ public class OCSProtocol {
         ocslog.debug("USERAGENT " + http_agent);
     }
 
-    public OCSPrologReply sendPrologueMessage(Inventory inv) throws OCSProtocolException {
+    public OCSPrologReply sendPrologueMessage() throws OCSProtocolException {
         ocslog.debug("Start Sending Prolog...");
         String repMsg;
         File localFile = ocsfile.getPrologFileXML();
         String sURL = OCSSettings.getInstance().getServerUrl();
-        // boolean gz = OCSSettings.getInstance().getGzip();
 
         repMsg = sendmethod(localFile, sURL, true);
         ocslog.debug("Finnish Sending Prolog...");
@@ -70,7 +89,6 @@ public class OCSProtocol {
             OCSSettings.getInstance().setFreqMaj(freq);
         }
         PrologReplyParser prp = new PrologReplyParser();
-        // reponse = extractResponse(repMsg);
         // Save reply
         ocsfile.savePrologReply(repMsg);
         return prp.parseDocument(repMsg);
@@ -81,20 +99,17 @@ public class OCSProtocol {
         String repMsg;
         File localFile = ocsfile.getRequestFileXML(query, id, err);
         String sURL = OCSSettings.getInstance().getServerUrl();
-        // boolean gz = OCSSettings.getInstance().getGzip();
 
         repMsg = sendmethod(localFile, sURL, false);
         ocslog.debug("Finnish Sending Request...");
 
-        String reponse = extractResponse(repMsg);
         // Save reply
-        return (reponse);
+        return (extractResponse(repMsg));
     }
 
     public String sendInventoryMessage(Inventory inventory) throws OCSProtocolException {
         ocslog.debug("Start Sending Inventory...");
-        String retour = null;
-        // boolean gz = OCSSettings.getInstance().getGzip();
+        String retour;
 
         File invFile = ocsfile.getInventoryFileXML(inventory);
         String sURL = OCSSettings.getInstance().getServerUrl();
@@ -145,7 +160,7 @@ public class OCSProtocol {
         ocslog.debug("Start send method");
         String retour;
 
-        HttpPost httppost = null;
+        HttpPost httppost;
 
         try {
             httppost = new HttpPost(server);
@@ -153,8 +168,6 @@ public class OCSProtocol {
             ocslog.error(e.getMessage());
             throw new OCSProtocolException("Incorect serveur URL");
         }
-
-        // FileEntity localFileEntity = new FileEntity(paramFile, "application/x-compress; charset=\"UTF-8\"");
 
         File fileToPost;
         if (gziped) {
@@ -184,11 +197,6 @@ public class OCSProtocol {
         }
         if (ocssettings.isAuth()) {
             ocslog.debug("Use AUTH : " + ocssettings.getLogin() + "/*****");
-            /*
-            CredentialsProvider credProvider = new BasicCredentialsProvider();
-	        credProvider.setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT),
-	            new UsernamePasswordCredentials(ocssettings.getLogin(), ocssettings.getPasswd()));
-	        */
             UsernamePasswordCredentials creds = new UsernamePasswordCredentials(ocssettings.getLogin(), ocssettings.getPasswd());
             ocslog.debug(creds.toString());
             httpClient.getCredentialsProvider().setCredentials(new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT), creds);
@@ -196,7 +204,7 @@ public class OCSProtocol {
 
 
         ocslog.debug("Call : " + server);
-        HttpResponse localHttpResponse = null;
+        HttpResponse localHttpResponse;
         try {
             localHttpResponse = httpClient.execute(httppost);
             ocslog.debug("Message sent");
@@ -246,7 +254,7 @@ public class OCSProtocol {
         HttpGet httpget = new HttpGet(url);
         httpget.setHeader("User-Agent", http_agent);
 
-        HttpResponse httpResponse = null;
+        HttpResponse httpResponse;
         try {
             httpResponse = httpClient.execute(httpget);
         } catch (Exception e) {
@@ -260,7 +268,7 @@ public class OCSProtocol {
                 InputStream is = httpResponse.getEntity().getContent();
                 File fout = new File(appCtx.getFilesDir(), fileName);
                 FileOutputStream fos = new FileOutputStream(fout);
-                int n = 0;
+                int n;
                 while ((n = is.read(buff)) > -1) {
                     fos.write(buff, 0, n);
                 }
@@ -280,7 +288,7 @@ public class OCSProtocol {
         HttpGet httpget = new HttpGet(url);
         httpget.setHeader("User-Agent", http_agent);
 
-        HttpResponse httpResponse = null;
+        HttpResponse httpResponse;
         try {
             httpResponse = httpClient.execute(httpget);
         } catch (Exception e) {
@@ -293,7 +301,7 @@ public class OCSProtocol {
             try {
                 InputStream is = httpResponse.getEntity().getContent();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                int n = 0;
+                int n;
                 while ((n = is.read(buff)) > -1) {
                     baos.write(buff, 0, n);
                 }
@@ -328,50 +336,9 @@ public class OCSProtocol {
     }
 
     /*
-     * Function called on main start to verify il a new verion is installed
-     * Then send success status and delete package
-     * Operation done in  Installereceiver for othet package but INSTALL event is
-     * not send to then application itself
-
-    public void verifyNewVersion(int pvcode) {
-        File uptdflag = appCtx.getFileStreamPath("update.flag");
-        String id="";
-        if ( uptdflag.exists() ) {
-            try {
-                String uctx= Utils.readShortFile(uptdflag);
-                OCSLog.getInstance().debug("uctx :"+uctx);
-                String[]str = uctx.split(":");
-                if ( str.length > 1  ) {
-                    id=str[0];
-                    int vcode=Integer.parseInt(str[1]);
-                    ocslog.debug("Test version code :"+vcode+"="+pvcode);
-                    if ( vcode == pvcode)
-                            sendRequestMessage("DOWNLOAD", id, "SUCCESS");
-                    // else
-                    //	ocsproto.sendRequestMessage("DOWNLOAD", id, "ERR_ABORT");
-                    }
-            } catch (IOException e) {
-                ocslog.error("Cant read update.flag");
-            } catch (OCSProtocolException e) {
-                ocslog.error(e.getMessage());
-            }
-            if ( ! uptdflag.delete() )
-                ocslog.error("Cant delete update.flag");
-
-            // Clean download files
-            File fapk = new File(appCtx.getExternalCacheDir(),id+".apk");
-            fapk.delete();
-            File finst = new File(appCtx.getFilesDir(),appCtx.getPackageName()+".inst");
-            finst.delete();
-            File finfo = new File(appCtx.getFilesDir(),id+".info");
-            finfo.delete();
-        }
-    }
-         */
-    /*
-	 * Function called on main start to verify if a new version is installed 
+     * Function called on main start to verify if a new version is installed
 	 * Then send success status and delete package
-	 * Operation done in  Installereceiver for othet package but INSTALL event is 
+	 * Operation done in Installereceiver for other package but INSTALL event is
 	 * not send to then application itself
 	 */
     public void verifyNewVersion(int pvcode) {
@@ -391,8 +358,6 @@ public class OCSProtocol {
                         AsyncSend task = new AsyncSend(appCtx);
                         task.execute(id, "SUCCESS");
                     }
-                    // else
-                    //	ocsproto.sendRequestMessage("DOWNLOAD", id, "ERR_ABORT");
                 }
             } catch (IOException e) {
                 ocslog.error("Cant read update.flag");
@@ -412,7 +377,7 @@ public class OCSProtocol {
     }
 
     private class AsyncSend extends AsyncTask<String, Void, Void> {
-        Context mContext;
+        private Context mContext;
 
         AsyncSend(Context ctx) {
             mContext = ctx;

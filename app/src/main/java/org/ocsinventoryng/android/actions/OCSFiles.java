@@ -1,11 +1,31 @@
+/*
+ * Copyright 2013-2016 OCSInventory-NG/AndroidAgent contributors : mortheres, cdpointpoint,
+ * Cédric Cabessa, Nicolas Ricquemaque, Anael Mobilia
+ *
+ * This file is part of OCSInventory-NG/AndroidAgent.
+ *
+ * OCSInventory-NG/AndroidAgent is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * OCSInventory-NG/AndroidAgent is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
 package org.ocsinventoryng.android.actions;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.Log;
 
 import org.ocsinventoryng.android.agent.OCSPrologReply;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,7 +35,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
-import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 public class OCSFiles {
@@ -31,17 +50,10 @@ public class OCSFiles {
     public OCSFiles(Context ctx) {
         ocslog = OCSLog.getInstance();
         appCtx = ctx;
-        StringBuilder filename = new StringBuilder();
-
-        filename.append(Utils.getHostname());
-        filename.append("-");
 
         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss", Locale.US);
-        filename.append(dt.format(new Date()));
 
-        filename.append(".ocs");
-
-        inventoryFileName = filename.toString();
+        inventoryFileName = Utils.getHostname() + "-" + dt.format(new Date()) + ".ocs";
     }
 
     public File getGzipedFile(File inFile) {
@@ -61,21 +73,8 @@ public class OCSFiles {
         return appCtx.getFileStreamPath(gzipedFileName);
     }
 
-    public void getUnGzipedFile(File inFile, String fileOutName) throws IOException {
-        FileInputStream fis = new FileInputStream(inFile);
-
-        GZIPInputStream gzis = new GZIPInputStream(new BufferedInputStream(fis));
-        FileOutputStream fos = appCtx.openFileOutput(fileOutName, Context.MODE_PRIVATE);
-        byte[] buff = new byte[1024];
-        int n;
-        while ((n = fis.read(buff)) != -1)
-            fos.write(buff, 0, n);
-        gzis.close();
-        fos.close();
-    }
-
     public File getInventoryFileXML(Inventory pInventory) {
-        StringBuffer strOut = new StringBuffer("<?xml version =\"1.0\" encoding=\"UTF-8\"?>\n");
+        StringBuilder strOut = new StringBuilder("<?xml version =\"1.0\" encoding=\"UTF-8\"?>\n");
         strOut.append(pInventory.toXML());
 
         FileOutputStream fOutputStream;
@@ -91,11 +90,6 @@ public class OCSFiles {
         } catch (IOException e) {
             ocslog.error("Error writing to xml inventory file ");
         }
-        /*
-         * if (!(inventoryFile).exists()) { boolean bool =
-		 * (inventoryFile).delete(); inventoryFile = new
-		 * File(this.inventoryFilePath); }
-		 */
         ocslog.debug("xml inventory file ready");
         return appCtx.getFileStreamPath(inventoryFileName);
     }
@@ -104,8 +98,7 @@ public class OCSFiles {
     public File getPrologFileXML() {
         String deviceId = OCSSettings.getInstance().getDeviceUid();
 
-        StringBuffer strBuf = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
-        // strBuf.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<!DOCTYPE REQUEST>\r\n");
+        StringBuilder strBuf = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
         strBuf.append("<REQUEST>\n");
         strBuf.append("  <QUERY>PROLOG</QUERY>\n");
         strBuf.append("  <DEVICEID>");
@@ -115,7 +108,7 @@ public class OCSFiles {
 
         FileOutputStream prologFileOStream;
         try {
-            prologFileOStream = appCtx.openFileOutput(this.prologFileName, Context.MODE_PRIVATE);
+            prologFileOStream = appCtx.openFileOutput(prologFileName, Context.MODE_PRIVATE);
             BufferedOutputStream prologFileBOS = new BufferedOutputStream(prologFileOStream);
             byte[] arrayOfByte = strBuf.toString().getBytes();
             prologFileBOS.write(arrayOfByte);
@@ -131,8 +124,7 @@ public class OCSFiles {
         String deviceId = OCSSettings.getInstance().getDeviceUid();
         String queryFileName = query + ".xml";
 
-        StringBuffer strBuf = new StringBuffer("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
-        // strBuf.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<!DOCTYPE REQUEST>\r\n");
+        StringBuilder strBuf = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
         strBuf.append("<REQUEST>\n");
         strBuf.append("  <QUERY>").append(query).append("</QUERY>\n");
         strBuf.append("  <DEVICEID>");
@@ -182,16 +174,16 @@ public class OCSFiles {
      */
     public File getSDWorkDirectory() {
         File rep = Environment.getExternalStoragePublicDirectory("ocs");
-        android.util.Log.d("OCSAgent", Environment.getExternalStorageDirectory().getPath());
+        Log.d("OCSAgent", Environment.getExternalStorageDirectory().getPath());
         if (!rep.isDirectory()) {
             rep.delete();
         }
         if (!rep.exists()) {
             if (!rep.mkdir()) {
-                android.util.Log.e("OCSAgent", "Cannot create directory : " + rep.getPath());
+                Log.e("OCSAgent", "Cannot create directory : " + rep.getPath());
                 return null;
             } else {
-                android.util.Log.d("OCSAgent", rep.getPath() + " created");
+                Log.d("OCSAgent", rep.getPath() + " created");
             }
         }
         return rep;
@@ -199,22 +191,21 @@ public class OCSFiles {
 
     // Prolog reply is stored on file to be read py dowload service
     // This is more simple as sending  the object on intend .
-    void savePrologReply(String str) {
+    public void savePrologReply(String str) {
         FileOutputStream fos;
         try {
-            fos = appCtx.openFileOutput(this.prologReplyFileName, Context.MODE_PRIVATE);
+            fos = appCtx.openFileOutput(prologReplyFileName, Context.MODE_PRIVATE);
             fos.write(str.getBytes());
         } catch (Exception e) {
             ocslog.error("Erreur during prolog replay file creation");
         }
     }
 
-    //
     public OCSPrologReply loadPrologReply() {
         OCSPrologReply reply = null;
         FileInputStream fis;
         try {
-            fis = appCtx.openFileInput(this.prologReplyFileName);
+            fis = appCtx.openFileInput(prologReplyFileName);
             PrologReplyParser prp = new PrologReplyParser();
             reply = prp.parseDocument(fis);
         } catch (Exception e) {

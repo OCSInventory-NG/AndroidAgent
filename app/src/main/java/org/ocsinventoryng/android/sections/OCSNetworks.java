@@ -1,6 +1,25 @@
+/*
+ * Copyright 2013-2016 OCSInventory-NG/AndroidAgent contributors : mortheres, cdpointpoint,
+ * Cédric Cabessa, Nicolas Ricquemaque, Anael Mobilia
+ *
+ * This file is part of OCSInventory-NG/AndroidAgent.
+ *
+ * OCSInventory-NG/AndroidAgent is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * OCSInventory-NG/AndroidAgent is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ */
 package org.ocsinventoryng.android.sections;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiInfo;
@@ -18,13 +37,10 @@ import java.util.Enumeration;
 
 public class OCSNetworks implements OCSSectionInterface {
     final private String sectionTag = "NETWORKS";
-    private OCSLog ocslog;
     private ArrayList<OCSNetwork> networks;
-    private int main = 0;
 
-    @TargetApi(Build.VERSION_CODES.GINGERBREAD)
     public OCSNetworks(Context ctx) {
-        ocslog = OCSLog.getInstance();
+        OCSLog ocslog = OCSLog.getInstance();
 
         this.networks = new ArrayList<OCSNetwork>();
 
@@ -39,9 +55,9 @@ public class OCSNetworks implements OCSSectionInterface {
                 OCSNetwork netw = new OCSNetwork("Wifi/3G interface");
 
                 if (wifii.getWifiState() == WifiManager.WIFI_STATE_ENABLED) {
-                    netw.setStatus("Up");
+                    netw.setStatus(OCSNetwork.STATUS_UP);
                 } else {
-                    netw.setStatus("Down");
+                    netw.setStatus(OCSNetwork.STATUS_DOWN);
                 }
 
                 netw.setIpAdress(Utils.intToIp(d.ipAddress));
@@ -75,18 +91,18 @@ public class OCSNetworks implements OCSSectionInterface {
             return;
         }
         while (listeNI.hasMoreElements()) {
-            NetworkInterface ni = (NetworkInterface) listeNI.nextElement();
+            NetworkInterface ni = listeNI.nextElement();
             Enumeration<InetAddress> listeIPAdr = ni.getInetAddresses();
             String name = ni.getName();
 
             ocslog.debug("OCSNET Name :" + ni.getName());
-            // android.util.Log.d("OCSNET HAdr", ni.getHardwareAddress());
+
             while (listeIPAdr.hasMoreElements()) {
-                InetAddress ipAdr = (InetAddress) listeIPAdr.nextElement();
+                InetAddress ipAdr = listeIPAdr.nextElement();
                 if (!ipAdr.isLoopbackAddress() && !ipAdr.isLinkLocalAddress()) {
                     OCSNetwork netw = new OCSNetwork(name);
-                    String ipadr = ipAdr.getHostAddress();
-                    netw.setIpAdress(ipadr);
+                    netw.setIpAdress(ipAdr.getHostAddress());
+
                     if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO) {
                         try {
                             netw.setMacaddr(Utils.bytesToHex(ni.getHardwareAddress()));
@@ -96,12 +112,12 @@ public class OCSNetworks implements OCSSectionInterface {
                     // this ip may be already presents as a wifi address
                     boolean isWifi = false;
                     for (OCSNetwork tmp : networks) {
-                        if (tmp.ipAdress.equals(netw.ipAdress)) {
+                        if (tmp.getIpAdress().equals(netw.getIpAdress())) {
                             isWifi = true;
                             break;
                         }
                     }
-                    if (isWifi == false) {
+                    if (!isWifi) {
                         networks.add(netw);
                     }
                 }
@@ -127,7 +143,7 @@ public class OCSNetworks implements OCSSectionInterface {
         </NETWORKS>
      */
     public String toXML() {
-        StringBuffer strOut = new StringBuffer();
+        StringBuilder strOut = new StringBuilder();
         for (OCSNetwork o : networks) {
             strOut.append(o.toXml());
         }
@@ -135,7 +151,7 @@ public class OCSNetworks implements OCSSectionInterface {
     }
 
     public String toString() {
-        StringBuffer strOut = new StringBuffer();
+        StringBuilder strOut = new StringBuilder();
         for (OCSNetwork o : networks) {
             strOut.append(o.toString());
         }
@@ -143,7 +159,7 @@ public class OCSNetworks implements OCSSectionInterface {
     }
 
     public int getMain() {
-        return main;
+        return 0;
     }
 
     public ArrayList<OCSNetwork> getNetworks() {
