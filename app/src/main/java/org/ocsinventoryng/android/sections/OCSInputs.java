@@ -105,14 +105,6 @@ public class OCSInputs implements OCSSectionInterface {
         ocslog.debug("OCSInputs done");
     }
 
-    private Camera openCamera() {
-        try {
-            return Camera.open();
-        } catch (RuntimeException e) {
-            return null;
-        }
-    }
-
     private Camera openCamera(int idx) {
         try {
             return Camera.open(idx);
