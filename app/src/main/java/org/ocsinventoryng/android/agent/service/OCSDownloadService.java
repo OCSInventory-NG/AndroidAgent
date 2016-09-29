@@ -40,7 +40,7 @@ import org.ocsinventoryng.android.agent.OCSDownloadIdParams;
 import org.ocsinventoryng.android.agent.OCSDownloadInfos;
 import org.ocsinventoryng.android.agent.OCSPrologReply;
 import org.ocsinventoryng.android.agent.R;
-import org.ocsinventoryng.android.agent.activity.OCSLaunchActivity;
+import org.ocsinventoryng.android.agent.activity.OCSInstallPackageActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -270,7 +270,7 @@ public class OCSDownloadService extends Service {
                     R.drawable.ic_notification).setContentTitle(getText(R.string.nty_title)).setContentText(
                     getText(id)).setAutoCancel(true);
 
-            Intent rIntent = new Intent(mContext, OCSLaunchActivity.class);
+            Intent rIntent = new Intent(mContext, OCSInstallPackageActivity.class);
 
             PendingIntent rpIntent = PendingIntent.getActivity(mContext, 0, rIntent, PendingIntent.FLAG_UPDATE_CURRENT);
             mBuilder.setContentIntent(rpIntent);

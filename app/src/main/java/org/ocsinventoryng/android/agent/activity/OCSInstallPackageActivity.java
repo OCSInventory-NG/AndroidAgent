@@ -39,7 +39,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-public class OCSLaunchActivity extends AppCompatActivity {
+/**
+ * APK installation
+ */
+public class OCSInstallPackageActivity extends AppCompatActivity {
 
     private String[] mPackageNames;
     private String[] mIdOCS;
@@ -49,7 +52,7 @@ public class OCSLaunchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.ocs_launch);
+        setContentView(R.layout.ocs_install_package);
         mOcslog = OCSLog.getInstance();
 
         File dirSofts = getExternalCacheDir();
