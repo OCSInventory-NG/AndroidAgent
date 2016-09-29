@@ -33,6 +33,7 @@ import org.ocsinventoryng.android.actions.OCSFiles;
 import org.ocsinventoryng.android.actions.OCSLog;
 import org.ocsinventoryng.android.actions.OCSProtocol;
 import org.ocsinventoryng.android.actions.OCSProtocolException;
+import org.ocsinventoryng.android.agent.service.OCSDownloadService;
 
 public class AsyncOperations extends AsyncTask<Void, Integer, String> {
     private final Activity mActivity;

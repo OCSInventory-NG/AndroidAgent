@@ -18,7 +18,7 @@
  * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.ocsinventoryng.android.agent;
+package org.ocsinventoryng.android.agent.activity;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -36,6 +36,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import org.ocsinventoryng.android.actions.OCSSettings;
+import org.ocsinventoryng.android.agent.service.OCSAgentService;
+import org.ocsinventoryng.android.agent.receiver.OCSEventReceiver;
+import org.ocsinventoryng.android.agent.R;
 
 import java.util.Calendar;
 

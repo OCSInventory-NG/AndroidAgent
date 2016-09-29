@@ -18,7 +18,7 @@
  * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.ocsinventoryng.android.agent;
+package org.ocsinventoryng.android.agent.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

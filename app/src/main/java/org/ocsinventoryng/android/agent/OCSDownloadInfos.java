@@ -41,7 +41,7 @@ public class OCSDownloadInfos {
     private String needDoneActionText;
 
 
-    OCSDownloadInfos(String strinfos) {
+    public OCSDownloadInfos(String strinfos) {
         id = extrAttr(strinfos, "ID");
         act = extrAttr(strinfos, "ACT");
         digest = extrAttr(strinfos, "DIGEST");

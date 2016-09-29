@@ -18,7 +18,7 @@
  * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.ocsinventoryng.android.agent;
+package org.ocsinventoryng.android.agent.activity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -40,6 +40,9 @@ import org.ocsinventoryng.android.actions.OCSProtocol;
 import org.ocsinventoryng.android.actions.OCSSettings;
 import org.ocsinventoryng.android.actions.PrefsParser;
 import org.ocsinventoryng.android.actions.Utils;
+import org.ocsinventoryng.android.agent.AboutDialog;
+import org.ocsinventoryng.android.agent.AsyncOperations;
+import org.ocsinventoryng.android.agent.R;
 
 import java.io.File;
 import java.io.IOException;

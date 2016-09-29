@@ -18,7 +18,7 @@
  * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.ocsinventoryng.android.agent;
+package org.ocsinventoryng.android.agent.service;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -39,6 +39,9 @@ import org.ocsinventoryng.android.actions.OCSLog;
 import org.ocsinventoryng.android.actions.OCSProtocol;
 import org.ocsinventoryng.android.actions.OCSProtocolException;
 import org.ocsinventoryng.android.actions.OCSSettings;
+import org.ocsinventoryng.android.agent.OCSPrologReply;
+import org.ocsinventoryng.android.agent.R;
+import org.ocsinventoryng.android.agent.activity.OCSAgentActivity;
 
 import java.util.Date;
 

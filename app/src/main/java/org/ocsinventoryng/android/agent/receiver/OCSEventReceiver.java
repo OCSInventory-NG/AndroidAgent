@@ -18,35 +18,27 @@
  * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.ocsinventoryng.android.agent;
+package org.ocsinventoryng.android.agent.receiver;
 
-import android.app.ListActivity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
-public class OCSListActivity extends ListActivity {
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
-        String[] sections = getResources().getStringArray(R.array.array_sections);
-        Log.d("OCSListActivity", "onCreate ");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.simple_liste_view, sections);
+import org.ocsinventoryng.android.agent.service.OCSAgentService;
 
-        setListAdapter(adapter);
-    }
+public class OCSEventReceiver extends BroadcastReceiver {
+    private static final String LOGTAG = "OCSEventReceiver";
 
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        String item = (String) getListAdapter().getItem(position);
-
-        Log.d("OCSListActivity", "item " + item);
-        Bundle b = new Bundle();
-        b.putString("ocsinventory.section", item);
-        Intent intent = new Intent(this, OCSSectionListActivity.class);
-        intent.putExtras(b);
-        startActivity(intent);
+    public void onReceive(final Context ctx, final Intent intent) {
+        Log.d(LOGTAG, "Called");
+        Intent eventService = new Intent(ctx, OCSAgentService.class);
+        boolean forceUpdate = intent.getBooleanExtra(OCSAgentService.FORCE_UPDATE, false);
+        eventService.putExtra(OCSAgentService.FORCE_UPDATE, forceUpdate);
+        boolean saveInventory = intent.getBooleanExtra(OCSAgentService.SAVE_INVENTORY, false);
+        eventService.putExtra(OCSAgentService.SAVE_INVENTORY, saveInventory);
+        ctx.startService(eventService);
+        Log.d(LOGTAG, "After start service");
     }
-} 
+}

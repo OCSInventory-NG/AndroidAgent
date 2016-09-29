@@ -18,7 +18,7 @@
  * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.ocsinventoryng.android.agent;
+package org.ocsinventoryng.android.agent.activity;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -29,6 +29,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.widget.TextView;
 
 import org.ocsinventoryng.android.actions.OCSLog;
+import org.ocsinventoryng.android.agent.OCSDownloadInfos;
+import org.ocsinventoryng.android.agent.R;
 
 import java.io.BufferedReader;
 import java.io.File;

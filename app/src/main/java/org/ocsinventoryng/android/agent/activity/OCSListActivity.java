@@ -18,41 +18,37 @@
  * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-package org.ocsinventoryng.android.agent;
+package org.ocsinventoryng.android.agent.activity;
 
 import android.app.ListActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
-import org.ocsinventoryng.android.actions.Inventory;
-import org.ocsinventoryng.android.actions.OCSLog;
-import org.ocsinventoryng.android.sections.OCSSection;
+import org.ocsinventoryng.android.agent.R;
 
-import java.util.ArrayList;
-
-public class OCSSectionListActivity extends ListActivity {
-
+public class OCSListActivity extends ListActivity {
     public void onCreate(Bundle bundle) {
         super.onCreate(bundle);
-        OCSLog ocslog = OCSLog.getInstance();
+        String[] sections = getResources().getStringArray(R.array.array_sections);
+        Log.d("OCSListActivity", "onCreate ");
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.simple_liste_view, sections);
 
-        Bundle b = getIntent().getExtras();
-        if (b == null) {
-            ocslog.debug("OCSSectionListActivity bundle null");
-            return;
-        }
-        CharSequence section = b.getCharSequence("ocsinventory.section").toString();
-
-        setTitle(section);
-
-        // recuperation de la section
-        ArrayList<OCSSection> asl = (ArrayList<OCSSection>) Inventory.getInstance(this).
-                getSections(section.toString());
-        if (asl == null) {
-            return;
-        }
-
-        // Creation de l'adapteur avec la liste des sections
-        SectionAdapter adapter = new SectionAdapter(this, asl);
         setListAdapter(adapter);
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        String item = (String) getListAdapter().getItem(position);
+
+        Log.d("OCSListActivity", "item " + item);
+        Bundle b = new Bundle();
+        b.putString("ocsinventory.section", item);
+        Intent intent = new Intent(this, OCSSectionListActivity.class);
+        intent.putExtras(b);
+        startActivity(intent);
     }
 } 
