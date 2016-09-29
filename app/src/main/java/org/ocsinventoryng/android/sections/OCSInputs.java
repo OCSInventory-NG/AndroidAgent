@@ -22,6 +22,7 @@ package org.ocsinventoryng.android.sections;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.hardware.Camera;
 import android.os.Build;
 
 import org.ocsinventoryng.android.actions.OCSLog;
@@ -80,7 +81,73 @@ public class OCSInputs implements OCSSectionInterface {
             inputs.add(ocsin);
         }
 
+
+        // About cameras
+        ocslog.debug("Search camera infos on build : " + Build.VERSION.SDK_INT);
+        // Test if build < GINGERBREAD November 2010: Android 2.3
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+            OCSInput ocsci = new OCSInput();
+            ocsci.setType("Camera");
+            ocsci.setCaption("facing unknown");
+            String sSz = getCameraMaxImgSize(openCamera());
+            ocsci.setDescription("Image size " + sSz);
+            inputs.add(ocsci);
+        } else {
+            int numberOfCameras = Camera.getNumberOfCameras();
+            ocslog.debug("Number of cameras : " + numberOfCameras);
+            Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+            for (int i = 0; i < numberOfCameras; i++) {
+                OCSInput ocsci = new OCSInput();
+                String sSz = getCameraMaxImgSize(openCamera(i));
+                ocsci.setType("Camera");
+                Camera.getCameraInfo(i, cameraInfo);
+                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+                    ocsci.setCaption("facing back");
+                } else {
+                    ocsci.setCaption("facing front");
+                }
+                ocsci.setDescription("Image size " + sSz);
+                inputs.add(ocsci);
+            }
+        }
+
         ocslog.debug("OCSInputs done");
+    }
+
+    private Camera openCamera() {
+        try {
+            return Camera.open();
+        } catch (RuntimeException e) {
+            return null;
+        }
+    }
+
+    private Camera openCamera(int idx) {
+        try {
+            return Camera.open(idx);
+        } catch (RuntimeException e) {
+            return null;
+        }
+    }
+
+
+    private String getCameraMaxImgSize(Camera cam) {
+        if (cam == null) {
+            return "busy";
+        }
+        Camera.Parameters params = cam.getParameters();
+        long max_v = 0;
+        Camera.Size max_sz = null;
+        for (Camera.Size sz : params.getSupportedPictureSizes()) {
+            long v = sz.height * sz.width;
+            android.util.Log.d("OCSINPUT", String.valueOf(v));
+            if (v > max_v) {
+                max_v = v;
+                max_sz = sz;
+            }
+        }
+        cam.release();
+        return String.valueOf(max_sz.width) + "x" + String.valueOf(max_sz.height);
     }
 
     public String toXML() {
