@@ -31,23 +31,22 @@ public class OCSVideos implements OCSSectionInterface {
     final private String sectionTag = "VIDEOS";
 
     private String resolution;
-    private String name;
+    private String name = "Embedded display";
 
     public OCSVideos(Context ctx) {
-        this.name = "Embedded display";
         DisplayMetrics localDisplayMetrics = new DisplayMetrics();
         WindowManager wm = (WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE);
         Display disp = wm.getDefaultDisplay();
         disp.getMetrics(localDisplayMetrics);
-        this.resolution = String.valueOf(localDisplayMetrics.widthPixels) + "*" + String.valueOf(
+        resolution = String.valueOf(localDisplayMetrics.widthPixels) + "*" + String.valueOf(
                 localDisplayMetrics.heightPixels);
     }
 
     public OCSSection getSection() {
         OCSSection s = new OCSSection("VIDEOS");
-        s.setAttr("NAME", this.name);
-        s.setAttr("RESOLUTION", this.resolution);
-        s.setTitle(this.name);
+        s.setAttr("NAME", name);
+        s.setAttr("RESOLUTION", resolution);
+        s.setTitle(name);
         return s;
     }
 

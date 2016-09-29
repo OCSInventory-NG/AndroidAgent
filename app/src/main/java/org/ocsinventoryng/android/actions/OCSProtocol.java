@@ -358,8 +358,6 @@ public class OCSProtocol {
                         AsyncSend task = new AsyncSend(appCtx);
                         task.execute(id, "SUCCESS");
                     }
-                    // else
-                    //	ocsproto.sendRequestMessage("DOWNLOAD", id, "ERR_ABORT");
                 }
             } catch (IOException e) {
                 ocslog.error("Cant read update.flag");

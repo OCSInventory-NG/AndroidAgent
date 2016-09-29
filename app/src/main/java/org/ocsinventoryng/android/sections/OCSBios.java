@@ -51,7 +51,6 @@ public class OCSBios implements OCSSectionInterface {
     private String assettag;
     private String date;
     private String manufacturer;
-    //private String smanufacturer;
     private String version;
     private String serial;
     private String type;

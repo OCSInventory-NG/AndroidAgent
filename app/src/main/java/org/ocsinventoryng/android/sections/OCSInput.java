@@ -22,22 +22,12 @@ package org.ocsinventoryng.android.sections;
 
 
 public class OCSInput {
-    private String type;
-    private String manufacturer;
-    private String caption;
-    private String description;
-    private String interf;
-    private String pointtype;
-
-    public OCSInput() {
-
-        this.type = null;
-        this.manufacturer = "NA";
-        this.caption = "NA";
-        this.description = "NA";
-        this.interf = "";
-        this.pointtype = "";
-    }
+    private String type = null;
+    private String manufacturer = "NA";
+    private String caption = "NA";
+    private String description = "NA";
+    private String interf = "";
+    private String pointtype = "";
 
 /*
     <!ELEMENT INPUTS (TYPE | MANUFACTURER | CAPTION | DESCRIPTION | INTERFACE | POINTTYPE)*>

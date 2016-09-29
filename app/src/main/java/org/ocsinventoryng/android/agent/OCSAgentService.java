@@ -132,7 +132,6 @@ public class OCSAgentService extends Service {
         } catch (OCSProtocolException e) {
             return false;
         }
-
         return true;
     }
 

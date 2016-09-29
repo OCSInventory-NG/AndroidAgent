@@ -59,7 +59,6 @@ public class OCSSettings {
     private final String KHIDENOTIF = "k_hideNotif";
 
     public OCSSettings(Context ctx) {
-        //prefs = act.getSharedPreferences(LOGTAG, Context.MODE_PRIVATE);
         prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         this.ctx = ctx;
     }

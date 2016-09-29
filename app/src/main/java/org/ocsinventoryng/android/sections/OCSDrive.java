@@ -49,11 +49,6 @@ public class OCSDrive {
     }
 
     /*
-    public OCSDrive(String type) {
-        this.type = type;
-    }
-    */
-    /*
      * <CREATEDATE>2011/11/17 20:47:06</CREATEDATE>
 	 * <FILESYSTEM>ext4</FILESYSTEM> <FREE>29584</FREE> <LABEL/>
 	 * <SERIAL>e340fd1a-108f-4523-a4f5-25d1c09bb0f2</SERIAL>

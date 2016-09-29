@@ -136,7 +136,7 @@ public class OCSLaunchActivity extends ActionBarActivity {
     }
 
     /**
-     * Read informations file of OSC package
+     * Read informations file of OCS package
      *
      * @param id OCS id of the package
      * @return OCSDownloadInfos object builded from info file

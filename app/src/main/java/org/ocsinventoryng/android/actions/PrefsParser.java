@@ -36,7 +36,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 public class PrefsParser extends DefaultHandler {
-    private String responseText = "";
     private String keyName;
     private String keyValue;
     private Editor edit;

@@ -38,14 +38,9 @@ import javax.xml.parsers.SAXParserFactory;
 
 public class PrologReplyParser extends DefaultHandler {
     private String currentTag;
-    private OCSPrologReply reply;
-
-    PrologReplyParser() {
-        reply = new OCSPrologReply();
-    }
+    private OCSPrologReply reply = new OCSPrologReply();
 
     public OCSPrologReply parseDocument(String strReply) {
-
         Log.d("PrologReplyParser", strReply);
         ByteArrayInputStream bais = new ByteArrayInputStream(strReply.getBytes());
 
@@ -53,7 +48,6 @@ public class PrologReplyParser extends DefaultHandler {
     }
 
     public OCSPrologReply parseDocument(InputStream is) {
-
         Log.d("PrologReplyParser", "");
         SAXParserFactory localSAXParserFactory = SAXParserFactory.newInstance();
         try {
@@ -103,7 +97,6 @@ public class PrologReplyParser extends DefaultHandler {
     }
 
     public void characters(char[] paramArrayOfChar, int paramInt1, int paramInt2) throws SAXException {
-
         String str = new String(paramArrayOfChar, paramInt1, paramInt2);
         if ("RESPONSE".equals(currentTag)) {
             reply.setResponse(str);

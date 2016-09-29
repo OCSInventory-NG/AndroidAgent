@@ -127,7 +127,7 @@ public class Inventory {
         ocslog.debug("OCSSims...");
         sims = new OCSSims(ctx);
 
-	/* Mise a jour du checksum */
+        // Mise a jour du checksum
         mCtx = ctx;
         ocslog.debug("CHECKSUM update");
         loadSectionsFP(ctx);
@@ -182,9 +182,7 @@ public class Inventory {
     public String toXML() {
         StringBuffer strOut = new StringBuffer("<REQUEST>\n");
         Utils.xmlLine(strOut, 2, "DEVICEID", deviceUid);
-        // Utils.xmlLine(strOut,2,"DEVICEID",OCSSettings.getInstance().getDeviceUid());
         strOut.append("  <CONTENT>\n");
-        // strOut.append("    <DOWNLOAD><HISTORY /></DOWNLOAD>\n");
         strOut.append(bios.toXML());
         strOut.append(drives.toXML());
         strOut.append(hardware.toXML());
@@ -210,7 +208,7 @@ public class Inventory {
     }
 
     public String toString() {
-        String strOut = deviceUid.toString() + '\n' +
+        String strOut = deviceUid + '\n' +
                         bios.toString() +
                         drives.toString() +
                         storages.toString() +

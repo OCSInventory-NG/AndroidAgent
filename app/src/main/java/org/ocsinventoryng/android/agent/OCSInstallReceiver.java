@@ -106,7 +106,7 @@ public class OCSInstallReceiver extends BroadcastReceiver {
     }
 
     private class AsyncSend extends AsyncTask<Void, Void, Void> {
-        Context mContext;
+        private Context mContext;
 
         AsyncSend(Context ctx) {
             mContext = ctx;

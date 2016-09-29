@@ -35,13 +35,12 @@ import org.ocsinventoryng.android.actions.OCSProtocol;
 import org.ocsinventoryng.android.actions.OCSProtocolException;
 
 public class AsyncOperations extends AsyncTask<Void, Integer, String> {
-    //private final View root;
     private final Activity mActivity;
     private ProgressDialog mProgressDialog;
     private TextView mTvStatus;
     private Context mAppCtx;
     private boolean mSend;
-    private boolean mDownload;
+    private boolean mDownload = false;
 
     public AsyncOperations(boolean send, ProgressDialog progressDialog, TextView status, Activity act, Context ctx) {
         mSend = send;
@@ -49,7 +48,6 @@ public class AsyncOperations extends AsyncTask<Void, Integer, String> {
         mTvStatus = status;
         mAppCtx = ctx;
         mActivity = act;
-        mDownload = false;
     }
 
     @Override
@@ -72,7 +70,6 @@ public class AsyncOperations extends AsyncTask<Void, Integer, String> {
 
     @Override
     protected String doInBackground(Void... params) {
-
         Inventory inventory = Inventory.getInstance(mActivity);
 
         OCSProtocol ocsproto = new OCSProtocol(mAppCtx);

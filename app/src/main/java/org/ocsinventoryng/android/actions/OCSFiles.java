@@ -92,11 +92,6 @@ public class OCSFiles {
         } catch (IOException e) {
             ocslog.error("Error writing to xml inventory file ");
         }
-        /*
-         * if (!(inventoryFile).exists()) { boolean bool =
-		 * (inventoryFile).delete(); inventoryFile = new
-		 * File(this.inventoryFilePath); }
-		 */
         ocslog.debug("xml inventory file ready");
         return appCtx.getFileStreamPath(inventoryFileName);
     }
@@ -106,7 +101,6 @@ public class OCSFiles {
         String deviceId = OCSSettings.getInstance().getDeviceUid();
 
         StringBuilder strBuf = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
-        // strBuf.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<!DOCTYPE REQUEST>\r\n");
         strBuf.append("<REQUEST>\n");
         strBuf.append("  <QUERY>PROLOG</QUERY>\n");
         strBuf.append("  <DEVICEID>");
@@ -133,7 +127,6 @@ public class OCSFiles {
         String queryFileName = query + ".xml";
 
         StringBuilder strBuf = new StringBuilder("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n");
-        // strBuf.append("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<!DOCTYPE REQUEST>\r\n");
         strBuf.append("<REQUEST>\n");
         strBuf.append("  <QUERY>").append(query).append("</QUERY>\n");
         strBuf.append("  <DEVICEID>");
@@ -210,7 +203,6 @@ public class OCSFiles {
         }
     }
 
-    //
     public OCSPrologReply loadPrologReply() {
         OCSPrologReply reply = null;
         FileInputStream fis;

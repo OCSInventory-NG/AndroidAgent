@@ -27,12 +27,12 @@ import java.io.File;
 public class OCSStorage {
     private String description;
     private long disksize;
-    private String firmware;
-    private String manufacturer;
-    private String model;
-    private String name;
-    private String serialnumber;
-    private String type;
+    private String firmware = null;
+    private String manufacturer = "NA";
+    private String model = "NA";
+    private String name = "NA";
+    private String serialnumber = null;
+    private String type = "ROM";
 
     public OCSStorage(File d, String description) {
         String pathESD = d.getPath();
@@ -42,13 +42,6 @@ public class OCSStorage {
 
         this.description = description;
         this.disksize = bs * bc / 1048576L;
-
-        this.firmware = null;
-        this.manufacturer = "NA";
-        this.model = "NA";
-        this.name = "NA";
-        this.serialnumber = null;
-        this.type = "ROM";
     }
 
     /*

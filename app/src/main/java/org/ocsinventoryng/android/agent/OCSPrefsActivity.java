@@ -46,8 +46,8 @@ public class OCSPrefsActivity extends PreferenceActivity {
      */
     // private static final boolean ALWAYS_SIMPLE_PREFS = false;
     private MyPreferenceChangeListener mPreferenceListener;
-    private boolean mfreqwake_chg = false;
-    private boolean mAutoMode_chg = false;
+    private boolean mfreqwakeChg = false;
+    private boolean mAutoModeChg = false;
     private SharedPreferences mPrefs;
     private static String uHour;
     private static String uMn;
@@ -86,11 +86,11 @@ public class OCSPrefsActivity extends PreferenceActivity {
         Log.d("DEBUG", "onStop");
         Context ctx = getApplicationContext();
 
-        if (mAutoMode_chg || mfreqwake_chg) {
-            Log.d("DEBUG", "mAutoMode_chg");
+        if (mAutoModeChg || mfreqwakeChg) {
+            Log.d("DEBUG", "mAutoModeChg");
             if (mPrefs.getBoolean("k_automode", false)) {
                 // Setup service
-                if (mAutoMode_chg) {
+                if (mAutoModeChg) {
                     Toast.makeText(ctx, "Service started", Toast.LENGTH_LONG).show();
                 }
 
@@ -115,8 +115,8 @@ public class OCSPrefsActivity extends PreferenceActivity {
             }
         }
 
-        mfreqwake_chg = false;
-        mAutoMode_chg = false;
+        mfreqwakeChg = false;
+        mAutoModeChg = false;
     }
 
     private class MyPreferenceChangeListener implements OnSharedPreferenceChangeListener {
@@ -124,12 +124,12 @@ public class OCSPrefsActivity extends PreferenceActivity {
         public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
             Log.v("PreferenceChange", key);
             if ("k_automode".equals(key)) {
-                mAutoMode_chg = true;
+                mAutoModeChg = true;
             }
 
             if ("k_freqwake".equals(key)) {
                 Log.v("PreferenceChange", "**** KEY test_preference_key modified ****");
-                mfreqwake_chg = true;
+                mfreqwakeChg = true;
             }
         }
     }
