@@ -59,6 +59,8 @@ public class OCSAgentService extends Service {
     private boolean mIsForced = false;
     private boolean mSaveInventory = false;
 
+    private final IBinder mBinder = new LocalBinder();
+
     /*
      * Binder juste pour verifier que le service tourne
      */
@@ -67,8 +69,6 @@ public class OCSAgentService extends Service {
             return OCSAgentService.this;
         }
     }
-
-    private final IBinder mBinder = new LocalBinder();
 
     @Override
     public IBinder onBind(final Intent intent) {

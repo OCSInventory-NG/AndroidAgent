@@ -62,6 +62,8 @@ public class OCSDownloadService extends Service {
     private OCSProtocol mOcsproto;
     private OCSPrologReply mReply;
 
+    private final IBinder mBinder = new LocalBinder();
+
     /*
      * Binder juste pour verifier que le service tourne
      */
@@ -70,8 +72,6 @@ public class OCSDownloadService extends Service {
             return OCSDownloadService.this;
         }
     }
-
-    private final IBinder mBinder = new LocalBinder();
 
     @Override
     public IBinder onBind(final Intent intent) {
