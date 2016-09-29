@@ -33,6 +33,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,11 +51,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-
+/**
+ * Launch activity - Start Screen
+ */
 public class OCSAgentActivity extends AppCompatActivity {
     public OCSSettings settings = null;
     private final static String IMPORT_CONFIG = "import_config";
-
     protected ProgressDialog mProgressDialog;
 
     @Override
@@ -62,40 +64,61 @@ public class OCSAgentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ocs_agent);
 
-        // Initialisation de la configuration. Si on ajoute une chaine extra "IMPORT_CONFIG" en lançant l'activité, la
-        // configuration est réimportée de force.
-        // Init. configuration. If an extra "IMPORT_CONFIG" is added on launch of the activity. The configuration import is
-        // forced.
+        // Initialize configuration.
+        // If an extra "IMPORT_CONFIG" is added on launch of the activity, the configuration will be imported
         settings = OCSSettings.getInstance(this);
         settings.logSettings();
         if (getIntent().getStringExtra(IMPORT_CONFIG) != null) {
             importConfig();
             finish();
         }
-        // If deviceUid is null. It is the first start. The an import config is tried.
+        // If deviceUid is null. It's the first start. Then an import of the config is tried.
         if (settings.getDeviceUid() == null) {
             importConfig();
         }
 
         // Version update on title bar.
-        String version;
         int vcode;
         try {
-            version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            String version = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+            setTitle(getTitle() + " v." + version);
             vcode = getPackageManager().getPackageInfo(getPackageName(), 0).versionCode;
         } catch (NameNotFoundException e) {
-            version = "";
             vcode = 0;
         }
+        // Check if a new version is available
         new OCSProtocol(getApplicationContext()).verifyNewVersion(vcode);
-        setTitle(getTitle() + " v." + version);
-    }
 
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Log.d("OCSAgentActivity", "onStart()");
+        /**
+         * Actions for buttons
+         */
+        // Send Inventory
+        Button sendInventory = (Button) findViewById(R.id.btSendInventory);
+        sendInventory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setStatus(R.string.title_bt_launch);
+                spawnTask(true);
+            }
+        });
+        // Show Inventory
+        Button showInventory = (Button) findViewById(R.id.btShowInventory);
+        showInventory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent localIntent = new Intent(getApplicationContext(), OCSListActivity.class);
+                startActivity(localIntent);
+            }
+        });
+        // Save Inventory
+        Button saveInventory = (Button) findViewById(R.id.btSaveInventory);
+        saveInventory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                spawnTask(false);
+            }
+        });
     }
 
     @Override
@@ -126,21 +149,6 @@ public class OCSAgentActivity extends AppCompatActivity {
         }
         return true;
     }
-
-    public void showInventoryClicked(View view) {
-        Intent localIntent = new Intent(this, OCSListActivity.class);
-        startActivity(localIntent);
-    }
-
-    public void sendInventoryClicked(View view) {
-        setStatus(R.string.title_bt_launch);
-        spawnTask(true);
-    }
-
-    public void saveInventoryClicked(View view) {
-        spawnTask(false);
-    }
-
 
     private void importConfig() {
         String myPackName = getApplicationContext().getPackageName();
@@ -174,7 +182,6 @@ public class OCSAgentActivity extends AppCompatActivity {
         String filePrefs = myPackName + "_preferences.xml";
         String pathPrefs = getApplicationInfo().dataDir + "/shared_prefs/" + filePrefs;
 
-        // 0.9.6 : suppress device id
         String savedUid = settings.getDeviceUid();
         settings.setDeviceUid("");
 

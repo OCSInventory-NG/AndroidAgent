@@ -338,7 +338,7 @@ public class OCSProtocol {
     /*
      * Function called on main start to verify if a new version is installed
 	 * Then send success status and delete package
-	 * Operation done in  Installereceiver for othet package but INSTALL event is 
+	 * Operation done in Installereceiver for other package but INSTALL event is
 	 * not send to then application itself
 	 */
     public void verifyNewVersion(int pvcode) {

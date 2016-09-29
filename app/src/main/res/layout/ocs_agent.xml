@@ -37,41 +37,38 @@
         android:textSize="@dimen/status_text"/>
 
     <Button
-        android:id="@+id/bt_launch"
+        android:id="@+id/btSendInventory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="14dp"
-        android:onClick="sendInventoryClicked"
         android:text="@string/title_bt_launch"/>
 
     <Button
-        android:id="@+id/bt_show"
+        android:id="@+id/btShowInventory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/bt_launch"
-        android:onClick="showInventoryClicked"
+        android:layout_below="@+id/btSendInventory"
         android:text="@string/title_bt_show"/>
 
     <Button
-        android:id="@+id/bt_save"
+        android:id="@+id/btSaveInventory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/bt_show"
-        android:onClick="saveInventoryClicked"
+        android:layout_below="@+id/btShowInventory"
         android:text="@string/title_bt_save"/>
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/bt_save"
+        android:layout_below="@+id/btSaveInventory"
         android:src="@drawable/ocs_landscape"/>
 
 </RelativeLayout>
