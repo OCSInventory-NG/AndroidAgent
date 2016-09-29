@@ -47,6 +47,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
@@ -246,47 +247,27 @@ public class Inventory {
     }
 
     /**
-     * Get a named section
+     * Get ALL sections (display of the inventory)
      *
-     * @param sName section name
-     * @return Details from the requested section
+     * @return
      */
-    public List<OCSSection> getSections(String sName) {
-        if ("BIOS".equals(sName)) {
-            return bios.getSections();
-        }
-        if ("DRIVES".equals(sName)) {
-            return drives.getSections();
-        }
-        if ("HARDWARE".equals(sName)) {
-            return hardware.getSections();
-        }
-        if ("INPUTS".equals(sName)) {
-            return inputs.getSections();
-        }
-        if ("NETWORKS".equals(sName)) {
-            return networks.getSections();
-        }
-        if ("DRIVES".equals(sName)) {
-            return drives.getSections();
-        }
-        if ("SOFTWARES".equals(sName)) {
-            return softwares.getSections();
-        }
-        if ("STORAGES".equals(sName)) {
-            return storages.getSections();
-        }
-        if ("VIDEOS".equals(sName)) {
-            return videos.getSections();
-        }
-        if ("JAVAINFOS".equals(sName)) {
-            return javainfos.getSections();
-        }
-        if ("SIM".equals(sName)) {
-            return sims.getSections();
-        }
+    public HashMap<String, List<OCSSection>> getAllSections() {
+        HashMap<String, List<OCSSection>> monRetour = new HashMap<>();
 
-        return null;
+        // Fill with all values....
+        monRetour.put("BIOS", bios.getSections());
+        monRetour.put("DRIVES", drives.getSections());
+        monRetour.put("HARDWARE", hardware.getSections());
+        monRetour.put("INPUTS", inputs.getSections());
+        monRetour.put("NETWORKS", networks.getSections());
+        monRetour.put("DRIVES", drives.getSections());
+        monRetour.put("SOFTWARES", softwares.getSections());
+        monRetour.put("STORAGES", storages.getSections());
+        monRetour.put("VIDEOS", videos.getSections());
+        monRetour.put("JAVAINFOS", javainfos.getSections());
+        monRetour.put("SIM", sims.getSections());
+
+        return monRetour;
     }
 
     /**

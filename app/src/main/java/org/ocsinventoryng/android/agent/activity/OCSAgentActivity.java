@@ -107,7 +107,7 @@ public class OCSAgentActivity extends AppCompatActivity {
         showInventory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent localIntent = new Intent(getApplicationContext(), OCSListActivity.class);
+                Intent localIntent = new Intent(getApplicationContext(), OCSShowInventory.class);
                 startActivity(localIntent);
             }
         });

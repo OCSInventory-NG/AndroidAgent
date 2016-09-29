@@ -20,35 +20,37 @@
  */
 package org.ocsinventoryng.android.agent.activity;
 
-import android.app.ListActivity;
-import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.ExpandableListAdapter;
+import android.widget.ExpandableListView;
 
+import org.ocsinventoryng.android.actions.Inventory;
+import org.ocsinventoryng.android.agent.ExpandableSectionAdapter;
 import org.ocsinventoryng.android.agent.R;
 
-public class OCSListActivity extends ListActivity {
-    public void onCreate(Bundle bundle) {
-        super.onCreate(bundle);
-        String[] sections = getResources().getStringArray(R.array.array_sections);
-        Log.d("OCSListActivity", "onCreate ");
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.simple_liste_view, sections);
-
-        setListAdapter(adapter);
-    }
+/**
+ * Display inventory to the user
+ */
+public class OCSShowInventory extends AppCompatActivity {
+    ExpandableListAdapter monListAdapter;
+    ExpandableListView maListView;
 
     @Override
-    protected void onListItemClick(ListView l, View v, int position, long id) {
-        String item = (String) getListAdapter().getItem(position);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        Log.d("OCSListActivity", "item " + item);
-        Bundle b = new Bundle();
-        b.putString("ocsinventory.section", item);
-        Intent intent = new Intent(this, OCSSectionListActivity.class);
-        intent.putExtras(b);
-        startActivity(intent);
+        setContentView(R.layout.actvity_show_inventory);
+
+        // Get the listview
+        maListView = (ExpandableListView) findViewById(R.id.myListView);
+
+        // Set datas
+        monListAdapter = new ExpandableSectionAdapter(this, Inventory.getInstance(this).getAllSections());
+
+        // Set list adapter
+        maListView.setAdapter(monListAdapter);
     }
-} 
+}
