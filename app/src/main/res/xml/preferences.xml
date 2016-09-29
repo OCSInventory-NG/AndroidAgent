@@ -1,13 +1,13 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 /*
- * Copyright 2013-2016, OCSInventory-NG/AndroidAgent contributors
+ * Copyright 2013-2016 OCSInventory-NG/AndroidAgent contributors : mortheres, cdpointpoint,
+ * Cédric Cabessa, Nicolas Ricquemaque, Anael Mobilia
  *
  * This file is part of OCSInventory-NG/AndroidAgent.
  *
  * OCSInventory-NG/AndroidAgent is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2 of the License, or
  * (at your option) any later version.
  *
  * OCSInventory-NG/AndroidAgent is distributed in the hope that it will be useful,
@@ -16,127 +16,125 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with OCSInventory-NG/AndroidAgent. If not, see <http://www.gnu.org/licenses/>
+ * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/pref_header_general">
         <EditTextPreference
+            android:defaultValue="@string/pref_default_devicetag"
+            android:dialogTitle="@string/pref_title_devicetag"
             android:key="k_devicetag"
             android:summary="@string/pref_description_devicetag"
-            android:title="@string/pref_title_devicetag"
-            android:dialogTitle="@string/pref_title_devicetag"
-            android:defaultValue="@string/pref_default_devicetag"/>
+            android:title="@string/pref_title_devicetag"/>
         <CheckBoxPreference
             android:enabled="true"
-            android:title="@string/pref_title_debug"
+            android:key="k_debug"
             android:summary="@string/pref_description_debug"
-            android:key="k_debug"/>
+            android:title="@string/pref_title_debug"/>
         <CheckBoxPreference
             android:key="k_automode"
-            android:title="@string/pref_title_automode"
-            android:summary="@string/pref_description_automode"/>
+            android:summary="@string/pref_description_automode"
+            android:title="@string/pref_title_automode"/>
         <ListPreference
-            android:key="k_automodeNetwork"
-            android:title="@string/pref_title_automodeNetwork"
             android:defaultValue="0"
+            android:dependency="k_automode"
             android:entries="@array/automodeNetwork"
             android:entryValues="@array/automodeNetworkValues"
-            android:dependency="k_automode"
-            />
+            android:key="k_automodeNetwork"
+            android:title="@string/pref_title_automodeNetwork"/>
         <EditTextPreference
-            android:key="k_freqmaj"
-            android:title="@string/pref_title_freqmaj"
-            android:dialogTitle="@string/pref_dialog_freqmaj"
             android:defaultValue="@string/pref_default_freqmaj"
+            android:dependency="k_automode"
+            android:dialogTitle="@string/pref_dialog_freqmaj"
+            android:key="k_freqmaj"
             android:summary="@string/pref_description_freqmaj"
-            android:dependency="k_automode"/>
+            android:title="@string/pref_title_freqmaj"/>
         <EditTextPreference
-            android:key="k_freqwake"
-            android:title="@string/pref_title_freqwake"
-            android:dialogTitle="@string/pref_dialog_freqwake"
             android:defaultValue="@string/pref_default_freqwake"
+            android:dependency="k_automode"
+            android:dialogTitle="@string/pref_dialog_freqwake"
+            android:key="k_freqwake"
             android:summary="@string/pref_description_freqwake"
-            android:dependency="k_automode"/>
+            android:title="@string/pref_title_freqwake"/>
         <CheckBoxPreference
+            android:defaultValue="true"
             android:key="k_cache"
-            android:title="@string/pref_title_cache"
             android:summary="@string/pref_description_cache"
-            android:defaultValue="true"/>
+            android:title="@string/pref_title_cache"/>
         <ListPreference
-            android:key="k_cachelen"
-            android:title="@string/pref_title_cachelen"
-            android:summary="@string/pref_description_cachelen"
             android:defaultValue="@string/pref_default_cachelen"
+            android:dependency="k_cache"
             android:entries="@array/cacheInterval"
             android:entryValues="@array/cacheIntervalValues"
-            android:dependency="k_cache"
-            />
+            android:key="k_cachelen"
+            android:summary="@string/pref_description_cachelen"
+            android:title="@string/pref_title_cachelen"/>
         <CheckBoxPreference
-            android:key="k_syshide"
-            android:title="@string/pref_title_syshide"
-            android:summary="@string/pref_description_syshide"
             android:defaultValue="true"
+            android:key="k_syshide"
+            android:summary="@string/pref_description_syshide"
+            android:summaryOff="@string/pref_summaryOff_syshide"
             android:summaryOn="@string/pref_summaryOn_syshide"
-            android:summaryOff="@string/pref_summaryOff_syshide"/>
+            android:title="@string/pref_title_syshide"/>
         <CheckBoxPreference
-            android:key="k_compua"
-            android:title="@string/pref_title_compua"
-            android:summary="@string/pref_description_compua"
             android:defaultValue="false"
+            android:key="k_compua"
+            android:summary="@string/pref_description_compua"
+            android:summaryOff="@string/pref_summaryOff_compua"
             android:summaryOn="@string/pref_summaryOn_compua"
-            android:summaryOff="@string/pref_summaryOff_compua"/>
+            android:title="@string/pref_title_compua"/>
         <ListPreference
-            android:key="k_hideNotif"
-            android:title="@string/pref_title_hideNotif"
             android:defaultValue="0"
             android:entries="@array/hideNotif"
             android:entryValues="@array/hideNotifValues"
-            />
+            android:key="k_hideNotif"
+            android:title="@string/pref_title_hideNotif"/>
 
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_header_server">
         <EditTextPreference
-            android:key="k_serverurl"
-            android:summary="@string/pref_description_serverurl"
-            android:title="@string/pref_title_serverurl"
-            android:dialogTitle="@string/pref_title_serverurl"
             android:defaultValue="@string/pref_default_serverurl"
-            android:persistent="true"/>
+            android:dialogTitle="@string/pref_title_serverurl"
+            android:key="k_serverurl"
+            android:persistent="true"
+            android:summary="@string/pref_description_serverurl"
+            android:title="@string/pref_title_serverurl"/>
         <CheckBoxPreference
+            android:defaultValue="true"
             android:key="k_strictssl"
             android:summaryOff="@string/pref_summaryOff_sslstrict"
             android:summaryOn="@string/pref_summaryOn_sslstrict"
-            android:defaultValue="true"
             android:title="@string/pref_title_sslstrict"/>
 
         <CheckBoxPreference
-            android:title="@string/pref_title_auth"
+            android:defaultValue="false"
             android:key="k_auth"
-            android:defaultValue="false"/>
+            android:title="@string/pref_title_auth"/>
         <EditTextPreference
-            android:title="@string/pref_title_login"
+            android:dependency="k_auth"
             android:key="k_login"
-            android:dependency="k_auth"/>
+            android:title="@string/pref_title_login"/>
         <EditTextPreference
-            android:title="@string/pref_title_passwd"
-            android:password="true"
+            android:dependency="k_auth"
             android:key="k_passwd"
-            android:dependency="k_auth"/>
+            android:password="true"
+            android:title="@string/pref_title_passwd"/>
 
         <CheckBoxPreference
-            android:title="@string/pref_title_proxy"
+            android:defaultValue="false"
             android:key="k_proxy"
-            android:defaultValue="false"/>
+            android:title="@string/pref_title_proxy"/>
         <EditTextPreference
-            android:title="@string/pref_title_proxyadr"
+            android:dependency="k_proxy"
             android:key="k_proxyadr"
-            android:dependency="k_proxy"
-            android:summary="@string/pref_description_proxyadr"/>
+            android:summary="@string/pref_description_proxyadr"
+            android:title="@string/pref_title_proxyadr"/>
         <EditTextPreference
-            android:title="@string/pref_title_proxyport"
-            android:key="k_proxyport"
             android:dependency="k_proxy"
-            android:summary="@string/pref_description_proxyport"/>
+            android:key="k_proxyport"
+            android:summary="@string/pref_description_proxyport"
+            android:title="@string/pref_title_proxyport"/>
     </PreferenceCategory>
 </PreferenceScreen>

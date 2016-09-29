@@ -1,11 +1,12 @@
 /*
- * Copyright 2013-2016, OCSInventory-NG/AndroidAgent contributors
+ * Copyright 2013-2016 OCSInventory-NG/AndroidAgent contributors : mortheres, cdpointpoint,
+ * Cédric Cabessa, Nicolas Ricquemaque, Anael Mobilia
  *
  * This file is part of OCSInventory-NG/AndroidAgent.
  *
  * OCSInventory-NG/AndroidAgent is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
+ * the Free Software Foundation, either version 2 of the License, or
  * (at your option) any later version.
  *
  * OCSInventory-NG/AndroidAgent is distributed in the hope that it will be useful,
@@ -14,11 +15,11 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with OCSInventory-NG/AndroidAgent. If not, see <http://www.gnu.org/licenses/>
+ * along with OCSInventory-NG/AndroidAgent. if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 package org.ocsinventoryng.android.sections;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -36,7 +37,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-@SuppressLint("NewApi")
 public class OCSSoftwares implements OCSSectionInterface {
     final private String sectionTag = "SOFTWARES";
     private ArrayList<OCSSoftware> softs;
@@ -51,7 +51,7 @@ public class OCSSoftwares implements OCSSectionInterface {
         for (PackageInfo pi : pis) {
             // Exclude systeme softwares i required
             if (OCSSettings.getInstance(ctx).isSysHide() && (pi.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1) {
-                    continue;
+                continue;
             }
             OCSSoftware oSoft = new OCSSoftware();
             try {
