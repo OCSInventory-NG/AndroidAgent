@@ -84,31 +84,22 @@ public class OCSInputs implements OCSSectionInterface {
 
         // About cameras
         ocslog.debug("Search camera infos on build : " + Build.VERSION.SDK_INT);
-        // Test if build < GINGERBREAD November 2010: Android 2.3
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
+
+        int numberOfCameras = Camera.getNumberOfCameras();
+        ocslog.debug("Number of cameras : " + numberOfCameras);
+        Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
+        for (int i = 0; i < numberOfCameras; i++) {
             OCSInput ocsci = new OCSInput();
+            String sSz = getCameraMaxImgSize(openCamera(i));
             ocsci.setType("Camera");
-            ocsci.setCaption("facing unknown");
-            String sSz = getCameraMaxImgSize(openCamera());
+            Camera.getCameraInfo(i, cameraInfo);
+            if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
+                ocsci.setCaption("facing back");
+            } else {
+                ocsci.setCaption("facing front");
+            }
             ocsci.setDescription("Image size " + sSz);
             inputs.add(ocsci);
-        } else {
-            int numberOfCameras = Camera.getNumberOfCameras();
-            ocslog.debug("Number of cameras : " + numberOfCameras);
-            Camera.CameraInfo cameraInfo = new Camera.CameraInfo();
-            for (int i = 0; i < numberOfCameras; i++) {
-                OCSInput ocsci = new OCSInput();
-                String sSz = getCameraMaxImgSize(openCamera(i));
-                ocsci.setType("Camera");
-                Camera.getCameraInfo(i, cameraInfo);
-                if (cameraInfo.facing == Camera.CameraInfo.CAMERA_FACING_BACK) {
-                    ocsci.setCaption("facing back");
-                } else {
-                    ocsci.setCaption("facing front");
-                }
-                ocsci.setDescription("Image size " + sSz);
-                inputs.add(ocsci);
-            }
         }
 
         ocslog.debug("OCSInputs done");
