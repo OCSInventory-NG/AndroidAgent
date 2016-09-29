@@ -28,7 +28,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.Settings.Secure;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,7 +51,7 @@ import java.util.Date;
 import java.util.Locale;
 
 
-public class OCSAgentActivity extends ActionBarActivity {
+public class OCSAgentActivity extends AppCompatActivity {
     public OCSSettings settings = null;
     private final static String IMPORT_CONFIG = "import_config";
 
