@@ -72,11 +72,9 @@ public class OCSLaunchActivity extends ActionBarActivity {
             OCSDownloadInfos infos;
             try {
                 infos = getInfos(mIdOCS[i]);
-                if (infos != null) {
-                    if (infos.getNotifyText() != null) {
+                if (infos != null && infos.getNotifyText() != null) {
                         sb.append("\n");
                         sb.append(infos.getNotifyText());
-                    }
                 }
             } catch (IOException e) {
                 mOcslog.error(filename + " : " + e.getMessage());

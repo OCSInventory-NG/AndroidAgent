@@ -79,14 +79,14 @@ public class Inventory {
 
     public void buildInventory(Context ctx) {
         ocslog = OCSLog.getInstance();
-        ocslog.debug("SystemInfos.InitSystemInfos...");
+        ocslog.debug("SystemInfos.initSystemInfos...");
         OCSSettings settings = OCSSettings.getInstance();
 
         lastDate = new Date();
 
         dureeCache = settings.getCacheLen();
 
-        SystemInfos.InitSystemInfos();
+        SystemInfos.initSystemInfos();
 
         ocslog.debug("OCSBios...");
         this.bios = new OCSBios();

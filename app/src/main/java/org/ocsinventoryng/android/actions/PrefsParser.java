@@ -70,7 +70,7 @@ public class PrefsParser extends DefaultHandler {
         Log.d("PARSE", "qName : " + qName);
         if ("map".equals(qName)) {
             edit.apply();
-        } else if ("string".equals(qName) && !keyName.equals("k_deviceUid")) {
+        } else if ("string".equals(qName) && !"k_deviceUid".equals(keyName)) {
             Log.d("PARSE", keyName + "/" + keyValue);
             edit.putString(keyName, keyValue);
         }

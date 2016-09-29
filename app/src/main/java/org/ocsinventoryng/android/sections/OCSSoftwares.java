@@ -50,10 +50,8 @@ public class OCSSoftwares implements OCSSectionInterface {
                 PackageManager.GET_ACTIVITIES | PackageManager.GET_PROVIDERS);
         for (PackageInfo pi : pis) {
             // Exclude systeme softwares i required
-            if (OCSSettings.getInstance(ctx).isSysHide()) {
-                if ((pi.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1) {
+            if (OCSSettings.getInstance(ctx).isSysHide() && (pi.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 1) {
                     continue;
-                }
             }
             OCSSoftware oSoft = new OCSSoftware();
             try {

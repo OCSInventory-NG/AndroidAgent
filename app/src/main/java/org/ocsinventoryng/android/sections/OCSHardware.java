@@ -209,8 +209,7 @@ public class OCSHardware implements OCSSectionInterface {
         return sectionTag;
     }
 
-    @SuppressLint("NewApi")
-    void logBuild() {
+    private void logBuild() {
         OCSLog ocslog = OCSLog.getInstance();
 
         ocslog.debug("BOARD      : " + Build.BOARD);

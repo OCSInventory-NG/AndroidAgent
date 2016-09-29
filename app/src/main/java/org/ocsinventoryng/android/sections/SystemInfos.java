@@ -66,7 +66,7 @@ public class SystemInfos {
     /**
      * Read Hardware informations
      */
-    public static void InitSystemInfos() {
+    public static void initSystemInfos() {
         ocslog = OCSLog.getInstance();
         ocslog.debug("SYSTEMINFOS start");
         readCpuFreq();

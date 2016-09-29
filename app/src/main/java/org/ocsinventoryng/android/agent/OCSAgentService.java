@@ -63,7 +63,7 @@ public class OCSAgentService extends Service {
      * Binder juste pour verifier que le service tourne
      */
     public class LocalBinder extends Binder {
-        OCSAgentService getService() {
+        private OCSAgentService getService() {
             return OCSAgentService.this;
         }
     }
