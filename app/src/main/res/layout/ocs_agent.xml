@@ -20,7 +20,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 -->
-<RelativeLayout android:id="@+id/id_agent"
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/id_agent"
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -31,44 +32,55 @@
         android:id="@+id/statusBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/status_init"
+        android:textSize="@dimen/status_text"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:text="@string/status_init"
-        android:textSize="@dimen/status_text"/>
-
-    <Button
-        android:id="@+id/btSendInventory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="14dp"
-        android:text="@string/title_bt_launch"/>
-
-    <Button
-        android:id="@+id/btShowInventory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/btSendInventory"
-        android:text="@string/title_bt_show"/>
-
-    <Button
-        android:id="@+id/btSaveInventory"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/btShowInventory"
-        android:text="@string/title_bt_save"/>
+        android:layout_alignParentStart="true" />
 
     <ImageView
         android:id="@+id/imageView1"
+        android:src="@drawable/ocs_landscape"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="102dp"
+        android:layout_above="@+id/btSendInventory"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/btSaveInventory"
-        android:src="@drawable/ocs_landscape"/>
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
+
+    <Button
+        android:id="@+id/btSendInventory"
+        android:background="@drawable/button_effect"
+        android:layout_width="300dip"
+        android:layout_height="wrap_content"
+        android:text="@string/title_bt_launch"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/btSaveInventory"
+        android:background="@drawable/button_effect"
+        android:layout_width="300dip"
+        android:layout_height="wrap_content"
+        android:text="@string/title_bt_save"
+        android:layout_below="@+id/btShowInventory"
+        android:layout_alignLeft="@+id/btShowInventory"
+        android:layout_alignStart="@+id/btShowInventory"
+        android:layout_marginTop="12dp"
+        android:textColor="@color/white" />
+
+    <Button
+        android:id="@+id/btShowInventory"
+        android:background="@drawable/button_effect"
+        android:layout_width="300dip"
+        android:layout_height="wrap_content"
+        android:text="@string/title_bt_show"
+        android:layout_below="@+id/btSendInventory"
+        android:layout_alignLeft="@+id/btSendInventory"
+        android:layout_alignStart="@+id/btSendInventory"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/white"/>
 
 </RelativeLayout>

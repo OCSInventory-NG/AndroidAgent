@@ -29,4 +29,9 @@
     <color name="orange_dark">#ffff8800</color>
     <color name="violet_fonce">#ff97187f</color>
     <color name="violet_clair">#ff9e1d89</color>
+    <!-- Light Gray -->
+    <color name="gris_clair">#D3D3D3</color>
+    <!-- White -->
+    <color name="white">#FFFFFF</color>
+
 </resources>
