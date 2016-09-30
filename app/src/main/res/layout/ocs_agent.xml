@@ -41,6 +41,7 @@
     <ImageView
         android:id="@+id/imageView1"
         android:src="@drawable/ocs_landscape"
+        android:contentDescription="ocs_banner"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="102dp"
