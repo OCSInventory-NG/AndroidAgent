@@ -21,7 +21,7 @@
  */
 -->
 <resources>
-    <!-- Hors scope traduction - NO transtation needed -->
+    <!-- Hors scope traduction - NO translation needed -->
     <string name="app_name">OCS-NG Agent</string>
 
     <string name="pref_default_automode">false</string>
