@@ -206,7 +206,7 @@ public class Inventory {
     /**
      * XML values of the inventory
      *
-     * @return
+     * @return XML values of the inventory
      */
     public String toXML() {
         StringBuffer strOut = new StringBuffer("<REQUEST>\n");
@@ -249,7 +249,7 @@ public class Inventory {
     /**
      * Get ALL sections (display of the inventory)
      *
-     * @return
+     * @return HashMap ALL Sections
      */
     public HashMap<String, List<OCSSection>> getAllSections() {
         HashMap<String, List<OCSSection>> monRetour = new HashMap<>();

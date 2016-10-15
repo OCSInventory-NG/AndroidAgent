@@ -317,10 +317,6 @@ public class Utils {
         return ret;
     }
 
-    /**
-     * @param zipFile
-     * @param destination
-     */
     public static boolean unZip(String zipFile, String destination) {
         InputStream is;
         ZipInputStream zis;
