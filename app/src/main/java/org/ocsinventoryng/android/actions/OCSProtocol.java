@@ -104,7 +104,7 @@ public class OCSProtocol {
         ocslog.debug("Finnish Sending Request...");
 
         // Save reply
-        return (extractResponse(repMsg));
+        return extractResponse(repMsg);
     }
 
     public String sendInventoryMessage(Inventory inventory) throws OCSProtocolException {

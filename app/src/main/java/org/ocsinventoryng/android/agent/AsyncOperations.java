@@ -89,18 +89,18 @@ public class AsyncOperations extends AsyncTask<Void, Integer, String> {
         try {
             reply = ocsproto.sendPrologueMessage();
         } catch (OCSProtocolException e1) {
-            return (e1.getMessage());
+            return e1.getMessage();
         }
         OCSLog.getInstance().debug("Retour send prolog [" + reply.getResponse() + "]");
         OCSLog.getInstance().debug(reply.log());
         if ("ERROR".equals(reply.getResponse())) {
-            return (reply.getResponse());
+            return reply.getResponse();
         } else {
             publishProgress(R.string.state_send_inventory);
             try {
                 rep = ocsproto.sendInventoryMessage(inventory);
             } catch (OCSProtocolException e) {
-                return (e.getMessage());
+                return e.getMessage();
             }
 
 
@@ -116,11 +116,11 @@ public class AsyncOperations extends AsyncTask<Void, Integer, String> {
             }
 
             if (rep == null) {
-                return (mAppCtx.getString(R.string.state_send_error));
+                return mAppCtx.getString(R.string.state_send_error);
             } else if (rep.length() == 0) {
-                return (mAppCtx.getString(R.string.state_sent_inventory));
+                return mAppCtx.getString(R.string.state_sent_inventory);
             } else {
-                return (rep);
+                return rep;
             }
         }
     }

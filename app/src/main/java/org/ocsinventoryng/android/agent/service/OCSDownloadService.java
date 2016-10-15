@@ -170,7 +170,7 @@ public class OCSDownloadService extends Service {
                                 notifyServer(dip.getId(), ERR_BAD_DIGEST);
                             }
 
-                            if (dip.getInfos().getAct().equals((ACTION_STORE))) {
+                            if (dip.getInfos().getAct().equals(ACTION_STORE)) {
                                 // Unzip it
 
                                 if (Utils.unZip(fileOut.getPath(), dip.getInfos().getPath())) {
@@ -179,7 +179,7 @@ public class OCSDownloadService extends Service {
                                     mOcslog.error("Erreur when unzip package");
                                     notifyServer(dip.getId(), ERR_UNZIP);
                                 }
-                            } else if (dip.getInfos().getAct().equals((ACTION_LAUNCH))) {
+                            } else if (dip.getInfos().getAct().equals(ACTION_LAUNCH)) {
                                 // getFilesDir()+fileOutName+".apk"
                                 File finst = new File(getExternalCacheDir(), dip.getId() + ".apk");
                                 try {

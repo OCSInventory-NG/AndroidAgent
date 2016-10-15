@@ -100,8 +100,8 @@ public class Utils {
     }
 
     public static String intToIp(int i) {
-        String sb = String.valueOf(i & 0xFF) + "." + String.valueOf(((i >> 8) & 0xFF)) + "." + String.valueOf(((i >> 16) & 0xFF))
-                    + "." + String.valueOf(((i >> 24) & 0xFF));
+        String sb = String.valueOf(i & 0xFF) + "." + String.valueOf((i >> 8) & 0xFF) + "." + String.valueOf((i >> 16) & 0xFF)
+                    + "." + String.valueOf((i >> 24) & 0xFF);
         return sb;
     }
 
@@ -353,5 +353,4 @@ public class Utils {
 
         return true;
     }
-
 }
