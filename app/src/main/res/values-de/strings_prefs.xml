@@ -30,7 +30,7 @@
     <string name="pref_title_debug">Debug</string>
     <string name="pref_description_debug">Erzeuge eine Trace-Datei auf der SD-Karte</string>
     <string name="pref_title_devicetag">TAG</string>
-    <string name="pref_description_devicetag">Kategoriename in OCS</string>
+    <string name="pref_description_devicetag">Kategoriename (TAG) in OCS</string>
     <string name="pref_default_devicetag">Smartphone</string>
     <string name="pref_title_automode">Automatikmodus</string>
     <string name="pref_description_automode">Automatische Inventarisierung</string>

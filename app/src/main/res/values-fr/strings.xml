@@ -58,5 +58,9 @@
     <string name="unit_minutes">minutes</string>
 
     <string name="err_cant_connect">Impossible de contacter : </string>
+    <string name="nty_downloads">Paquets téléchargés disponibles</string>
+    <string name="pref_description_syshide">Ne pas inclure les logiciels systèmes</string>
+    <string name="title_activity_ocsinst">ocs_inst</string>
+    <string name="title_activity_ocslaunch">Installation</string>
 
 </resources>
