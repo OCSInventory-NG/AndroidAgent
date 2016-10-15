@@ -35,19 +35,6 @@
         <item name="i3600">3600000</item>
     </string-array>
 
-    <string-array name="array_sections">
-        <item>BIOS</item>
-        <item>DRIVES</item>
-        <item>HARDWARE</item>
-        <item>NETWORKS</item>
-        <item>INPUTS</item>
-        <item>JAVAINFOS</item>
-        <item>STORAGES</item>
-        <item>SOFTWARES</item>
-        <item>VIDEOS</item>
-        <item>SIM</item>
-    </string-array>
-
     <string-array name="automodeNetwork">
         <item name="r0">@string/pref_list_Network_noroaming</item>
         <item name="r1">@string/pref_list_Network_any</item>
