@@ -29,10 +29,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -53,12 +51,8 @@ public class PrologReplyParser extends DefaultHandler {
         try {
             SAXParser localSAXParser = localSAXParserFactory.newSAXParser();
             localSAXParser.parse(is, this);
-        } catch (SAXException localSAXException) {
-            localSAXException.printStackTrace();
-        } catch (ParserConfigurationException localParserConfigurationException) {
-            localParserConfigurationException.printStackTrace();
-        } catch (IOException localIOException) {
-            localIOException.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return reply;
     }

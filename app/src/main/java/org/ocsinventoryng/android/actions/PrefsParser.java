@@ -29,9 +29,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import java.io.File;
-import java.io.IOException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
@@ -48,12 +46,8 @@ public class PrefsParser extends DefaultHandler {
         try {
             SAXParser localSAXParser = localSAXParserFactory.newSAXParser();
             localSAXParser.parse(paramFile, this);
-        } catch (SAXException localSAXException) {
-            localSAXException.printStackTrace();
-        } catch (ParserConfigurationException localParserConfigurationException) {
-            localParserConfigurationException.printStackTrace();
-        } catch (IOException localIOException) {
-            localIOException.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
