@@ -47,7 +47,7 @@ public class OCSPrologReply {
     private ArrayList<OCSDownloadIdParams> idList;
 
     public OCSPrologReply() {
-        idList = new ArrayList<OCSDownloadIdParams>();
+        idList = new ArrayList<>();
         optName = null;
         response = "";
     }

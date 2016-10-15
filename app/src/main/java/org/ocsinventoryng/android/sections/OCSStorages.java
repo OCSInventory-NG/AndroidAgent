@@ -30,8 +30,7 @@ public class OCSStorages implements OCSSectionInterface {
     private ArrayList<OCSStorage> storages;
 
     public OCSStorages() {
-        this.storages = new ArrayList<OCSStorage>();
-
+        storages = new ArrayList<>();
 
         OCSStorage stExternal = new OCSStorage(Environment.getExternalStorageDirectory(), "External storage");
         OCSStorage stInternal = new OCSStorage(Environment.getDataDirectory(), "Internal storage");
@@ -56,7 +55,7 @@ public class OCSStorages implements OCSSectionInterface {
     }
 
     public ArrayList<OCSSection> getSections() {
-        ArrayList<OCSSection> lst = new ArrayList<OCSSection>();
+        ArrayList<OCSSection> lst = new ArrayList<>();
         for (OCSStorage o : storages) {
             lst.add(o.getSection());
         }

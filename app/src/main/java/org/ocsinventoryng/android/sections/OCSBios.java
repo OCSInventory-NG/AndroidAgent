@@ -94,7 +94,7 @@ public class OCSBios implements OCSSectionInterface {
     }
 
     public ArrayList<OCSSection> getSections() {
-        ArrayList<OCSSection> lst = new ArrayList<OCSSection>();
+        ArrayList<OCSSection> lst = new ArrayList<>();
         lst.add(getSection());
         return lst;
     }

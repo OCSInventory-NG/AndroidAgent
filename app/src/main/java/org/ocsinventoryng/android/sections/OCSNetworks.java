@@ -42,7 +42,7 @@ public class OCSNetworks implements OCSSectionInterface {
     public OCSNetworks(Context ctx) {
         OCSLog ocslog = OCSLog.getInstance();
 
-        this.networks = new ArrayList<OCSNetwork>();
+        this.networks = new ArrayList<>();
 
         WifiManager wifii = (WifiManager) ctx.getSystemService(Context.WIFI_SERVICE);
         if (wifii != null) {
@@ -167,7 +167,7 @@ public class OCSNetworks implements OCSSectionInterface {
     }
 
     public ArrayList<OCSSection> getSections() {
-        ArrayList<OCSSection> lst = new ArrayList<OCSSection>();
+        ArrayList<OCSSection> lst = new ArrayList<>();
         for (OCSNetwork o : networks) {
             lst.add(o.getSection());
         }

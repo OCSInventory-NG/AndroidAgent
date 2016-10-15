@@ -33,7 +33,7 @@ public class OCSSection {
 
     public OCSSection(String pName) {
         name = pName;
-        attrs = new HashMap<String, String>();
+        attrs = new HashMap<>();
     }
 
     public void setAttr(String k, String v) {

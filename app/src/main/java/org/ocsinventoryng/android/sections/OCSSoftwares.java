@@ -43,7 +43,7 @@ public class OCSSoftwares implements OCSSectionInterface {
 
     public OCSSoftwares(Context ctx) {
         OCSLog ocslog = OCSLog.getInstance();
-        softs = new ArrayList<OCSSoftware>();
+        softs = new ArrayList<>();
 
         PackageManager pm = ctx.getPackageManager();
         List<PackageInfo> pis = ctx.getPackageManager().getInstalledPackages(
@@ -134,7 +134,7 @@ public class OCSSoftwares implements OCSSectionInterface {
     }
 
     public ArrayList<OCSSection> getSections() {
-        ArrayList<OCSSection> lst = new ArrayList<OCSSection>();
+        ArrayList<OCSSection> lst = new ArrayList<>();
         for (OCSSoftware o : softs) {
             lst.add(o.getSection());
         }

@@ -139,7 +139,7 @@ public class Inventory {
         // Checksum update
         ocslog.debug("CHECKSUM update");
         loadSectionsFP(mCtx);
-        currentFP = new Hashtable<String, String>();
+        currentFP = new Hashtable<>();
 
         long checksum = 0L;
         checksum |= getChange(hardware, 1L);
@@ -276,7 +276,7 @@ public class Inventory {
      * @param ctx application context
      **/
     private void loadSectionsFP(Context ctx) {
-        lastFP = new Hashtable<String, String>();
+        lastFP = new Hashtable<>();
 
         FileInputStream fis;
         try {
