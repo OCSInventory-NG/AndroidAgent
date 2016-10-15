@@ -30,7 +30,7 @@
     <string name="pref_title_debug">Debug</string>
     <string name="pref_description_debug">Make a trace file on sdcard</string>
     <string name="pref_title_devicetag">TAG</string>
-    <string name="pref_description_devicetag">Cathegory TAG in OCS</string>
+    <string name="pref_description_devicetag">Category TAG in OCS</string>
     <string name="pref_default_devicetag">Mobile</string>
     <string name="pref_title_automode">Automatic</string>
     <string name="pref_description_automode">Automatic inventory</string>
