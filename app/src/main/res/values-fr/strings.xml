@@ -31,12 +31,7 @@
     <string name="title_bt_launch">Envoyer l\'inventaire</string>
     <string name="title_bt_show">Afficher l\'inventaire</string>
     <string name="title_bt_save">Enregistrer l\'inventaire</string>
-    <string name="hint_status_bar">Barre d\'état</string>
-    <string name="title_bt_settings">Configuration</string>
     <string name="title_activity_ocsconfig">Configuration</string>
-    <string name="err_save_settings">Erreur de sauvegarde du fichier de configuration</string>
-    <string name="title_bt_validate">Valider</string>
-    <string name="title_bt_default">Valeurs par défaut</string>
     <string name="ocs_ng">OCSInventory\nNG</string>
     <string name="title_activity_show_inventory">Inventaire</string>
     <string name="state_saved">Inventaire enregistré sur la carte SD</string>
@@ -47,7 +42,6 @@
     <string name="state_send_start">Transmission</string>
     <string name="state_build_inventory">Inventaire en cours</string>
 
-    <string name="nty_start_service">Service démarré</string>
     <string name="nty_inventory_sent">Inventaire transmis au serveur OCS</string>
     <string name="nty_title">Notification OCS-NG</string>
 
@@ -60,7 +54,6 @@
     <string name="err_cant_connect">Impossible de contacter : </string>
     <string name="nty_downloads">Paquets téléchargés disponibles</string>
     <string name="pref_description_syshide">Ne pas inclure les logiciels systèmes</string>
-    <string name="title_activity_ocsinst">ocs_inst</string>
     <string name="title_activity_ocslaunch">Installation</string>
 
 </resources>

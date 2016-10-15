@@ -21,10 +21,6 @@
  */
 -->
 <resources>
-    <string name="title_activity_settings">Einstellungen</string>
-
-    <!-- Strings related to Settings -->
-
     <!-- Example General settings -->
     <string name="pref_header_general">Allgemein</string>
     <string name="pref_title_debug">Debug</string>
@@ -36,7 +32,6 @@
     <string name="pref_description_automode">Automatische Inventarisierung</string>
 
     <string name="pref_title_automodeNetwork">Abhängig von der Netzwerkstatus</string>
-    <string name="pref_list_Network_always">Immer</string>
     <string name="pref_list_Network_noroaming">Data oder WIFI, kein roaming</string>
     <string name="pref_list_Network_any">Data oder WIFI, alles Netze</string>
     <string name="pref_list_Network_wifi">Nur WIFI</string>
@@ -83,7 +78,6 @@
     <string name="pref_summaryOff_syshide">Im Inventarisierung</string>
 
     <string name="pref_title_hideNotif">Verbergung Meldungen</string>
-    <string name="pref_description_hideNotif">Keine Meldungen nacht der Aktie zeigen</string>
     <string name="pref_list_hideNotif_none">Keine</string>
     <string name="pref_list_hideNotif_inventory">Inventare</string>
     <string name="pref_list_hideNotif_download">Downloads</string>

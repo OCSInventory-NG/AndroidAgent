@@ -21,10 +21,6 @@
  */
 -->
 <resources>
-    <string name="title_activity_settings">Paramètres</string>
-
-    <!-- Strings related to Settings -->
-
     <!-- Example General settings -->
     <string name="pref_header_general">Général</string>
     <string name="pref_title_debug">Débug</string>
@@ -36,7 +32,6 @@
     <string name="pref_description_automode">Inventaire automatique</string>
 
     <string name="pref_title_automodeNetwork">En fonction du réseau</string>
-    <string name="pref_list_Network_always">Toujours</string>
     <string name="pref_list_Network_noroaming">Data ou WIFI, sauf en roaming</string>
     <string name="pref_list_Network_any">Data ou WIFI, tous réseaux</string>
     <string name="pref_list_Network_wifi">WIFI seulement</string>
@@ -86,17 +81,10 @@
     <string name="pref_summaryOn_compua">Agent v2.0</string>
     <string name="pref_summaryOff_compua">Agent actuel</string>
 
-    <!--NR-->
     <string name="pref_title_hideNotif">Cacher les notifications</string>
-    <!--NR-->
-    <string name="pref_description_hideNotif">Cacher certaines notifications</string>
-    <!--NR-->
     <string name="pref_list_hideNotif_none">Aucune</string>
-    <!--NR-->
     <string name="pref_list_hideNotif_inventory">Inventaires</string>
-    <!--NR-->
     <string name="pref_list_hideNotif_download">Téléchargements</string>
-    <!--NR-->
     <string name="pref_list_hideNotif_all">Toutes</string>
 
 </resources>
