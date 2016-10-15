@@ -114,7 +114,7 @@ public class OCSInstallReceiver extends BroadcastReceiver {
 
         @Override
         protected Void doInBackground(Void... params) {
-            OCSProtocol ocsproto = new OCSProtocol(mContext);
+            OCSProtocol ocsproto = new OCSProtocol(mContext.getApplicationContext());
             try {
                 ocsproto.sendRequestMessage("DOWNLOAD", mOCSid, mStatus);
             } catch (OCSProtocolException e) {

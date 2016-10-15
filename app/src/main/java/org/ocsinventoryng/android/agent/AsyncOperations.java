@@ -73,7 +73,7 @@ public class AsyncOperations extends AsyncTask<Void, Integer, String> {
     protected String doInBackground(Void... params) {
         Inventory inventory = Inventory.getInstance(mActivity);
 
-        OCSProtocol ocsproto = new OCSProtocol(mAppCtx);
+        OCSProtocol ocsproto = new OCSProtocol(mAppCtx.getApplicationContext());
 
         if (!mSend) {
             String status = new OCSFiles(mAppCtx).copyToExternal(inventory);
