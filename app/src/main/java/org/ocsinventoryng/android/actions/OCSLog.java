@@ -31,8 +31,8 @@ import java.util.Date;
 
 public class OCSLog {
     private static String TAG = "OCSLOG";
-    private static OCSLog instance = null;
-    private File logFile = null;
+    private static OCSLog instance;
+    private File logFile;
 
     public OCSLog() {
         File rep = Environment.getExternalStoragePublicDirectory("ocs");
@@ -64,31 +64,17 @@ public class OCSLog {
     }
 
     public void debug(String paramString) {
-        if (paramString == null) {
-            return;
+        if (paramString != null && OCSSettings.getInstance() != null && OCSSettings.getInstance().getDebug() && logFile != null) {
+            Log.d("OCSLOG", paramString);
+            log(paramString);
         }
-        if (OCSSettings.getInstance() == null) {
-            return;
-        }
-        if (!OCSSettings.getInstance().getDebug()) {
-            return;
-        }
-        Log.d("OCSLOG", paramString);
-        if (logFile == null) {
-            return;
-        }
-        log(paramString);
     }
 
     public void error(String paramString) {
-        if (paramString == null) {
-            return;
+        if (paramString != null && OCSSettings.getInstance() != null) {
+            Log.e("OCSLOG", paramString);
+            log(paramString);
         }
-        if (OCSSettings.getInstance() == null) {
-            return;
-        }
-        Log.e("OCSLOG", paramString);
-        log(paramString);
     }
 
     private void log(String paramString) {
