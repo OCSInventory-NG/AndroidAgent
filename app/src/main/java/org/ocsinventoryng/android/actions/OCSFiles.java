@@ -63,8 +63,9 @@ public class OCSFiles {
             GZIPOutputStream gzos = new GZIPOutputStream(appCtx.openFileOutput(gzipedFileName, 0));
             byte[] buff = new byte[1024];
             int n;
-            while ((n = fis.read(buff)) != -1)
+            while ((n = fis.read(buff)) != -1) {
                 gzos.write(buff, 0, n);
+            }
             fis.close();
             gzos.close();
         } catch (Exception e) {
