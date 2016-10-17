@@ -55,8 +55,7 @@ public class OCSInstallPackageActivity extends AppCompatActivity {
         setContentView(R.layout.ocs_install_package);
         mOcslog = OCSLog.getInstance();
 
-        File dirSofts = getExternalCacheDir();
-        File[] mFiles = dirSofts.listFiles();
+        File[] mFiles = getExternalCacheDir().listFiles();
         mPackageNames = new String[mFiles.length];
         String[] mPackageVersions = new String[mFiles.length];
         mIdOCS = new String[mFiles.length];

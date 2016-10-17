@@ -29,7 +29,6 @@ import android.util.Log;
 
 import org.ocsinventoryng.android.actions.OCSLog;
 import org.ocsinventoryng.android.actions.OCSSettings;
-import org.ocsinventoryng.android.agent.receiver.OCSEventReceiver;
 
 import java.util.Calendar;
 

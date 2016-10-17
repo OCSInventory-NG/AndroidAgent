@@ -54,7 +54,7 @@ public class OCSInstallReceiver extends BroadcastReceiver {
         try {
             mOCSlog.debug("Lecture " + packageName + ".inst");
             FileInputStream fis = ctx.openFileInput(packageName + ".inst");
-            // TODO : buggy code
+            // Read and store to buffer
             fis.read(buffer);
             String s = new String(buffer);
             String t[] = s.split(":");
@@ -114,7 +114,7 @@ public class OCSInstallReceiver extends BroadcastReceiver {
 
         @Override
         protected Void doInBackground(Void... params) {
-            OCSProtocol ocsproto = new OCSProtocol(mContext);
+            OCSProtocol ocsproto = new OCSProtocol(mContext.getApplicationContext());
             try {
                 ocsproto.sendRequestMessage("DOWNLOAD", mOCSid, mStatus);
             } catch (OCSProtocolException e) {

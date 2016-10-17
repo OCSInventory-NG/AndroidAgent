@@ -44,8 +44,9 @@ public class Utils {
 
 
     public static void xmlLine(StringBuffer sbOut, int n, String tag, String val) {
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++) {
             sbOut.append(' ');
+        }
         if (val == null) {
             sbOut.append('<').append(tag).append("/>\n");
         } else {
@@ -100,8 +101,8 @@ public class Utils {
     }
 
     public static String intToIp(int i) {
-        String sb = String.valueOf(i & 0xFF) + "." + String.valueOf(((i >> 8) & 0xFF)) + "." + String.valueOf(((i >> 16) & 0xFF))
-                    + "." + String.valueOf(((i >> 24) & 0xFF));
+        String sb = String.valueOf(i & 0xFF) + "." + String.valueOf((i >> 8) & 0xFF) + "." + String.valueOf((i >> 16) & 0xFF)
+                    + "." + String.valueOf((i >> 24) & 0xFF);
         return sb;
     }
 
@@ -141,8 +142,9 @@ public class Utils {
         byte[] buf = new byte[1024];
         int len;
         FileInputStream fis = new FileInputStream(infile);
-        while ((len = fis.read(buf)) != -1)
+        while ((len = fis.read(buf)) != -1) {
             sb.append(new String(buf, 0, len));
+        }
         fis.close();
         return sb.toString();
     }
@@ -283,7 +285,7 @@ public class Utils {
             // ignore
         }
 
-        // Access to su
+        // Access to su ?
         if (!isRooted && checkCommande("/bin/su") || checkCommande("/xbin/su") || checkCommande("/sbin/su")) {
             isRooted = true;
         }
@@ -317,10 +319,6 @@ public class Utils {
         return ret;
     }
 
-    /**
-     * @param zipFile
-     * @param destination
-     */
     public static boolean unZip(String zipFile, String destination) {
         InputStream is;
         ZipInputStream zis;
@@ -357,5 +355,4 @@ public class Utils {
 
         return true;
     }
-
 }

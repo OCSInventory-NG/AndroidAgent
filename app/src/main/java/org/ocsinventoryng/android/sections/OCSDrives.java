@@ -43,7 +43,7 @@ public class OCSDrives implements OCSSectionInterface {
     public ArrayList<OCSDrive> drives;
 
     public OCSDrives() {
-        this.drives = new ArrayList<OCSDrive>();
+        drives = new ArrayList<>();
         OCSLog ocslog = OCSLog.getInstance();
         // Lecture des FS a partir de la commande df
         try {
@@ -126,7 +126,7 @@ public class OCSDrives implements OCSSectionInterface {
     }
 
     public ArrayList<OCSSection> getSections() {
-        ArrayList<OCSSection> lst = new ArrayList<OCSSection>();
+        ArrayList<OCSSection> lst = new ArrayList<>();
         for (OCSDrive o : drives) {
             lst.add(o.getSection());
         }

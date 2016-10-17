@@ -36,9 +36,9 @@ import android.util.Log;
 import android.widget.Toast;
 
 import org.ocsinventoryng.android.actions.OCSSettings;
-import org.ocsinventoryng.android.agent.service.OCSAgentService;
-import org.ocsinventoryng.android.agent.receiver.OCSEventReceiver;
 import org.ocsinventoryng.android.agent.R;
+import org.ocsinventoryng.android.agent.receiver.OCSEventReceiver;
+import org.ocsinventoryng.android.agent.service.OCSAgentService;
 
 import java.util.Calendar;
 
@@ -48,6 +48,7 @@ public class OCSPrefsActivity extends PreferenceActivity {
      * settings are shown as a master/detail two-pane view on tablets. When true, a single pane is shown on tablets.
      */
     // private static final boolean ALWAYS_SIMPLE_PREFS = false;
+    // TODO : evaluate this preferencelistener
     private MyPreferenceChangeListener mPreferenceListener;
     private boolean mfreqwakeChg = false;
     private boolean mAutoModeChg = false;

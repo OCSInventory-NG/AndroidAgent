@@ -104,7 +104,7 @@ public class OCSProtocol {
         ocslog.debug("Finnish Sending Request...");
 
         // Save reply
-        return (extractResponse(repMsg));
+        return extractResponse(repMsg);
     }
 
     public String sendInventoryMessage(Inventory inventory) throws OCSProtocolException {
@@ -386,7 +386,7 @@ public class OCSProtocol {
         @Override
         protected Void doInBackground(String... params) {
             OCSLog ocslog = OCSLog.getInstance();
-            OCSProtocol ocsproto = new OCSProtocol(mContext);
+            OCSProtocol ocsproto = new OCSProtocol(mContext.getApplicationContext());
             String ocsid = params[0];
             String status = params[1];
             try {

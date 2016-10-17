@@ -31,12 +31,7 @@
     <string name="title_bt_launch">Inventarisierung senden</string>
     <string name="title_bt_show">Inventarisierung anzeigen</string>
     <string name="title_bt_save">Inventarisierung speichern</string>
-    <string name="hint_status_bar">Statusbalken</string>
-    <string name="title_bt_settings">Konfiguration</string>
     <string name="title_activity_ocsconfig">OCS Konfigurationszustand</string>
-    <string name="err_save_settings">Fehler beim Speichern der Konfigurationsdatei</string>
-    <string name="title_bt_validate">Senden</string>
-    <string name="title_bt_default">Standardwerte</string>
     <string name="ocs_ng">OCSInventory\nNG</string>
     <string name="title_activity_show_inventory">Zeige Inventarisierungszustand</string>
     <string name="state_saved">Inventarisierung auf der SD-Karte gespeichert</string>
@@ -47,7 +42,6 @@
     <string name="state_send_start">Übertragung</string>
     <string name="state_build_inventory">Aktuelle Inventarisierung</string>
 
-    <string name="nty_start_service">Dienst gestartet</string>
     <string name="nty_inventory_sent">Inventarisierung an den Server senden</string>
     <string name="nty_title">OCS-NG Benachrichtigung</string>
 
@@ -57,6 +51,12 @@
     <string name="unit_hour">Stunden</string>
     <string name="unit_minutes">Minuten</string>
 
-    <string name="err_cant_connect">Unmögliche Verbindung auf </string>
+    <string name="err_cant_connect">Unmögliche Verbindung auf :</string>
+    <string name="nty_downloads">Heruntergeladene Pakete availables</string>
+    <string name="pref_description_compua">Useragent 2.0 für Vereinbarkeit</string>
+    <string name="pref_summaryOff_compua">Strom useragent</string>
+    <string name="pref_summaryOn_compua">Benutzer-Agent 2.0</string>
+    <string name="pref_title_compua">Useragent Vereinbarkeit</string>
+    <string name="title_activity_ocslaunch">Installation</string>
 
 </resources>

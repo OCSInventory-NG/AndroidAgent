@@ -59,7 +59,7 @@ public class OCSVideos implements OCSSectionInterface {
     }
 
     public ArrayList<OCSSection> getSections() {
-        ArrayList<OCSSection> lst = new ArrayList<OCSSection>();
+        ArrayList<OCSSection> lst = new ArrayList<>();
         lst.add(getSection());
         return lst;
     }

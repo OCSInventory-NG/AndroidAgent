@@ -29,12 +29,7 @@
     <string name="title_bt_launch">Send inventory</string>
     <string name="title_bt_show">Show inventory</string>
     <string name="title_bt_save">Store inventory</string>
-    <string name="hint_status_bar">Status</string>
-    <string name="title_bt_settings">Configuration</string>
     <string name="title_activity_ocsconfig">Settings</string>
-    <string name="err_save_settings">Error saving configuration file</string>
-    <string name="title_bt_validate">Submit</string>
-    <string name="title_bt_default">Default value</string>
     <string name="ocs_ng">OCSInventory\nNG</string>
     <string name="title_activity_show_inventory">Inventory</string>
     <string name="state_saved">Inventory recorded on sdcard</string>
@@ -44,7 +39,6 @@
     <string name="state_send_error">Transmission Error</string>
     <string name="state_send_start">Transmission</string>
     <string name="state_build_inventory">Inventory in progress</string>
-    <string name="nty_start_service">Service started</string>
     <string name="nty_inventory_sent">Inventory sent to OCS server</string>
     <string name="nty_downloads">Downloaded packages availables</string>
 
@@ -55,7 +49,6 @@
     <string name="unit_minutes">minutes</string>
     <string name="title_activity_ocslaunch">Installation</string>
     <string name="err_cant_connect">Unable to connect to : </string>
-    <string name="title_activity_ocsinst">ocs_inst</string>
     <string name="start_download_service">Start package update service</string>
 
 </resources>

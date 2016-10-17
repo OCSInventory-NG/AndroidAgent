@@ -37,7 +37,7 @@ public class OCSInputs implements OCSSectionInterface {
     public OCSInputs(Context ctx) {
         OCSLog ocslog = OCSLog.getInstance();
 
-        this.inputs = new ArrayList<OCSInput>();
+        inputs = new ArrayList<>();
 
         ocslog.debug("OCSInputs");
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
@@ -150,7 +150,7 @@ public class OCSInputs implements OCSSectionInterface {
     }
 
     public ArrayList<OCSSection> getSections() {
-        ArrayList<OCSSection> lst = new ArrayList<OCSSection>();
+        ArrayList<OCSSection> lst = new ArrayList<>();
         for (OCSInput o : inputs) {
             lst.add(o.getSection());
         }

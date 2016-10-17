@@ -33,7 +33,7 @@ public class OCSSection {
 
     public OCSSection(String pName) {
         name = pName;
-        attrs = new HashMap<String, String>();
+        attrs = new HashMap<>();
     }
 
     public void setAttr(String k, String v) {
@@ -80,8 +80,9 @@ public class OCSSection {
     }
 
     private void xmlLine(StringBuffer sbOut, int n, String tag, String val) {
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++) {
             sbOut.append(' ');
+        }
         if (val == null) {
             sbOut.append('<').append(tag).append("/>\n");
         } else {

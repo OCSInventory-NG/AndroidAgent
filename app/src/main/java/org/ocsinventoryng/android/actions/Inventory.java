@@ -139,7 +139,7 @@ public class Inventory {
         // Checksum update
         ocslog.debug("CHECKSUM update");
         loadSectionsFP(mCtx);
-        currentFP = new Hashtable<String, String>();
+        currentFP = new Hashtable<>();
 
         long checksum = 0L;
         checksum |= getChange(hardware, 1L);
@@ -206,7 +206,7 @@ public class Inventory {
     /**
      * XML values of the inventory
      *
-     * @return
+     * @return XML values of the inventory
      */
     public String toXML() {
         StringBuffer strOut = new StringBuffer("<REQUEST>\n");
@@ -249,7 +249,7 @@ public class Inventory {
     /**
      * Get ALL sections (display of the inventory)
      *
-     * @return
+     * @return HashMap ALL Sections
      */
     public HashMap<String, List<OCSSection>> getAllSections() {
         HashMap<String, List<OCSSection>> monRetour = new HashMap<>();
@@ -276,7 +276,7 @@ public class Inventory {
      * @param ctx application context
      **/
     private void loadSectionsFP(Context ctx) {
-        lastFP = new Hashtable<String, String>();
+        lastFP = new Hashtable<>();
 
         FileInputStream fis;
         try {

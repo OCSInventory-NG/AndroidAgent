@@ -229,11 +229,11 @@ public class SystemInfos {
 
     private static int parseCpuPresent(String ligne) {
         String ls = System.getProperty("line.separator");
-        ligne = ligne.replaceAll(ls, "");
-        Log.w("SCANCPU", ligne);
-        int x = ligne.indexOf('-');
+        String maLigne = ligne.replaceAll(ls, "");
+        Log.w("SCANCPU", maLigne);
+        int x = maLigne.indexOf('-');
         Log.w("SCANCPU", Integer.toString(x));
-        String s = ligne.substring(x + 1);
+        String s = maLigne.substring(x + 1);
 
         return Integer.parseInt(s);
     }
