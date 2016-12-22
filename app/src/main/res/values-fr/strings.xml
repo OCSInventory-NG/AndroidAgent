@@ -55,5 +55,6 @@
     <string name="nty_downloads">Paquets téléchargés disponibles</string>
     <string name="pref_description_syshide">Ne pas inclure les logiciels systèmes</string>
     <string name="title_activity_ocslaunch">Installation</string>
+    <string name="start_download_service">Lancement du service d\'update</string>
 
 </resources>

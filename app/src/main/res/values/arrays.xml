@@ -28,7 +28,7 @@
         <item name="i3600">@string/pref_list_freq_1h</item>
     </string-array>
 
-    <string-array name="cacheIntervalValues">
+    <string-array name="cacheIntervalValues" translatable="false">
         <item name="i300">300000</item>
         <item name="i900">900000</item>
         <item name="i1800">1800000</item>
@@ -40,7 +40,7 @@
         <item name="r1">@string/pref_list_Network_any</item>
         <item name="r2">@string/pref_list_Network_wifi</item>
     </string-array>
-    <string-array name="automodeNetworkValues">
+    <string-array name="automodeNetworkValues" translatable="false">
         <item name="r0">0</item>
         <item name="r1">1</item>
         <item name="r2">2</item>
@@ -52,7 +52,7 @@
         <item name="h2">@string/pref_list_hideNotif_download</item>
         <item name="h3">@string/pref_list_hideNotif_all</item>
     </string-array>
-    <string-array name="hideNotifValues">
+    <string-array name="hideNotifValues" translatable="false">
         <item name="h0">0</item>
         <item name="h1">1</item>
         <item name="h2">2</item>
