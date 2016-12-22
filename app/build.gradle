@@ -5,7 +5,7 @@ android {
     buildToolsVersion "24.0.3"
 
     defaultConfig {
-        applicationId "org.ocsinventoryng.android.agent"
+        applicationId "org.ocs.android.agent"
         minSdkVersion 9
         targetSdkVersion 22
     }

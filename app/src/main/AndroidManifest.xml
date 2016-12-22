@@ -20,7 +20,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 -->
-<manifest package="org.ocsinventoryng.android.agent"
+<manifest package="org.ocs.android.agent"
           xmlns:android="http://schemas.android.com/apk/res/android"
           android:installLocation="auto"
           android:versionCode="230"
@@ -44,7 +44,7 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
         <activity
-            android:name=".activity.OCSAgentActivity"
+            android:name="org.ocs.android.agent.activity.OCSAgentActivity"
             android:label="@string/app_name"
             android:process=":ocs_process">
             <intent-filter>
@@ -53,45 +53,45 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.OCSInstallPackageActivity"
+            android:name="org.ocs.android.agent.activity.OCSInstallPackageActivity"
             android:label="@string/title_activity_ocslaunch"
             android:process=":ocs_process">
         </activity>
         <activity
-            android:name=".activity.OCSShowInventory"
+            android:name="org.ocs.android.agent.activity.OCSShowInventory"
             android:label="@string/title_activity_show_inventory"
-            android:parentActivityName=".activity.OCSAgentActivity"
+            android:parentActivityName="org.ocs.android.agent.activity.OCSAgentActivity"
             android:process=":ocs_process">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.OCSAgentActivity"/>
+                android:value="org.ocs.android.agent.activity.OCSAgentActivity"/>
         </activity>
         <activity
-            android:name=".activity.OCSPrefsActivity"
+            android:name="org.ocs.android.agent.activity.OCSPrefsActivity"
             android:label="@string/title_activity_ocsconfig"
-            android:parentActivityName=".activity.OCSAgentActivity"
+            android:parentActivityName="org.ocs.android.agent.activity.OCSAgentActivity"
             android:process=":ocs_process">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".activity.OCSAgentActivity"/>
+                android:value="org.ocs.android.agent.activity.OCSAgentActivity"/>
         </activity>
 
         <service
-            android:name=".service.OCSAgentService"
+            android:name="org.ocs.android.agent.service.OCSAgentService"
             android:process=":ocs_process">
         </service>
         <service
-            android:name=".service.OCSDownloadService"
+            android:name="org.ocs.android.agent.service.OCSDownloadService"
             android:process=":ocs_process">
         </service>
 
         <receiver
-            android:name=".receiver.OCSEventReceiver"
+            android:name="org.ocs.android.agent.receiver.OCSEventReceiver"
             android:exported="true"
             android:process=":ocs_process">
         </receiver>
         <receiver
-            android:name=".receiver.OCSBootReceiver"
+            android:name="org.ocs.android.agent.receiver.OCSBootReceiver"
             android:process=":ocs_process">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
@@ -99,7 +99,7 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".receiver.OCSInstallReceiver"
+            android:name="org.ocs.android.agent.receiver.OCSInstallReceiver"
             android:process=":ocs_process">
             <intent-filter android:priority="10000">
                 <action android:name="android.intent.action.PACKAGE_ADDED"/>
