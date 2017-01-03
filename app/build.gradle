@@ -1,13 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
+    compileSdkVersion 23
     buildToolsVersion "24.0.3"
+
+    useLibrary 'org.apache.http.legacy'
 
     defaultConfig {
         applicationId "org.ocs.android.agent"
         minSdkVersion 9
-        targetSdkVersion 22
+        targetSdkVersion 23
     }
 
     buildTypes {
@@ -16,9 +18,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+    productFlavors {
+    }
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:22.2.1'
-    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:support-v4:23.2.1'
+    compile 'com.android.support:appcompat-v7:23.2.1'
 }
