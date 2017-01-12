@@ -1,5 +1,9 @@
 Revision history for Ocsinventory NG Android Agent
 
+2.3.0	
+	* New graphics chart
+	* App redesign
+	* Update to new android API
 
 2.1.7
 	* Bug on proxy option corrected. The option was not applied.
