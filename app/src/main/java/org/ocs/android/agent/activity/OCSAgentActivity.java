@@ -20,12 +20,12 @@
  */
 package org.ocs.android.agent.activity;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
@@ -40,7 +40,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import org.ocs.android.actions.OCSProtocol;
 import org.ocs.android.actions.OCSSettings;
 import org.ocs.android.actions.PrefsParser;
@@ -48,11 +47,12 @@ import org.ocs.android.actions.Utils;
 import org.ocs.android.agent.AboutDialog;
 import org.ocs.android.agent.AsyncOperations;
 import org.ocs.android.agent.R;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -63,23 +63,12 @@ public class OCSAgentActivity extends AppCompatActivity implements ActivityCompa
     private final static String IMPORT_CONFIG = "import_config";
     protected ProgressDialog mProgressDialog;
 
-    //ID to identify a camera permission request.
-    private static final int PERMISSIONS_REQUEST_CAMERA = 1;
-    private static final int PERMISSIONS_REQUEST_EXTERNAL_STORAGE= 2;
-    private static final int PERMISSIONS_REQUEST_PHONE_STATE= 3;
-
+    private static final int REQUEST_PERMISSION_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ocs_agent);
-
-        String[] permissionName = {Manifest.permission.CAMERA,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.READ_PHONE_STATE};
-        int[]  permissionRequest = {PERMISSIONS_REQUEST_CAMERA,PERMISSIONS_REQUEST_EXTERNAL_STORAGE,PERMISSIONS_REQUEST_PHONE_STATE};
-
-        for(int i=0; i<permissionName.length; i++){
-            this.requestPermissions(permissionName[i], permissionRequest[i]);
-        }
 
         // Initialize configuration.
         // If an extra "IMPORT_CONFIG" is added on launch of the activity, the configuration will be imported
@@ -107,7 +96,7 @@ public class OCSAgentActivity extends AppCompatActivity implements ActivityCompa
         new OCSProtocol(getApplicationContext()).verifyNewVersion(vcode);
 
 
-        /**
+        /*
          * Actions for buttons
          */
         // Send Inventory
@@ -136,45 +125,38 @@ public class OCSAgentActivity extends AppCompatActivity implements ActivityCompa
                 spawnTask(false);
             }
         });
+
+        // Check permissions
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            String[] ocsPermissions = new String[]{
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                    android.Manifest.permission.CAMERA,
+                    android.Manifest.permission.READ_PHONE_STATE};
+
+            List<String> permissionNeeded = new ArrayList<>();
+            for (String permission:ocsPermissions) {
+                if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
+                    permissionNeeded.add(permission);
+                }
+            }
+            if (!permissionNeeded.isEmpty()) {
+                requestPermissions(permissionNeeded.toArray(new String[permissionNeeded.size()]), REQUEST_PERMISSION_CODE);
+            }
+        }
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(
+            int requestCode,
+            String permissions[],
+            int[] grantResults) {
         switch (requestCode) {
-            case PERMISSIONS_REQUEST_CAMERA: {
-                // If request is cancelled, the result arrays are empty.
+            case REQUEST_PERMISSION_CODE:
                 if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay!
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
+                        && grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    Toast.makeText(this, getResources().getString(R.string.must_accept_permissions) , Toast.LENGTH_SHORT).show();
                 }
-                return;
-            }
-            case PERMISSIONS_REQUEST_EXTERNAL_STORAGE:{
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay!
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-                return;
-            }
-            case PERMISSIONS_REQUEST_PHONE_STATE:{
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // permission was granted, yay!
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-                return;
-            }
+                break;
         }
     }
 
@@ -278,15 +260,7 @@ public class OCSAgentActivity extends AppCompatActivity implements ActivityCompa
         status.setText(msg);
     }
 
-    private void requestPermissions(String permissionName, int permissionRequest){
-        //request permission.
-        if (ContextCompat.checkSelfPermission(OCSAgentActivity.this, permissionName)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            // No explanation needed, we can request the permission.
-            ActivityCompat.requestPermissions(OCSAgentActivity.this,
-                    new String[]{permissionName},
-                    permissionRequest);
-        }
+    private  void checkAndRequestPermissions() {
     }
+
 }

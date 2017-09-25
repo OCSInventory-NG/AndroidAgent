@@ -50,5 +50,6 @@
     <string name="title_activity_ocslaunch">Installation</string>
     <string name="err_cant_connect">Unable to connect to : </string>
     <string name="start_download_service">Start package update service</string>
+    <string name="must_accept_permissions">You must accept all permissions</string>
 
 </resources>
