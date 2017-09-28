@@ -98,14 +98,18 @@ public class OCSAgentActivity extends AppCompatActivity implements ActivityCompa
 
         /*
          * Actions for buttons
+         * Note : If you add a new button add check permissions function if needed
          */
+
         // Send Inventory
         Button sendInventory = (Button) findViewById(R.id.btSendInventory);
         sendInventory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setStatus(R.string.title_bt_launch);
-                spawnTask(true);
+                if(checkAndRequestPermissions()) {
+                    setStatus(R.string.title_bt_launch);
+                    spawnTask(true);
+                }
             }
         });
         // Show Inventory
@@ -113,8 +117,10 @@ public class OCSAgentActivity extends AppCompatActivity implements ActivityCompa
         showInventory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent localIntent = new Intent(getApplicationContext(), OCSShowInventory.class);
-                startActivity(localIntent);
+                if(checkAndRequestPermissions()) {
+                    Intent localIntent = new Intent(getApplicationContext(), OCSShowInventory.class);
+                    startActivity(localIntent);
+                }
             }
         });
         // Save Inventory
@@ -122,28 +128,18 @@ public class OCSAgentActivity extends AppCompatActivity implements ActivityCompa
         saveInventory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                spawnTask(false);
+                if(checkAndRequestPermissions()) {
+                    spawnTask(false);
+                }
             }
         });
 
-        // Check permissions
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            String[] ocsPermissions = new String[]{
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                    android.Manifest.permission.CAMERA,
-                    android.Manifest.permission.READ_PHONE_STATE};
+        // Check and request premissions
+        checkAndRequestPermissions();
 
-            List<String> permissionNeeded = new ArrayList<>();
-            for (String permission:ocsPermissions) {
-                if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
-                    permissionNeeded.add(permission);
-                }
-            }
-            if (!permissionNeeded.isEmpty()) {
-                requestPermissions(permissionNeeded.toArray(new String[permissionNeeded.size()]), REQUEST_PERMISSION_CODE);
-            }
-        }
     }
+
+
 
     @Override
     public void onRequestPermissionsResult(
@@ -260,7 +256,35 @@ public class OCSAgentActivity extends AppCompatActivity implements ActivityCompa
         status.setText(msg);
     }
 
-    private  void checkAndRequestPermissions() {
+    private boolean checkAndRequestPermissions() {
+        // Check permissions
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            String[] ocsPermissions = new String[]{
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
+                    android.Manifest.permission.CAMERA,
+                    android.Manifest.permission.READ_PHONE_STATE};
+
+            List<String> permissionNeeded = new ArrayList<>();
+            for (String permission:ocsPermissions) {
+                if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
+                    permissionNeeded.add(permission);
+                }
+            }
+
+            if (!permissionNeeded.isEmpty()) {
+                requestPermissions(permissionNeeded.toArray(new String[permissionNeeded.size()]), REQUEST_PERMISSION_CODE);
+            }
+
+            for (String permission:ocsPermissions) {
+                if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
+                    return false;
+                }
+            }
+
+        }
+
+        return true;
+
     }
 
 }
