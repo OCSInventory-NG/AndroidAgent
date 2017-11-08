@@ -1,5 +1,8 @@
 Revision history for Ocsinventory NG Android Agent
 
+2.3.1
+    * Fix permissions on android 6 and more
+
 2.3.0	
 	* New graphics chart
 	* App redesign
