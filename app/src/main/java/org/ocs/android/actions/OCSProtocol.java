@@ -22,6 +22,7 @@ package org.ocs.android.actions;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 
 import org.apache.http.HttpHost;
 import org.apache.http.HttpResponse;
@@ -191,9 +192,13 @@ public class OCSProtocol {
         DefaultHttpClient httpClient = getNewHttpClient(OCSSettings.getInstance().isSSLStrict());
 
         if (ocssettings.isProxy()) {
-            ocslog.debug("Use proxy : " + ocssettings.getProxyAdr());
-            HttpHost proxy = new HttpHost(ocssettings.getProxyAdr(), ocssettings.getProxyPort());
-            httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+            if(!TextUtils.isEmpty(ocssettings.getProxyAdr())){
+                ocslog.debug("Use proxy : " + ocssettings.getProxyAdr());
+                HttpHost proxy = new HttpHost(ocssettings.getProxyAdr(), ocssettings.getProxyPort());
+                httpClient.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+            }else{
+                ocslog.debug("Invalid proxy settings");
+            }
         }
         if (ocssettings.isAuth()) {
             ocslog.debug("Use AUTH : " + ocssettings.getLogin() + "/*****");

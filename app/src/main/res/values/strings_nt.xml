@@ -29,6 +29,6 @@
     <string name="pref_default_cachelen" translatable="false">900000</string>
 
     <string name="comp_useragent" translatable="false">OCS-NG_Android_agent_v2.0</string>
-    <string name="useragent" translatable="false">OCS-NG_Android_agent_v2.3</string>
+    <string name="useragent" translatable="false">OCS-NG_Android_agent_v2.3.1</string>
     <string name="point" translatable="false">.</string>
 </resources>
