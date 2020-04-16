@@ -35,6 +35,7 @@ public class OCSSims implements OCSSectionInterface {
     private String simopname;
     private String simserial;
     private String device_id;
+    private String phonenumber;
 
     public OCSSims(Context ctx) {
         OCSLog ocslog = OCSLog.getInstance();
@@ -48,13 +49,14 @@ public class OCSSims implements OCSSectionInterface {
             simoperator = mng.getSimOperator();
             simopname = mng.getSimOperatorName();
             simserial = mng.getSimSerialNumber();
+            phonenumber = mng.getLine1Number();
             ocslog.debug("device_id : " + device_id);
         }
     }
 
     /*
      *
-     * <!ELEMENT SIM (OPERATOR | OPNAME | COUNTRY | SERIALNUMBER | DEVICEID)*>
+     * <!ELEMENT SIM (OPERATOR | OPNAME | COUNTRY | SERIALNUMBER | DEVICEID | PHONENUMBER)*>
      */
     public OCSSection getSection() {
         OCSSection s = new OCSSection(sectionTag);
@@ -63,6 +65,7 @@ public class OCSSims implements OCSSectionInterface {
         s.setAttr("COUNTRY", simcountry);
         s.setAttr("SERIALNUMBER", simserial);
         s.setAttr("DEVICEID", device_id);
+        s.setAttr("PHONENUMBER", phonenumber);
         s.setTitle(simserial);
         return s;
     }
