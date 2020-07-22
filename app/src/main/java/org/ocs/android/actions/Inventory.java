@@ -98,7 +98,7 @@ public class Inventory {
         SystemInfos.initSystemInfos();
 
         ocslog.debug("OCSBios...");
-        bios = new OCSBios();
+        bios = new OCSBios(mCtx);
         ocslog.debug("hardware...");
         hardware = new OCSHardware();
         String sid = Secure.getString(mCtx.getContentResolver(), Secure.ANDROID_ID);

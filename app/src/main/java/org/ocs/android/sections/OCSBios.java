@@ -20,7 +20,11 @@
  */
 package org.ocs.android.sections;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.text.format.DateFormat;
 
 import org.ocs.android.actions.OCSLog;
@@ -56,7 +60,7 @@ public class OCSBios implements OCSSectionInterface {
     private String type;
     private String smodel;
 
-    public OCSBios() {
+    public OCSBios(Context mCtx) {
         type = "Mobile";
         OCSLog ocslog = OCSLog.getInstance();
         assettag = Build.ID + "-0123456789";
@@ -64,9 +68,11 @@ public class OCSBios implements OCSSectionInterface {
         manufacturer = Build.MANUFACTURER;
         version = Build.BOOTLOADER;
         ocslog.debug("BIOS version: " + version);
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.FROYO) {
-            serial = Build.SERIAL;
-        } else {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                serial = Build.getSerial();
+            }
+        } catch (SecurityException e) {
             serial = SystemInfos.getInstance().getSerial();
         }
         ocslog.debug("OCSBIOS serial " + serial);
