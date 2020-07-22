@@ -20,6 +20,7 @@
  */
 package org.ocs.android.agent.activity;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -258,29 +259,28 @@ public class OCSAgentActivity extends AppCompatActivity implements ActivityCompa
 
     private boolean checkAndRequestPermissions() {
         // Check permissions
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            String[] ocsPermissions = new String[]{
-                    android.Manifest.permission.READ_EXTERNAL_STORAGE,
-                    android.Manifest.permission.CAMERA,
-                    android.Manifest.permission.READ_PHONE_STATE};
+        String[] ocsPermissions = new String[]{
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION};
 
-            List<String> permissionNeeded = new ArrayList<>();
-            for (String permission:ocsPermissions) {
-                if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
-                    permissionNeeded.add(permission);
-                }
+        List<String> permissionNeeded = new ArrayList<>();
+        for (String permission:ocsPermissions) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
+                permissionNeeded.add(permission);
             }
+        }
 
-            if (!permissionNeeded.isEmpty()) {
-                requestPermissions(permissionNeeded.toArray(new String[permissionNeeded.size()]), REQUEST_PERMISSION_CODE);
+        if (!permissionNeeded.isEmpty()) {
+            requestPermissions(permissionNeeded.toArray(new String[permissionNeeded.size()]), REQUEST_PERMISSION_CODE);
+        }
+
+        for (String permission:ocsPermissions) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
+                return false;
             }
-
-            for (String permission:ocsPermissions) {
-                if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED){
-                    return false;
-                }
-            }
-
         }
 
         return true;
