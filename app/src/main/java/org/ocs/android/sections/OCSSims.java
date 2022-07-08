@@ -27,6 +27,7 @@ import org.ocs.android.actions.OCSLog;
 
 import java.util.ArrayList;
 
+import android.text.TextUtils;
 
 public class OCSSims implements OCSSectionInterface {
     final private String sectionTag = "SIM";
@@ -47,7 +48,7 @@ public class OCSSims implements OCSSectionInterface {
             device_id = mng.getDeviceId();
             simcountry = mng.getSimCountryIso();
             simoperator = mng.getSimOperator();
-            simopname = mng.getSimOperatorName();
+            simopname = TextUtils.htmlEncode(mng.getSimOperatorName().toString());
             simserial = mng.getSimSerialNumber();
             phonenumber = mng.getLine1Number();
             ocslog.debug("device_id : " + device_id);
